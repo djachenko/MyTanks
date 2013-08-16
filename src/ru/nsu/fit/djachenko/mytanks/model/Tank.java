@@ -1,4 +1,4 @@
-package ru.nsu.fit.djachenko.mytanks;
+package ru.nsu.fit.djachenko.mytanks.model;
 
 public class Tank
 {
