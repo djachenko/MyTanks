@@ -46,7 +46,7 @@ public class Tank
 		alive = true;
 	}
 
-	public boolean ableToMove(MoveDirection direction) throws UnexpectedSituation
+	public boolean ableToMove(MoveDirection direction) throws UnexpectedSituationException
 	{
 		switch (currentDirection)
 		{
@@ -59,11 +59,11 @@ public class Tank
 			case DOWN:
 				return field.ableToMove(x - 1, y - 1, direction) && field.ableToMove(x, y - 1, direction) && field.ableToMove(x + 1, y - 1, direction);
 			default:
-				throw new UnexpectedSituation(currentDirection.name());
+				throw new UnexpectedSituationException(currentDirection.name());
 		}
 	}
 
-	public void move(MoveDirection dir) throws UnexpectedSituation
+	public void move(MoveDirection dir) throws UnexpectedSituationException
 	{
 		if (dir != currentDirection)
 		{
@@ -98,7 +98,7 @@ public class Tank
 
 					break;
 				default:
-					throw new UnexpectedSituation(dir.name());
+					throw new UnexpectedSituationException(dir.name());
 			}
 
 			x += dir.getDx();
