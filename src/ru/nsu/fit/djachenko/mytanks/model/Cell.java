@@ -1,6 +1,6 @@
 package ru.nsu.fit.djachenko.mytanks.model;
 
-abstract public class Cell
+public abstract class Cell
 {
 	private Field field;
 	private int x;
@@ -60,5 +60,4 @@ abstract public class Cell
 	{
 		return y;
 	}
-
 }
