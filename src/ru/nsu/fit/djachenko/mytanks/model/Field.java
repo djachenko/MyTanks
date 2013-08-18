@@ -46,7 +46,7 @@ public class Field
 					{
 						case ' ':
 						case '.':
-							row[i] = new FloorCell(this, i, j);
+							row[i] = new GroundCell(this, i, j);
 
 							break;
 						case 'x':
