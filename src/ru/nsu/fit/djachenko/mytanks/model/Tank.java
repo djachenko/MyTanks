@@ -9,11 +9,11 @@ public class Tank
 	private int y;
 
 	private Field field;
-	private MoveDirection currentDirection;
+	private Direction currentDirection;
 	private boolean friend;
 	private boolean alive;
 
-	public Tank(Field field, int x, int y, boolean friend, MoveDirection dir)
+	public Tank(Field field, int x, int y, boolean friend, Direction dir)
 	{
 		id = count++;
 
@@ -29,7 +29,7 @@ public class Tank
 		alive = true;
 	}
 
-	public boolean ableToMove(MoveDirection direction) throws UnexpectedSituationException
+	public boolean ableToMove(Direction direction) throws UnexpectedSituationException
 	{
 		switch (currentDirection)
 		{
@@ -46,7 +46,7 @@ public class Tank
 		}
 	}
 
-	public void move(MoveDirection dir) throws UnexpectedSituationException
+	public void move(Direction dir) throws UnexpectedSituationException
 	{
 		if (dir != currentDirection)
 		{
@@ -89,7 +89,7 @@ public class Tank
 		}
 	}
 
-	public boolean ableToTurn(MoveDirection direction)
+	public boolean ableToTurn(Direction direction)
 	{
 		if (direction == currentDirection)
 		{
@@ -123,7 +123,7 @@ public class Tank
 		}
 	}
 
-	public void turn(MoveDirection direction)//turn clockwise
+	public void turn(Direction direction)//turn clockwise
 	{
 		if (ableToTurn(direction))
 		{
@@ -156,7 +156,7 @@ public class Tank
 		return y;
 	}
 
-	public MoveDirection getDirection()
+	public Direction getDirection()
 	{
 		return currentDirection;
 	}

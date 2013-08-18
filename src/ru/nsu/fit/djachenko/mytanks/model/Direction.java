@@ -1,11 +1,11 @@
 package ru.nsu.fit.djachenko.mytanks.model;
 
-public enum MoveDirection
+public enum Direction
 {
 	LEFT(-1, 0)
 			{
 				@Override
-				public MoveDirection opposite()
+				public Direction opposite()
 				{
 					return RIGHT;
 				}
@@ -13,7 +13,7 @@ public enum MoveDirection
 	UP(0, -1)
 			{
 				@Override
-				public MoveDirection opposite()
+				public Direction opposite()
 				{
 					return DOWN;
 				}
@@ -21,7 +21,7 @@ public enum MoveDirection
 	RIGHT(1, 0)
 			{
 				@Override
-				public MoveDirection opposite()
+				public Direction opposite()
 				{
 					return LEFT;
 				}
@@ -29,7 +29,7 @@ public enum MoveDirection
 	DOWN(0, 1)
 			{
 				@Override
-				public MoveDirection opposite()
+				public Direction opposite()
 				{
 					return UP;
 				}
@@ -39,7 +39,7 @@ public enum MoveDirection
 	public final int dx;
 	public final int dy;
 
-	private MoveDirection(int x, int y)
+	private Direction(int x, int y)
 	{
 		dx = x;
 		dy = y;
@@ -55,5 +55,5 @@ public enum MoveDirection
 		return dy;
 	}
 
-	public abstract MoveDirection opposite();
+	public abstract Direction opposite();
 }
