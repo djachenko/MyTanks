@@ -3,6 +3,7 @@ package ru.nsu.fit.djachenko.mytanks.model;
 import ru.nsu.fit.djachenko.mytanks.model.cells.*;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -20,7 +21,12 @@ public class Field
 		init(configFile);
 	}
 
-	public void init(String configFile) throws MapFormatException, IOException
+	public void init(String configPath) throws IOException, MapFormatException
+	{
+		init(new File(configPath));
+	}
+
+	public void init(File configFile) throws MapFormatException, IOException
 	{
 		try (BufferedReader reader = new BufferedReader(new FileReader(configFile)))
 		{
@@ -60,45 +66,6 @@ public class Field
 					}
 				}
 			}
-
-			int tankCount = Integer.parseInt(reader.readLine());
-
-			for (int i = 0; i < tankCount; i++)
-			{
-				String[] tankParams = reader.readLine().split(" ");
-
-				if (tankParams.length != 3)
-				{
-					throw new MapFormatException("params");
-				}
-
-				int x = Integer.parseInt(tankParams[0]);
-				int y = Integer.parseInt(tankParams[1]);
-				MoveDirection direction = MoveDirection.valueOf(tankParams[2].toUpperCase());
-
-				int dx = direction.getDx();
-				int dy = direction.getDy();
-
-				for (int j = -1; j <= 1; j++)//x
-				{
-					for (int k = -1; k <= 1; k++)//y
-					{
-						if (!((dx == 0 && k == dy && j != 0) || (dy == 0 && k != 0 && j != dx)))
-						{
-							if (table[y + k][x + j].type == Cell.Type.FLOOR)
-							{
-								table[y + k][x + j] = new TankCell(this, x + j, y + k);
-							}
-							else
-							{
-								throw new MapFormatException("Wrong tank");
-							}
-						}
-					}
-				}
-
-				tank = new Tank(this, x, y, true, direction);
-			}
 		}
 		catch (NumberFormatException e)
 		{
@@ -107,6 +74,34 @@ public class Field
 		catch (IllegalArgumentException e)
 		{
 			throw new MapFormatException("Illegal");
+		}
+	}
+
+	public void drawTank(Tank tank) throws MapFormatException
+	{
+		int x = tank.getX();
+		int y = tank.getY();
+		MoveDirection direction = tank.getDirection();
+
+		int dx = direction.getDx();
+		int dy = direction.getDy();
+
+		for (int j = -1; j <= 1; j++)//x
+		{
+			for (int k = -1; k <= 1; k++)//y
+			{
+				if (!((dx == 0 && k == dy && j != 0) || (dy == 0 && k != 0 && j != dx)))
+				{
+					if (table[y + k][x + j].type == Cell.Type.FLOOR)
+					{
+						table[y + k][x + j] = new TankCell(this, x + j, y + k);
+					}
+					else
+					{
+						throw new MapFormatException("Wrong tank");
+					}
+				}
+			}
 		}
 	}
 
@@ -182,7 +177,7 @@ public class Field
 	{
 		try
 		{
-			new Field("map.tnk").print();
+			new Level("map.tnk").print();
 		}
 		catch (IOException | MapFormatException e)
 		{
