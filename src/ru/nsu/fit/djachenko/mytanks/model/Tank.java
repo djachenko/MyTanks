@@ -2,7 +2,7 @@ package ru.nsu.fit.djachenko.mytanks.model;
 
 public class Tank
 {
-	private int id;
+	public final int id;
 	private static int count = 0;
 
 	private int x;
@@ -13,27 +13,10 @@ public class Tank
 	private boolean friend;
 	private boolean alive;
 
-	public Tank(Field field, int x, int y, boolean friend)
-	{
-		this.field = field;
-
-		id = count;
-		count++;
-
-		//new Tank(field, x, y,friend, MoveDirection.UP);
-
-		this.x = x;
-		this.y = y;
-
-		this.friend = friend;
-
-		currentDirection = MoveDirection.UP;
-
-		alive = true;
-	}
-
 	public Tank(Field field, int x, int y, boolean friend, MoveDirection dir)
 	{
+		id = count++;
+
 		this.field = field;
 
 		this.x = x;
