@@ -1,4 +1,7 @@
-package ru.nsu.fit.djachenko.mytanks.model;
+package ru.nsu.fit.djachenko.mytanks.model.cells;
+
+import ru.nsu.fit.djachenko.mytanks.model.Field;
+import ru.nsu.fit.djachenko.mytanks.model.MoveDirection;
 
 public abstract class Cell
 {

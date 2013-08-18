@@ -1,5 +1,7 @@
 package ru.nsu.fit.djachenko.mytanks.model;
 
+import ru.nsu.fit.djachenko.mytanks.model.cells.*;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;

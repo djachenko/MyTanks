@@ -1,4 +1,6 @@
-package ru.nsu.fit.djachenko.mytanks.model;
+package ru.nsu.fit.djachenko.mytanks.model.cells;
+
+import ru.nsu.fit.djachenko.mytanks.model.Field;
 
 public class TankCell extends Cell
 {
