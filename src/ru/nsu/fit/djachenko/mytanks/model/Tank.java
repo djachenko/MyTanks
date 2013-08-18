@@ -145,6 +145,21 @@ public class Tank
 			flip();
 		}
 	}
+
+	public int getX()
+	{
+		return x;
+	}
+
+	public int getY()
+	{
+		return y;
+	}
+
+	public MoveDirection getDirection()
+	{
+		return currentDirection;
+	}
 }
 
 
