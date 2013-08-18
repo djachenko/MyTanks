@@ -6,4 +6,10 @@ public class FloorCell extends Cell
 	{
 		super(Type.FLOOR, field, x, y);
 	}
+
+	@Override
+	public boolean ableToReplace()
+	{
+		return true;
+	}
 }

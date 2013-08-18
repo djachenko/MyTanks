@@ -6,4 +6,10 @@ public class TankCell extends Cell
 	{
 		super(Type.TANK, field, x, y);
 	}
+
+	@Override
+	public boolean ableToReplace()
+	{
+		return false;
+	}
 }

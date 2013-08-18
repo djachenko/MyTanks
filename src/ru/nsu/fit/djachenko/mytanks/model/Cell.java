@@ -46,10 +46,7 @@ public abstract class Cell
 		}
 	}
 
-	public boolean ableToReplace()
-	{
-		return true;
-	}
+	public abstract boolean ableToReplace();
 
 	public int getX()
 	{
