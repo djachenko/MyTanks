@@ -81,7 +81,7 @@ public class Field
 	{
 		int x = tank.getX();
 		int y = tank.getY();
-		MoveDirection direction = tank.getDirection();
+		Direction direction = tank.getDirection();
 
 		int dx = direction.getDx();
 		int dy = direction.getDy();
@@ -92,7 +92,7 @@ public class Field
 			{
 				if (!((dx == 0 && k == dy && j != 0) || (dy == 0 && k != 0 && j != dx)))
 				{
-					if (table[y + k][x + j].type == Cell.Type.FLOOR)
+					if (table[y + k][x + j].type == Cell.Type.GROUND)
 					{
 						table[y + k][x + j] = new TankCell(this, x + j, y + k);
 					}
@@ -127,15 +127,16 @@ public class Field
 		return table[y][x];
 	}
 
-	public boolean ableToMove(int x, int y, MoveDirection dir)
+	public boolean ableToMove(int x, int y, Direction dir)
 	{
 		return table[ y + dir.getDy() ][ x + dir.getDx() ].ableToMove(dir);
 	}
 
-	public void move(int x, int y, MoveDirection dir)
+	public void move(int x, int y, Direction dir)
 	{
 		table[ y + dir.getDy() ][ x + dir.getDx() ].move(dir);
 		table[ y + dir.getDy() ][ x + dir.getDx() ] = table[y][x];
+		table[y][x] = new GroundCell(this, x, y);
 	}
 
 	public boolean ableToReplace(int x, int y)
@@ -146,7 +147,7 @@ public class Field
 	public void replace(int sourceX, int sourceY, int destX, int destY)
 	{
 		table[destY][destX] = table[sourceY][sourceX];
-		table[sourceY][sourceX] = null;
+		table[sourceY][sourceX] = new GroundCell(this, sourceX, sourceY);
 	}
 
 	public void swap(int x1, int y1, int x2, int y2)
@@ -171,17 +172,5 @@ public class Field
 		}
 
 		System.out.print(temp);
-	}
-
-	public static void main(String[] args)
-	{
-		try
-		{
-			new Level("map.tnk").print();
-		}
-		catch (IOException | MapFormatException e)
-		{
-			e.printStackTrace();
-		}
 	}
 }

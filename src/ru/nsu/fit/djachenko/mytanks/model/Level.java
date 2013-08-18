@@ -45,7 +45,7 @@ public class Level extends Field
 
 				int x = Integer.parseInt(tankParams[0]);
 				int y = Integer.parseInt(tankParams[1]);
-				MoveDirection direction = MoveDirection.valueOf(tankParams[2].toUpperCase());
+				Direction direction = Direction.valueOf(tankParams[2].toUpperCase());
 
 				tank = new Tank(this, x, y, true, direction);
 				drawTank(tank);
@@ -53,7 +53,7 @@ public class Level extends Field
 		}
 	}
 
-	void moveTank(MoveDirection direction) throws UnexpectedSituationException
+	void moveTank(Direction direction) throws UnexpectedSituationException
 	{
 		tank.move(direction);
 	}

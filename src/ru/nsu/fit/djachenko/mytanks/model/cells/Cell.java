@@ -1,7 +1,7 @@
 package ru.nsu.fit.djachenko.mytanks.model.cells;
 
+import ru.nsu.fit.djachenko.mytanks.model.Direction;
 import ru.nsu.fit.djachenko.mytanks.model.Field;
-import ru.nsu.fit.djachenko.mytanks.model.MoveDirection;
 
 public abstract class Cell
 {
@@ -13,7 +13,7 @@ public abstract class Cell
 	{
 		TANK('t'),
 		WALL('x'),
-		FLOOR('.');
+		GROUND('.');
 
 		public final char representation;
 
@@ -33,12 +33,12 @@ public abstract class Cell
 		this.y = y;
 	}
 
-	public boolean ableToMove(MoveDirection dir)
+	public boolean ableToMove(Direction dir)
 	{
 		return field.ableToMove(x, y, dir);
 	}
 
-	public void move(MoveDirection dir)
+	public void move(Direction dir)
 	{
 		if (ableToMove(dir))
 		{
