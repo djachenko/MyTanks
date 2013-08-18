@@ -9,8 +9,10 @@ public class Level extends Field
 {
 	private Tank tank;
 
-	public Level()
-	{}
+	public Level(int width, int height)
+	{
+		super(width, height);
+	}
 
 	public Level(String config) throws IOException, MapFormatException
 	{

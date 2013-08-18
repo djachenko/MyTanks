@@ -10,10 +10,21 @@ import java.io.IOException;
 public class Field
 {
 	private Cell[][] table = null;
-	private Tank tank;
 
 	public Field()
+	{}
+
+	public Field(int width, int height)//empty field
 	{
+		table = new Cell[height][width];
+
+		for (int y = 0; y < table.length; y++)
+		{
+			for (int x = 0; x < table[y].length; x++)
+			{
+				table[y][x] = new GroundCell(this, x, y);
+			}
+		}
 	}
 
 	public Field(String configFile) throws IOException, MapFormatException
@@ -39,26 +50,24 @@ public class Field
 
 			for (int j = 0; j < table.length; j++)
 			{
-				Cell[] row = table[j];
-
 				String rowString = reader.readLine();
 
-				if (rowString.length() != row.length)
+				if (rowString.length() != table[j].length)
 				{
-					throw new MapFormatException(rowString.length() + " " + row.length);
+					throw new MapFormatException(rowString.length() + " " + table[j].length);
 				}
 
-				for (int i = 0; i < row.length; i++)
+				for (int i = 0; i < table[j].length; i++)
 				{
 					switch (rowString.charAt(i))
 					{
 						case ' ':
 						case '.':
-							row[i] = new GroundCell(this, i, j);
+							table[j][i] = new GroundCell(this, i, j);
 
 							break;
 						case 'x':
-							row[i] = new WallCell(this, i, j);
+							table[j][i] = new WallCell(this, i, j);
 
 							break;
 						default:
