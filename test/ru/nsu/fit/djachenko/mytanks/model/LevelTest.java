@@ -9,12 +9,14 @@ import static org.junit.Assert.fail;
 
 public class LevelTest
 {
+	public static final String path = "resources/test/Level/";
+
 	@Test
 	public void testNoTankMap()
 	{
 		try
 		{
-			Level level = new Level("testInitMap.tnk");
+			Level level = new Level(path + "LevelInitMap1.tnk");
 
 			fail("No exception while initialization with map without tanks");
 		}
@@ -33,7 +35,7 @@ public class LevelTest
 	{
 		try
 		{
-			Level level = new Level("secondLevelInitMap.tnk");
+			Level level = new Level(path + "LevelInitMap2.tnk");
 
 			fail("No exception while initialization with map with not enough tanks");
 		}
@@ -52,7 +54,7 @@ public class LevelTest
 	{
 		try
 		{
-			Level level = new Level("thirdLevelInitMap.tnk");
+			Level level = new Level(path + "LevelInitMap3.tnk");
 
 			fail("No exception while initialization with map with with wrong field");
 		}
@@ -71,7 +73,7 @@ public class LevelTest
 	{
 		try
 		{
-			Level level = new Level("fourthLevelInitMap.tnk");
+			Level level = new Level(path + "LevelInitMap4.tnk");
 
 			fail("No exception while initialization with map with wrong tank description");
 		}
@@ -90,13 +92,13 @@ public class LevelTest
 	{
 		try
 		{
-			Level level = new Level("fourthLevelInitMap.tnk");
+			Level level = new Level(path + "LevelInitMap5.tnk");
 
 			fail("No exception while initialization with map with with unparseable tank parameters");
 		}
 		catch (MapFormatException e)
 		{
-			assertEquals("Wrong exception message", "Wrong tank description", e.getLocalizedMessage());
+			assertEquals("Wrong exception message", "Unparseable parameters", e.getLocalizedMessage());
 		}
 		catch (IOException e)
 		{
