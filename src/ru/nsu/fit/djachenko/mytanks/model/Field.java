@@ -41,7 +41,19 @@ public class Field
 	{
 		try (BufferedReader reader = new BufferedReader(new FileReader(configFile)))
 		{
-			String[] fieldParameters = reader.readLine().split(" ");
+			String fieldParametersLine = reader.readLine();
+
+			if (fieldParametersLine == null)
+			{
+				throw new MapFormatException("Empty map file");
+			}
+
+			String[] fieldParameters = fieldParametersLine.split(" ");
+
+			if (fieldParameters.length < 2)
+			{
+				throw new MapFormatException("Wrong field parameters format");
+			}
 
 			int tableWidth = Integer.parseInt(fieldParameters[0]);
 			int tableHeight = Integer.parseInt(fieldParameters[1]);
@@ -52,9 +64,9 @@ public class Field
 			{
 				String rowString = reader.readLine();
 
-				if (rowString.length() != table[j].length)
+				if (rowString == null || rowString.length() != table[j].length)
 				{
-					throw new MapFormatException(rowString.length() + " " + table[j].length);
+					throw new MapFormatException("Wrong map size");
 				}
 
 				for (int i = 0; i < table[j].length; i++)
@@ -71,18 +83,14 @@ public class Field
 
 							break;
 						default:
-							throw new MapFormatException("Wrong cell representaion");
+							throw new MapFormatException("Wrong map representation format");
 					}
 				}
 			}
 		}
-		catch (NumberFormatException e)
-		{
-			throw new MapFormatException("num");
-		}
 		catch (IllegalArgumentException e)
 		{
-			throw new MapFormatException("Illegal");
+			throw new MapFormatException("Unparsable parameters");
 		}
 	}
 
@@ -99,7 +107,7 @@ public class Field
 		{
 			for (int k = -1; k <= 1; k++)//y
 			{
-				if (!((dx == 0 && k == dy && j != 0) || (dy == 0 && k != 0 && j != dx)))
+				if (!((dx == 0 && k == dy && j != 0) || (dy == 0 && k != 0 && j == dx)))
 				{
 					if (table[y + k][x + j].type == Cell.Type.GROUND)
 					{
@@ -107,7 +115,7 @@ public class Field
 					}
 					else
 					{
-						throw new MapFormatException("Wrong tank");
+						throw new MapFormatException("Tank overlaps walls");
 					}
 				}
 			}
@@ -174,7 +182,7 @@ public class Field
 		{
 			for (int i = 0; i < width(); i++)
 			{
-				temp.append(at(i, j).type.representation);
+					temp.append(at(i, j).type.representation);
 			}
 
 			temp.append('\n');
