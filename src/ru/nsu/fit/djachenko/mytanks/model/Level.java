@@ -21,28 +21,40 @@ public class Level extends Field
 
 	public void init(String config) throws IOException, MapFormatException
 	{
-		File mapFile = new File(config);
+		super.init(config);
 
-		super.init(mapFile);
-
-		try (BufferedReader reader = new BufferedReader(new FileReader(mapFile)))
+		try (BufferedReader reader = new BufferedReader(new FileReader(config)))
 		{
-			int skipCount = Integer.parseInt(reader.readLine().split(" ")[1]);
+			int skipCount = Integer.parseInt(reader.readLine().split(" ")[1]);//it's ok, because no such in init
 
 			for (int i = 0; i < skipCount; i++)
 			{
 				reader.readLine();
 			}
 
-			int tankCount = Integer.parseInt(reader.readLine());
+			String tanks = reader.readLine();
+
+			if (tanks == null)
+			{
+				throw new MapFormatException("No tank info present");
+			}
+
+			int tankCount = Integer.parseInt(tanks);
 
 			for (int i = 0; i < tankCount; i++)
 			{
-				String[] tankParams = reader.readLine().split(" ");
+				String tankString = reader.readLine();
+
+				if (tankString == null)
+				{
+					throw new MapFormatException("Wrong tank count");
+				}
+
+				String[] tankParams = tankString.split(" ");
 
 				if (tankParams.length != 3)
 				{
-					throw new MapFormatException("params");
+					throw new MapFormatException("Wrong tank description");
 				}
 
 				int x = Integer.parseInt(tankParams[0]);
@@ -52,6 +64,10 @@ public class Level extends Field
 				tank = new Tank(this, x, y, true, direction);
 				drawTank(tank);
 			}
+		}
+		catch (IllegalArgumentException e)
+		{
+			throw new MapFormatException("Unparseable parameters");
 		}
 	}
 
