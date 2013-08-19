@@ -56,4 +56,14 @@ public enum Direction
 	}
 
 	public abstract Direction opposite();
+
+	public boolean isHorisontal()
+	{
+		return dy == 0;
+	}
+
+	public boolean isVertical()
+	{
+		return dx == 0;
+	}
 }

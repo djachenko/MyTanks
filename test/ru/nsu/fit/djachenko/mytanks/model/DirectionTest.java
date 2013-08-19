@@ -80,4 +80,48 @@ public class DirectionTest
 			}
 		}
 	}
+
+	@Test
+	public void testIsVertical()
+	{
+		for (Direction direction : Direction.values())
+		{
+			switch (direction)
+			{
+				case UP:
+				case DOWN:
+					assertEquals("Direction." + direction.name() + ".isVertical is wrong", true, direction.isVertical());
+					break;
+				case LEFT:
+				case RIGHT:
+					assertEquals("Direction." + direction.name() + ".isVertical is wrong", false, direction.isVertical());
+					break;
+				default:
+					fail("Direction." + direction.name() + " was not expected");
+					break;
+			}
+		}
+	}
+
+	@Test
+	public void testIsHorisontal()
+	{
+		for (Direction direction : Direction.values())
+		{
+			switch (direction)
+			{
+				case UP:
+				case DOWN:
+					assertEquals("Direction." + direction.name() + ".isHorisontal is wrong", false, direction.isHorisontal());
+					break;
+				case LEFT:
+				case RIGHT:
+					assertEquals("Direction." + direction.name() + ".isHorisontal is wrong", true, direction.isHorisontal());
+					break;
+				default:
+					fail("Direction." + direction.name() + " was not expected");
+					break;
+			}
+		}
+	}
 }
