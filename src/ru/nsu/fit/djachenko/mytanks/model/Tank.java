@@ -2,31 +2,20 @@ package ru.nsu.fit.djachenko.mytanks.model;
 
 public class Tank
 {
-	public final int id;
-	private static int count = 0;
-
 	private int x;
 	private int y;
 
 	private Field field;
 	private Direction currentDirection;
-	private boolean friend;
-	private boolean alive;
 
 	public Tank(Field field, int x, int y, boolean friend, Direction dir)
 	{
-		id = count++;
-
 		this.field = field;
 
 		this.x = x;
 		this.y = y;
 
-		this.friend = friend;
-
 		currentDirection = dir;
-
-		alive = true;
 	}
 
 	public boolean ableToMove(Direction direction) throws UnexpectedSituationException
