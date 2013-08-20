@@ -10,6 +10,8 @@ import static org.junit.Assert.*;
 
 public class FieldTest
 {
+	public static final String PATH = "resources/test/Field/";
+
 	@Test
 	public void testEmptyFieldConstructor()
 	{
@@ -39,7 +41,7 @@ public class FieldTest
 	{
 		try
 		{
-			Field field = new Field("testInitMap.tnk");
+			Field field = new Field(PATH + "FieldInitMap1.tnk");
 
 			int width = field.width();
 
@@ -78,7 +80,7 @@ public class FieldTest
 
 		try
 		{
-			field.init("firstWrongMap.tnk");
+			field.init(PATH + "FieldInitMap2.tnk");
 
 			fail("No exception with long line.");
 		}
@@ -91,7 +93,7 @@ public class FieldTest
 
 		try
 		{
-			field.init("secondWrongMap.tnk");
+			field.init(PATH + "FieldInitMap3.tnk");
 
 			fail("No exception with short line.");
 		}
@@ -104,7 +106,7 @@ public class FieldTest
 
 		try
 		{
-			field.init("thirdWrongMap.tnk");
+			field.init(PATH + "FieldInitMap4.tnk");
 
 			fail("No exception with missed line.");
 		}
