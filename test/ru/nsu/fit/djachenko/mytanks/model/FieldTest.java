@@ -169,6 +169,67 @@ public class FieldTest
 	}
 
 	@Test
+	public void testEraseTank()
+	{
+		int width = 5;
+		int height = 5;
+
+		for(int tankX = 1; tankX < width - 1; tankX++)
+		{
+			for (int tankY = 1; tankY < height - 1; tankY++)
+			{
+				for (Direction tankDirection : Direction.values())
+				{
+					Field field = new Field(width, height);
+
+					Tank tank = new Tank(field, tankX, tankY, true, tankDirection);
+
+					try
+					{
+						field.drawTank(tank);
+					}
+					catch (MapFormatException e)
+					{
+						fail("Exception in drawTank.");
+					}
+
+					for (int y = 0; y < field.height(); y++)
+					{
+						for (int x = 0; x < field.width(); x++)
+						{
+							int dx = x - tankX;
+							int dy = y - tankY;
+
+							if (Math.abs(dx) <= 1 && Math.abs(dy) <= 1 &&
+									!(tankDirection.isVertical() && dx != 0 && dy == tankDirection.dy ||
+											tankDirection.isHorisontal() && dx == tankDirection.dx && dy != 0))
+							{
+								assertNotNull("Null cell at (" + y + ';' + x + ") ", field.at(x, y));
+								assertEquals("Wrong cell type at (" + x + ';' + y + ").", Cell.Type.TANK, field.at(x, y).type);
+							}
+							else
+							{
+								assertEquals("Wrong cell type at (" + x + ';' + y + ").", Cell.Type.GROUND, field.at(x, y).type);
+							}
+						}
+					}
+
+					field.eraseTank(tank);
+
+					for (int y = 0; y < field.height(); y++)
+					{
+						for (int x = 0; x < field.width(); x++)
+						{
+							assertNotNull("Null cell at (" + y + ';' + x + ") ", field.at(x, y));
+							assertEquals("Wrong cell type at (" + x + ';' + y + ").", Cell.Type.GROUND, field.at(x, y).type);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	@Test
 	public void testHeight()
 	{
 		for (int h = 0; h < 100; h++)

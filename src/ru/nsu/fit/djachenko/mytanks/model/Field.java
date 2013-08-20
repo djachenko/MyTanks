@@ -115,8 +115,29 @@ public class Field
 					}
 					else
 					{
-						throw new MapFormatException("Tank overlaps walls");
+						throw new MapFormatException("Tank overlaps " + table[y + k][x + j].type.name().toLowerCase() + " at (" + (x + j) + "; " + (y + k) + ')');
 					}
+				}
+			}
+		}
+	}
+
+	void eraseTank(Tank tank)
+	{
+		int x = tank.getX();
+		int y = tank.getY();
+		Direction direction = tank.getDirection();
+
+		int dx = direction.getDx();
+		int dy = direction.getDy();
+
+		for (int j = -1; j <= 1; j++)//x
+		{
+			for (int k = -1; k <= 1; k++)//y
+			{
+				if (!((dx == 0 && k == dy && j != 0) || (dy == 0 && k != 0 && j == dx)))
+				{
+					table[y + k][x + j] = new GroundCell(this, x + j, y + k);
 				}
 			}
 		}

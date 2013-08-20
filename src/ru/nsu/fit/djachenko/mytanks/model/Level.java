@@ -75,4 +75,9 @@ public class Level extends Field
 	{
 		tank.move(direction);
 	}
+
+	void setTank(Tank tank)
+	{
+		this.tank = tank;
+	}
 }
