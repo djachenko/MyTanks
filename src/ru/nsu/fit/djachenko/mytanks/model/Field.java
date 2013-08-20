@@ -167,7 +167,10 @@ public class Field
 
 	public boolean ableToMove(int x, int y, Direction dir)
 	{
-		return table[ y + dir.getDy() ][ x + dir.getDx() ].ableToMove(dir);
+		int newX = x + dir.dx;
+		int newY = y + dir.dy;
+
+		return newX >= 0 && newX < width() && newY >= 0 && newY < height() && table[newY][newX].ableToMove(dir);
 	}
 
 	public void move(int x, int y, Direction dir)

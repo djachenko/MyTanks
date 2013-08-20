@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class Level extends Field
 {
-	private Tank tank;
+	private Tank tank = null;
 
 	public Level(int width, int height)
 	{
@@ -76,8 +76,19 @@ public class Level extends Field
 		tank.move(direction);
 	}
 
-	void setTank(Tank tank)
+	void setTank(Tank tank) throws MapFormatException
 	{
+		if (this.tank != null)
+		{
+			eraseTank(this.tank);
+		}
+
 		this.tank = tank;
+		drawTank(tank);
+	}
+
+	Tank getTank()
+	{
+		return tank;
 	}
 }

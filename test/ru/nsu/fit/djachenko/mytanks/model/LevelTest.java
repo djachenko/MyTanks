@@ -1,11 +1,11 @@
 package ru.nsu.fit.djachenko.mytanks.model;
 
 import org.junit.Test;
+import ru.nsu.fit.djachenko.mytanks.model.cells.Cell;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 public class LevelTest
 {
@@ -104,5 +104,118 @@ public class LevelTest
 		{
 			e.printStackTrace();
 		}
+	}
+
+	@Test
+	public void testMoveTank()
+	{
+		Level level = new Level(5, 5);
+
+		for(Direction tankDirection : Direction.values())
+		{
+			for (Direction moveDirection : Direction.values())
+			{
+        		int tankX = 2;
+				int tankY = 2;
+
+				Tank tank = new Tank(level, tankX, tankY, true, tankDirection);
+
+				try
+				{
+					level.setTank(tank);
+				}
+				catch (MapFormatException e)
+				{
+					e.printStackTrace();
+				}
+
+				for (int y = 0; y < level.height(); y++)
+				{
+					for (int x = 0; x < level.width(); x++)
+					{
+						int dx = x - tankX;
+						int dy = y - tankY;
+
+						if (Math.abs(dx) <= 1 && Math.abs(dy) <= 1 &&
+								!(tankDirection.isVertical() && dx != 0 && dy == tankDirection.dy ||
+										tankDirection.isHorisontal() && dx == tankDirection.dx && dy != 0))
+						{
+							assertNotNull("Null cell at (" + y + ';' + x + ") ", level.at(x, y));
+							assertEquals("Wrong cell type at (" + x + ';' + y + ").", Cell.Type.TANK, level.at(x, y).type);
+						}
+						else
+						{
+							assertEquals("Wrong cell type at (" + x + ';' + y + ").", Cell.Type.GROUND, level.at(x, y).type);
+						}
+					}
+				}
+
+				try
+				{
+					level.moveTank(moveDirection);
+				}
+				catch (UnexpectedSituationException e)
+				{
+					e.printStackTrace();
+				}
+
+				if (moveDirection == tankDirection)
+				{
+					assertEquals("Tank middle x wasn't moved. " + tank.getY() + tankDirection.name(), tankX + moveDirection.dx, tank.getX());
+					assertEquals("Tank middle y wasn't moved.", tankY + moveDirection.dy, tank.getY());
+
+					tankX += moveDirection.dx;
+					tankY += moveDirection.dy;
+				}
+				else
+				{
+					assertEquals("Tank middle x was moved, but tank has only to be turned.", tankX, tank.getX());
+					assertEquals("Tank middle y was moved, but tank has only to be turned.", tankY, tank.getY());
+				}
+
+				for (int y = 0; y < level.height(); y++)
+				{
+					for (int x = 0; x < level.width(); x++)
+					{
+						int dx = x - tankX;
+						int dy = y - tankY;
+
+
+						if (Math.abs(dx) <= 1 && Math.abs(dy) <= 1 &&
+								!(moveDirection.isVertical() && dx != 0 && dy == moveDirection.dy ||
+										moveDirection.isHorisontal() && dx == moveDirection.dx && dy != 0))
+						{
+							assertNotNull("Null cell at (" + y + ';' + x + ") ", level.at(x, y));
+							assertEquals("Wrong cell type at (" + x + ';' + y + ").", Cell.Type.TANK, level.at(x, y).type);
+						}
+						else
+						{
+							assertEquals("Wrong cell type at (" + x + ';' + y + ").", Cell.Type.GROUND, level.at(x, y).type);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	@Test
+	public void testSetTankWithoutPreviousTank()
+	{
+		Level level = new Level(5, 5);
+
+		assertNull("Not null tank before initialization", level.getTank());
+
+		Tank tank = new Tank(level, 2, 2, true, Direction.DOWN);
+
+		try
+		{
+			level.setTank(tank);
+		}
+		catch (MapFormatException e)
+		{
+			e.printStackTrace();
+		}
+
+		assertNotNull("Null tank after initialization", level.getTank());
 	}
 }
