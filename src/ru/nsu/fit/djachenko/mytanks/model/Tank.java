@@ -47,25 +47,27 @@ public class Tank
 			{
 				case RIGHT:
 					field.move(x - 1, y - 1, dir);
-					field.move(x - 1, y, dir);
+					System.out.println("tank1");
+					field.move(x - 1, y,     dir);
+					System.out.println("tank2");
 					field.move(x - 1, y + 1, dir);
 
 					break;
 				case UP:
 					field.move(x - 1, y + 1, dir);
-					field.move(x, y + 1, dir);
+					field.move(x,     y + 1, dir);
 					field.move(x + 1, y + 1, dir);
 
 					break;
 				case LEFT:
 					field.move(x + 1, y - 1, dir);
-					field.move(x + 1, y, dir);
+					field.move(x + 1, y,     dir);
 					field.move(x + 1, y + 1, dir);
 
 					break;
 				case DOWN:
 					field.move(x - 1, y - 1, dir);
-					field.move(x, y - 1, dir);
+					field.move(x,     y - 1, dir);
 					field.move(x + 1, y - 1, dir);
 
 					break;
@@ -94,7 +96,6 @@ public class Tank
 			return field.ableToReplace(x + currentDirection.getDx() + direction.getDy(), y + currentDirection.getDy() + direction.getDx()) &&
 					field.ableToReplace(x + currentDirection.getDx() - direction.getDy(), y + currentDirection.getDy() - direction.getDx());
 		}
-
 	}
 
 	public boolean ableToFlip()
@@ -104,32 +105,41 @@ public class Tank
 
 	public void flip()
 	{
+		System.out.println("flip");
 		if (ableToFlip())
 		{
-			field.replace(x + currentDirection.getDx(), y + currentDirection.getDy(), x - 2 * currentDirection.getDx(), y - 2 * currentDirection.getDy());
+			field.move(x + currentDirection.getDx(), y + currentDirection.getDy(), x - 2 * currentDirection.getDx(), y - 2 * currentDirection.getDy());
 
 			currentDirection = currentDirection.opposite();
+
+			x += currentDirection.dx;
+			y += currentDirection.dy;
 		}
 	}
 
-	public void turn(Direction direction)//turn clockwise
+	public void turn(Direction direction)
 	{
 		if (ableToTurn(direction))
 		{
+			int curDx = currentDirection.dx;
+			int curDy = currentDirection.dy;
+
+			int dx = direction.dx;
+			int dy = direction.dy;
+
 			if (direction != currentDirection.opposite())
 			{
-				field.replace(x - currentDirection.getDx() + direction.getDx(), y - currentDirection.getDy() + direction.getDy(),
-						x + currentDirection.getDx() - direction.getDx(), y + currentDirection.getDy() - direction.getDy());
+				field.move(x - curDx + dx, y - curDy + dy, x + curDx - dx, y + curDy - dy);
 			}
 			else
 			{
-				field.replace(x - currentDirection.getDx() + direction.getDy(), y - currentDirection.getDy() + direction.getDx(), x + currentDirection.getDx() + direction.getDy(), y + currentDirection.getDy() + direction.getDx());
-				field.replace(x - currentDirection.getDx() - direction.getDy(), y - currentDirection.getDy() - direction.getDx(), x + currentDirection.getDx() - direction.getDy(), y + currentDirection.getDy() - direction.getDx());
+				field.move(x - curDx + dy, y - curDy + dx, x + curDx + dy, y + curDy + dx);
+				field.move(x - curDx - dy, y - curDy - dx, x + curDx - dy, y + curDy - dx);
 			}
 
 			currentDirection = direction;
 		}
-		else
+		else if (direction == currentDirection.opposite())
 		{
 			flip();
 		}

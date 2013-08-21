@@ -103,15 +103,18 @@ public class Field
 		int dx = direction.getDx();
 		int dy = direction.getDy();
 
-		for (int j = -1; j <= 1; j++)//x
+
+		for (int k = -1; k <= 1; k++)//y
 		{
-			for (int k = -1; k <= 1; k++)//y
+			for (int j = -1; j <= 1; j++)//x
 			{
 				if (!((dx == 0 && k == dy && j != 0) || (dy == 0 && k != 0 && j == dx)))
 				{
 					if (table[y + k][x + j].type == Cell.Type.GROUND)
 					{
 						table[y + k][x + j] = new TankCell(this, x + j, y + k);
+
+						System.out.print("(" + (x + j) + ";" + (y + k) + ") ");
 					}
 					else
 					{
@@ -119,6 +122,8 @@ public class Field
 					}
 				}
 			}
+
+			System.out.println();
 		}
 	}
 
@@ -167,28 +172,30 @@ public class Field
 
 	public boolean ableToMove(int x, int y, Direction dir)
 	{
-		int newX = x + dir.dx;
-		int newY = y + dir.dy;
-
-		return newX >= 0 && newX < width() && newY >= 0 && newY < height() && table[newY][newX].ableToMove(dir);
+		return x >= 0 && x < width() && y >= 0 && y < height() && table[y][x].ableToMove(dir);
 	}
 
 	public void move(int x, int y, Direction dir)
 	{
-		table[ y + dir.getDy() ][ x + dir.getDx() ].move(dir);
-		table[ y + dir.getDy() ][ x + dir.getDx() ] = table[y][x];
-		table[y][x] = new GroundCell(this, x, y);
+		table[ y ][ x ].move(dir);
+
+		if (ableToReplace(x + dir.dx, y + dir.dy))
+		{
+			table[ y + dir.getDy() ][ x + dir.getDx() ] = table[y][x];
+			table[y][x] = new GroundCell(this, x, y);
+		}
+	}
+
+	public void move(int fromX, int fromY, int toX, int toY)
+	{
+		table[fromY][fromX].move(toX, toY);
+		table[toY][toX] = table[fromY][fromX];
+		table[fromY][fromX] = new GroundCell(this, fromX, fromY);
 	}
 
 	public boolean ableToReplace(int x, int y)
 	{
-		return table[y][x].ableToReplace();
-	}
-
-	public void replace(int sourceX, int sourceY, int destX, int destY)
-	{
-		table[destY][destX] = table[sourceY][sourceX];
-		table[sourceY][sourceX] = new GroundCell(this, sourceX, sourceY);
+		return x >= 0 && x < width() && y >= 0 && y < height() && table[y][x].ableToReplace();
 	}
 
 	public void swap(int x1, int y1, int x2, int y2)
@@ -212,6 +219,6 @@ public class Field
 			temp.append('\n');
 		}
 
-		System.out.print(temp);
+		System.out.println(temp);
 	}
 }

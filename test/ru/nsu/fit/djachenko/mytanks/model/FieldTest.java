@@ -1,6 +1,5 @@
 package ru.nsu.fit.djachenko.mytanks.model;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import ru.nsu.fit.djachenko.mytanks.model.cells.Cell;
 
@@ -342,7 +341,7 @@ public class FieldTest
 		Cell cell1 = field.at(0, 0);
 		Cell cell2 = field.at(4, 3);
 
-		field.replace(0, 0, 4, 3);
+		field.move(0, 0, 4, 3);
 
 		assertNotSame("Wasn't moved.", cell2, field.at(4, 3));
 		assertSame("Wasn't moved.", cell1, field.at(4, 3));

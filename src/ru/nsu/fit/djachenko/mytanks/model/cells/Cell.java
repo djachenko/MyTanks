@@ -35,21 +35,30 @@ public abstract class Cell
 
 	public boolean ableToMove(Direction dir)
 	{
-		return field.ableToMove(x, y, dir);
+		return field.ableToMove(x + dir.dx, y + dir.dy, dir);
 	}
 
 	public void move(Direction dir)
 	{
+		System.out.println("reg move" + x + ' ' + y);
+
 		if (ableToMove(dir))
 		{
-			field.move(x, y, dir);
+			field.move(x + dir.dx, y + dir.dy, dir);
 
 			x += dir.getDx();
 			y += dir.getDy();
+			//field.move(x, y, x + dir.dx, y + dir.dy);
 		}
 	}
 
 	public abstract boolean ableToReplace();
+
+	public void move(int toX, int toY)
+	{
+		x = toX;
+		y = toY;
+	}
 
 	public int getX()
 	{

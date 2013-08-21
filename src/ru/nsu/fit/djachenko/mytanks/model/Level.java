@@ -71,12 +71,12 @@ public class Level extends Field
 		}
 	}
 
-	void moveTank(Direction direction) throws UnexpectedSituationException
+	public void moveTank(Direction direction) throws UnexpectedSituationException
 	{
 		tank.move(direction);
 	}
 
-	void setTank(Tank tank) throws MapFormatException
+	public void setTank(Tank tank) throws MapFormatException
 	{
 		if (this.tank != null)
 		{
