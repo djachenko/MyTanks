@@ -5,12 +5,12 @@ public class Tank
 	private int x;
 	private int y;
 
-	private Field field;
+	private Level level;
 	private Direction currentDirection;
 
-	public Tank(Field field, int x, int y, boolean friend, Direction dir)
+	public Tank(Level field, int x, int y, Direction dir)
 	{
-		this.field = field;
+		this.level = field;
 
 		this.x = x;
 		this.y = y;
@@ -23,60 +23,58 @@ public class Tank
 		switch (currentDirection)
 		{
 			case RIGHT:
-				return field.ableToMove(x - 1, y - 1, direction) && field.ableToMove(x - 1, y, direction) && field.ableToMove(x - 1, y + 1, direction);
+				return level.ableToMove(x - 1, y - 1, direction, 2) && level.ableToMove(x - 1, y, direction, 3) && level.ableToMove(x - 1, y + 1, direction, 2);
 			case UP:
-				return field.ableToMove(x - 1, y + 1, direction) && field.ableToMove(x, y + 1, direction) && field.ableToMove(x + 1, y + 1, direction);
+				return level.ableToMove(x - 1, y + 1, direction, 2) && level.ableToMove(x, y + 1, direction, 3) && level.ableToMove(x + 1, y + 1, direction, 2);
 			case LEFT:
-				return field.ableToMove(x + 1, y - 1, direction) && field.ableToMove(x + 1, y, direction) && field.ableToMove(x + 1, y + 1, direction);
+				return level.ableToMove(x + 1, y - 1, direction, 2) && level.ableToMove(x + 1, y, direction, 3) && level.ableToMove(x + 1, y + 1, direction, 2);
 			case DOWN:
-				return field.ableToMove(x - 1, y - 1, direction) && field.ableToMove(x, y - 1, direction) && field.ableToMove(x + 1, y - 1, direction);
+				return level.ableToMove(x - 1, y - 1, direction, 2) && level.ableToMove(x, y - 1, direction, 3) && level.ableToMove(x + 1, y - 1, direction, 2);
 			default:
 				throw new UnexpectedSituationException(currentDirection.name());
 		}
 	}
 
-	public void move(Direction dir) throws UnexpectedSituationException
+	public void move(Direction direction) throws UnexpectedSituationException
 	{
-		if (dir != currentDirection)
+		if (direction != currentDirection)
 		{
-			turn(dir);
+			turn(direction);
 		}
-		else if (ableToMove(dir))
+		else if (ableToMove(direction))
 		{
 			switch (currentDirection)
 			{
 				case RIGHT:
-					field.move(x - 1, y - 1, dir);
-					System.out.println("tank1");
-					field.move(x - 1, y,     dir);
-					System.out.println("tank2");
-					field.move(x - 1, y + 1, dir);
+					level.move(x - 1, y - 1, direction, 2);
+					level.move(x - 1, y, direction, 3);
+					level.move(x - 1, y + 1, direction, 2);
 
 					break;
 				case UP:
-					field.move(x - 1, y + 1, dir);
-					field.move(x,     y + 1, dir);
-					field.move(x + 1, y + 1, dir);
+					level.move(x - 1, y + 1, direction, 2);
+					level.move(x, y + 1, direction, 3);
+					level.move(x + 1, y + 1, direction, 2);
 
 					break;
 				case LEFT:
-					field.move(x + 1, y - 1, dir);
-					field.move(x + 1, y,     dir);
-					field.move(x + 1, y + 1, dir);
+					level.move(x + 1, y - 1, direction, 2);
+					level.move(x + 1, y, direction, 3);
+					level.move(x + 1, y + 1, direction, 2);
 
 					break;
 				case DOWN:
-					field.move(x - 1, y - 1, dir);
-					field.move(x,     y - 1, dir);
-					field.move(x + 1, y - 1, dir);
+					level.move(x - 1, y - 1, direction, 2);
+					level.move(x, y - 1, direction, 3);
+					level.move(x + 1, y - 1, direction, 2);
 
 					break;
 				default:
-					throw new UnexpectedSituationException(dir.name());
+					throw new UnexpectedSituationException(direction.name());
 			}
 
-			x += dir.getDx();
-			y += dir.getDy();
+			x += direction.getDx();
+			y += direction.getDy();
 		}
 	}
 
@@ -89,18 +87,18 @@ public class Tank
 
 		if (direction != currentDirection.opposite())
 		{
-			return field.ableToReplace(x + currentDirection.getDx() - direction.getDx(), y + currentDirection.getDy() - direction.getDy());
+			return level.ableToReplace(x + currentDirection.getDx() - direction.getDx(), y + currentDirection.getDy() - direction.getDy());
 		}
 		else
 		{
-			return field.ableToReplace(x + currentDirection.getDx() + direction.getDy(), y + currentDirection.getDy() + direction.getDx()) &&
-					field.ableToReplace(x + currentDirection.getDx() - direction.getDy(), y + currentDirection.getDy() - direction.getDx());
+			return level.ableToReplace(x + currentDirection.getDx() + direction.getDy(), y + currentDirection.getDy() + direction.getDx()) &&
+					level.ableToReplace(x + currentDirection.getDx() - direction.getDy(), y + currentDirection.getDy() - direction.getDx());
 		}
 	}
 
 	public boolean ableToFlip()
 	{
-		return field.ableToReplace(x - 2 * currentDirection.getDx(), y - 2 * currentDirection.getDy());
+		return level.ableToReplace(x - 2 * currentDirection.getDx(), y - 2 * currentDirection.getDy());
 	}
 
 	public void flip()
@@ -108,7 +106,7 @@ public class Tank
 		System.out.println("flip");
 		if (ableToFlip())
 		{
-			field.move(x + currentDirection.getDx(), y + currentDirection.getDy(), x - 2 * currentDirection.getDx(), y - 2 * currentDirection.getDy());
+			level.move(x + currentDirection.getDx(), y + currentDirection.getDy(), x - 2 * currentDirection.getDx(), y - 2 * currentDirection.getDy());
 
 			currentDirection = currentDirection.opposite();
 
@@ -129,12 +127,12 @@ public class Tank
 
 			if (direction != currentDirection.opposite())
 			{
-				field.move(x - curDx + dx, y - curDy + dy, x + curDx - dx, y + curDy - dy);
+				level.move(x - curDx + dx, y - curDy + dy, x + curDx - dx, y + curDy - dy);
 			}
 			else
 			{
-				field.move(x - curDx + dy, y - curDy + dx, x + curDx + dy, y + curDy + dx);
-				field.move(x - curDx - dy, y - curDy - dx, x + curDx - dy, y + curDy - dx);
+				level.move(x - curDx + dy, y - curDy + dx, x + curDx + dy, y + curDy + dx);
+				level.move(x - curDx - dy, y - curDy - dx, x + curDx - dy, y + curDy - dx);
 			}
 
 			currentDirection = direction;
@@ -143,6 +141,15 @@ public class Tank
 		{
 			flip();
 		}
+	}
+
+	public void shoot()
+	{
+		level.spawnBullet(x + 2 * currentDirection.dx, y + 2 * currentDirection.dy, currentDirection);
+	}
+
+	public void hit()
+	{
 	}
 
 	public int getX()

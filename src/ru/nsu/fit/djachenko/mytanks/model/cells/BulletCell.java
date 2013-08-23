@@ -1,23 +1,22 @@
 package ru.nsu.fit.djachenko.mytanks.model.cells;
 
+import ru.nsu.fit.djachenko.mytanks.model.Bullet;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
 import ru.nsu.fit.djachenko.mytanks.model.Field;
-import ru.nsu.fit.djachenko.mytanks.model.Tank;
 
-public class TankCell extends Cell
+public class BulletCell extends Cell
 {
-	private Field field;
-	private Tank tank;
-
+	private final Field field;
+	private final Bullet origin;
 	private int x;
 	private int y;
 
-	public TankCell(Field field, Tank tank, int x, int y)
+	public BulletCell(Field field, Bullet origin, int x, int y)
 	{
-		super(Type.TANK);
+		super(Type.BULLET);
 
 		this.field = field;
-		this.tank = tank;
+		this.origin = origin;
 
 		this.x = x;
 		this.y = y;
@@ -26,17 +25,24 @@ public class TankCell extends Cell
 	@Override
 	public boolean ableToMove(Direction dir, int depth)
 	{
-		return depth > 0 && field.ableToMove(x + dir.dx, y + dir.dy, dir, depth - 1);
+		return true;
 	}
 
 	@Override
 	public void move(Direction dir, int depth)
 	{
-		System.out.println("reg move" + x + ' ' + y);
-
-		if (ableToMove(dir, depth))
+		if (depth != 1)
 		{
-			field.move(x + dir.dx, y + dir.dy, dir, depth - 1);
+			origin.hit(x - dir.dx, y - dir.dy);
+			explode();
+		}
+		else if (origin.ableToHit(x + dir.dx, y + dir.dy))
+		{
+			origin.hit(x + dir.dx, y + dir.dy);
+			explode();
+		}
+		else
+		{
 			field.replace(x + dir.dx, y + dir.dy, this);
 
 			x += dir.dx;
@@ -47,14 +53,12 @@ public class TankCell extends Cell
 	@Override
 	public void move(int toX, int toY)
 	{
-		x = toX;
-		y = toY;
 	}
 
 	@Override
 	public boolean ableToReplace()
 	{
-		return false;
+		return true;
 	}
 
 	@Override
@@ -66,6 +70,13 @@ public class TankCell extends Cell
 	@Override
 	public void hit()
 	{
-		tank.hit();
+		origin.hit();
+		explode();
+	}
+
+	private void explode()
+	{
+		origin.explode();
+		field.replace(x, y, new GroundCell());
 	}
 }

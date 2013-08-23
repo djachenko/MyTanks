@@ -5,15 +5,12 @@ import ru.nsu.fit.djachenko.mytanks.model.Field;
 
 public abstract class Cell
 {
-	private Field field;
-	private int x;
-	private int y;
-
 	public enum Type
 	{
 		TANK('t'),
 		WALL('x'),
-		GROUND('.');
+		GROUND('.'),
+		BULLET('b');
 
 		public final char representation;
 
@@ -25,48 +22,15 @@ public abstract class Cell
 
 	public final Type type;
 
-	public Cell(Type type, Field field, int x, int y)
+	public Cell(Type type)
 	{
 		this.type = type;
-		this.field = field;
-		this.x = x;
-		this.y = y;
 	}
 
-	public boolean ableToMove(Direction dir)
-	{
-		return field.ableToMove(x + dir.dx, y + dir.dy, dir);
-	}
-
-	public void move(Direction dir)
-	{
-		System.out.println("reg move" + x + ' ' + y);
-
-		if (ableToMove(dir))
-		{
-			field.move(x + dir.dx, y + dir.dy, dir);
-
-			x += dir.getDx();
-			y += dir.getDy();
-			//field.move(x, y, x + dir.dx, y + dir.dy);
-		}
-	}
-
+	public abstract boolean ableToMove(Direction dir, int depth);
+	public abstract void move(Direction dir, int depth);
+	public abstract void move(int toX, int toY);
 	public abstract boolean ableToReplace();
-
-	public void move(int toX, int toY)
-	{
-		x = toX;
-		y = toY;
-	}
-
-	public int getX()
-	{
-		return x;
-	}
-
-	public int getY()
-	{
-		return y;
-	}
+	public abstract boolean ableToHit();
+	public abstract void hit();
 }

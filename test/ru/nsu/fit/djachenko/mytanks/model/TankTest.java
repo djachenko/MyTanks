@@ -30,25 +30,25 @@ public class TankTest
 	{
 		for (int x = 3; x <= 5; x++)
 		{
-			Tank tank = new Tank(level, x, 7 + Math.abs(x - 4), true, Direction.DOWN);
+			Tank tank = new Tank(level, x, 7 + Math.abs(x - 4), Direction.DOWN);
 
 			level.setTank(tank);
 
 			assertTrue("Tank cannot move from (" + tank.getX() + ';' + tank.getY() + ") down.", tank.ableToMove(Direction.DOWN));
 
-			tank = new Tank(level, x, 8 + Math.abs(x - 4), true, Direction.DOWN);
+			tank = new Tank(level, x, 8 + Math.abs(x - 4), Direction.DOWN);
 
 			level.setTank(tank);
 
 			assertFalse("Tank can move from (" + tank.getX() + ';' + tank.getY() + ") down.", tank.ableToMove(Direction.DOWN));
 
-			tank = new Tank(level, x, 13 - Math.abs(x - 4), true, Direction.UP);
+			tank = new Tank(level, x, 13 - Math.abs(x - 4), Direction.UP);
 
 			level.setTank(tank);
 
 			assertTrue("Tank cannot move from (" + tank.getX() + ';' + tank.getY() + ") up.", tank.ableToMove(Direction.UP));
 
-			tank = new Tank(level, x, 12 - Math.abs(x - 4), true, Direction.UP);
+			tank = new Tank(level, x, 12 - Math.abs(x - 4), Direction.UP);
 
 			level.setTank(tank);
 

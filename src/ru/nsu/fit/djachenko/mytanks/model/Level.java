@@ -1,7 +1,6 @@
 package ru.nsu.fit.djachenko.mytanks.model;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -61,8 +60,8 @@ public class Level extends Field
 				int y = Integer.parseInt(tankParams[1]);
 				Direction direction = Direction.valueOf(tankParams[2].toUpperCase());
 
-				tank = new Tank(this, x, y, true, direction);
-				drawTank(tank);
+				tank = new Tank(this, x, y, direction);
+				draw(tank);
 			}
 		}
 		catch (IllegalArgumentException e)
@@ -76,19 +75,43 @@ public class Level extends Field
 		tank.move(direction);
 	}
 
+	public void shoot()
+	{
+		tank.shoot();
+	}
+
 	public void setTank(Tank tank) throws MapFormatException
 	{
 		if (this.tank != null)
 		{
-			eraseTank(this.tank);
+			erase(this.tank);
 		}
 
 		this.tank = tank;
-		drawTank(tank);
+		draw(tank);
 	}
 
 	Tank getTank()
 	{
 		return tank;
+	}
+
+	public void spawnBullet(int x, int y, Direction direction)
+	{
+		Bullet bullet = new Bullet(this, x, y, direction);
+		draw(bullet);
+	}
+
+	public boolean ableToHit(int x, int y)
+	{
+		return x >= 0 && x < width() && y >= 0 && y < height() && at(x, y).ableToHit();
+	}
+
+	public void hit(int x, int y)
+	{
+		if (ableToHit(x, y))
+		{
+			at(x, y).hit();
+		}
 	}
 }

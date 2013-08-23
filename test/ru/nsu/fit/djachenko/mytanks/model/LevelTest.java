@@ -118,7 +118,7 @@ public class LevelTest
         		int tankX = 2;
 				int tankY = 2;
 
-				Tank tank = new Tank(level, tankX, tankY, true, tankDirection);
+				Tank tank = new Tank(level, tankX, tankY, tankDirection);
 
 				try
 				{
@@ -205,7 +205,7 @@ public class LevelTest
 
 		assertNull("Not null tank before initialization", level.getTank());
 
-		Tank tank = new Tank(level, 2, 2, true, Direction.DOWN);
+		Tank tank = new Tank(level, 2, 2, Direction.DOWN);
 
 		try
 		{

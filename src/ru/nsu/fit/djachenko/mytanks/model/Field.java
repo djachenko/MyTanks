@@ -22,7 +22,7 @@ public class Field
 		{
 			for (int x = 0; x < table[y].length; x++)
 			{
-				table[y][x] = new GroundCell(this, x, y);
+				table[y][x] = new GroundCell();
 			}
 		}
 	}
@@ -75,11 +75,11 @@ public class Field
 					{
 						case ' ':
 						case '.':
-							table[j][i] = new GroundCell(this, i, j);
+							table[j][i] = new GroundCell();
 
 							break;
 						case 'x':
-							table[j][i] = new WallCell(this, i, j);
+							table[j][i] = new WallCell(i, j);
 
 							break;
 						default:
@@ -94,7 +94,7 @@ public class Field
 		}
 	}
 
-	public void drawTank(Tank tank) throws MapFormatException
+	public void draw(Tank tank) throws MapFormatException
 	{
 		int x = tank.getX();
 		int y = tank.getY();
@@ -110,11 +110,14 @@ public class Field
 			{
 				if (!((dx == 0 && k == dy && j != 0) || (dy == 0 && k != 0 && j == dx)))
 				{
+					/*if (ableToReplace(x + j, y + k))
+					{
+						replace(x + j, y + k, new TankCell(this, tank, x + j, y + k));
+					}
+					 */
 					if (table[y + k][x + j].type == Cell.Type.GROUND)
 					{
-						table[y + k][x + j] = new TankCell(this, x + j, y + k);
-
-						System.out.print("(" + (x + j) + ";" + (y + k) + ") ");
+						table[y + k][x + j] = new TankCell(this, tank, x + j, y + k);
 					}
 					else
 					{
@@ -127,7 +130,7 @@ public class Field
 		}
 	}
 
-	void eraseTank(Tank tank)
+	void erase(Tank tank)
 	{
 		int x = tank.getX();
 		int y = tank.getY();
@@ -142,10 +145,23 @@ public class Field
 			{
 				if (!((dx == 0 && k == dy && j != 0) || (dy == 0 && k != 0 && j == dx)))
 				{
-					table[y + k][x + j] = new GroundCell(this, x + j, y + k);
+					table[y + k][x + j] = new GroundCell();
 				}
 			}
 		}
+	}
+
+	public void draw(Bullet bullet)
+	{
+		int x = bullet.getX();
+		int y = bullet.getY();
+
+		replace(x, y, new BulletCell(this, bullet, x, y));
+	}
+
+	public void erase(Bullet bullet)
+	{
+		replace(bullet.getX(), bullet.getY(), new GroundCell());
 	}
 
 	public int height()
@@ -167,35 +183,48 @@ public class Field
 
 	public Cell at(int x, int y)
 	{
-		return table[y][x];
-	}
-
-	public boolean ableToMove(int x, int y, Direction dir)
-	{
-		return x >= 0 && x < width() && y >= 0 && y < height() && table[y][x].ableToMove(dir);
-	}
-
-	public void move(int x, int y, Direction dir)
-	{
-		table[ y ][ x ].move(dir);
-
-		if (ableToReplace(x + dir.dx, y + dir.dy))
+		if (x >= 0 && x < width() && y >= 0 && y < height())
 		{
-			table[ y + dir.getDy() ][ x + dir.getDx() ] = table[y][x];
-			table[y][x] = new GroundCell(this, x, y);
+			return table[y][x];
 		}
+		else
+		{
+			return null;//throw
+		}
+	}
+
+	public boolean ableToMove(int x, int y, Direction dir, int depth)
+	{
+		return x >= 0 && x < width() && y >= 0 && y < height() && table[y][x].ableToMove(dir, depth);
+	}
+
+	public void move(int x, int y, Direction dir, int depth)
+	{
+		table[y][x].move(dir, depth);
+		replace(x, y, new GroundCell());
+
+		print();
 	}
 
 	public void move(int fromX, int fromY, int toX, int toY)
 	{
 		table[fromY][fromX].move(toX, toY);
 		table[toY][toX] = table[fromY][fromX];
-		table[fromY][fromX] = new GroundCell(this, fromX, fromY);
+		table[fromY][fromX] = new GroundCell();
 	}
 
 	public boolean ableToReplace(int x, int y)
 	{
 		return x >= 0 && x < width() && y >= 0 && y < height() && table[y][x].ableToReplace();
+	}
+
+	public void replace(int x, int y, Cell cell)
+	{
+		table[y][x] = cell;
+		/*else
+		{
+			throw forbidden()
+		} */
 	}
 
 	public void swap(int x1, int y1, int x2, int y2)

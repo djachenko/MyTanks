@@ -1,28 +1,44 @@
 package ru.nsu.fit.djachenko.mytanks.model.cells;
 
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
-import ru.nsu.fit.djachenko.mytanks.model.Field;
 
 public class GroundCell extends Cell
 {
-	public GroundCell(Field field, int x, int y)
+	public GroundCell()
 	{
-		super(Type.GROUND, field, x, y);
+		super(Type.GROUND);
 	}
 
 	@Override
-	public boolean ableToMove(Direction dir)
+	public boolean ableToMove(Direction dir, int depth)
 	{
 		return true;
 	}
 
 	@Override
-	public void move(Direction dir)
-	{}
+	public void move(Direction dir, int depth)
+	{
+	}
+
+	@Override
+	public void move(int toX, int toY)
+	{
+	}
 
 	@Override
 	public boolean ableToReplace()
 	{
 		return true;
+	}
+
+	@Override
+	public boolean ableToHit()
+	{
+		return false;
+	}
+
+	@Override
+	public void hit()
+	{
 	}
 }
