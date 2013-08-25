@@ -1,4 +1,4 @@
-package ru.nsu.fit.djachenko.mytanks.model;
+package ru.nsu.fit.djachenko.mytanks.model.activities;
 
 public abstract class Task
 {

@@ -1,4 +1,6 @@
-package ru.nsu.fit.djachenko.mytanks.model;
+package ru.nsu.fit.djachenko.mytanks.model.activities;
+
+import ru.nsu.fit.djachenko.mytanks.model.Bullet;
 
 public class MoveBulletTask extends Task
 {

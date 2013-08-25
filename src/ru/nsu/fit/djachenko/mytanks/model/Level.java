@@ -1,5 +1,9 @@
 package ru.nsu.fit.djachenko.mytanks.model;
 
+import ru.nsu.fit.djachenko.mytanks.model.activities.MoveBulletTask;
+import ru.nsu.fit.djachenko.mytanks.model.activities.MoveTankTask;
+import ru.nsu.fit.djachenko.mytanks.model.activities.TaskPerformer;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;

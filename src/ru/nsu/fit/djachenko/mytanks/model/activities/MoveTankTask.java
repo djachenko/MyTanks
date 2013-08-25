@@ -1,4 +1,8 @@
-package ru.nsu.fit.djachenko.mytanks.model;
+package ru.nsu.fit.djachenko.mytanks.model.activities;
+
+import ru.nsu.fit.djachenko.mytanks.model.Direction;
+import ru.nsu.fit.djachenko.mytanks.model.Tank;
+import ru.nsu.fit.djachenko.mytanks.model.UnexpectedSituationException;
 
 public class MoveTankTask extends Task
 {

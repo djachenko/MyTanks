@@ -1,4 +1,6 @@
-package ru.nsu.fit.djachenko.mytanks.model;
+package ru.nsu.fit.djachenko.mytanks.model.activities;
+
+import ru.nsu.fit.djachenko.mytanks.model.Level;
 
 import java.util.Comparator;
 import java.util.PriorityQueue;
@@ -16,7 +18,7 @@ public class TaskPerformer
 		}
 	});
 
-	TaskPerformer(final Level level)
+	public TaskPerformer(final Level level)
 	{
 		new Timer(true).scheduleAtFixedRate(new TimerTask()
 		{
@@ -45,7 +47,7 @@ public class TaskPerformer
 		}, 0, 100);
 	}
 
-	void enqueue(Task task)
+	public void enqueue(Task task)
 	{
 		synchronized (tasks)
 		{
