@@ -2,12 +2,15 @@ package ru.nsu.fit.djachenko.mytanks.model;
 
 public class Bullet
 {
+	public static int PERIOD = (int)(1 * 1000);
+
 	private Level level;
 
 	private int x;
 	private int y;
 
 	public final Direction direction;
+	private boolean active = true;
 
 	Bullet(Level level, int x, int y, Direction direction)
 	{
@@ -32,13 +35,21 @@ public class Bullet
 	public void move()
 	{
 		level.move(x, y, direction, 1);
+
+		x += direction.dx;
+		y += direction.dy;
 	}
 
 	public void hit()
-	{}
+	{
+		explode();
+	}
 
 	public void explode()
-	{}
+	{
+		level.erase(this);
+		active = false;
+	}
 
 	public int getX()
 	{
@@ -48,5 +59,10 @@ public class Bullet
 	public int getY()
 	{
 		return y;
+	}
+
+	public boolean isActive()
+	{
+		return active;
 	}
 }

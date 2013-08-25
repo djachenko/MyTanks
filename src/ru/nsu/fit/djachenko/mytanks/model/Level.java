@@ -7,15 +7,20 @@ import java.io.IOException;
 public class Level extends Field
 {
 	private Tank tank = null;
+	private TaskPerformer performer;
 
 	public Level(int width, int height)
 	{
 		super(width, height);
+
+		performer = new TaskPerformer(this);
 	}
 
 	public Level(String config) throws IOException, MapFormatException
 	{
 		init(config);
+
+		performer = new TaskPerformer(this);
 	}
 
 	public void init(String config) throws IOException, MapFormatException
@@ -72,7 +77,9 @@ public class Level extends Field
 
 	public void moveTank(Direction direction) throws UnexpectedSituationException
 	{
-		tank.move(direction);
+		//tank.move(direction);
+
+		performer.enqueue(new MoveTankTask(tank, direction));
 	}
 
 	public void shoot()
@@ -100,16 +107,18 @@ public class Level extends Field
 	{
 		Bullet bullet = new Bullet(this, x, y, direction);
 		draw(bullet);
+		performer.enqueue(new MoveBulletTask(bullet));
 	}
 
 	public boolean ableToHit(int x, int y)
 	{
-		return x >= 0 && x < width() && y >= 0 && y < height() && at(x, y).ableToHit();
+		return x >= 0 && x < width() && y >= 0 && y < height() && at(x, y).ableToHit() ||
+				x == -1 || x == width() || y == -1 || y == height();
 	}
 
 	public void hit(int x, int y)
 	{
-		if (ableToHit(x, y))
+		if (ableToHit(x, y) && (x != -1 && x != width() && (y != -1 || y != height())))
 		{
 			at(x, y).hit();
 		}

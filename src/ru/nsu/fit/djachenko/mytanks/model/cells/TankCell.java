@@ -32,8 +32,6 @@ public class TankCell extends Cell
 	@Override
 	public void move(Direction dir, int depth)
 	{
-		System.out.println("reg move" + x + ' ' + y);
-
 		if (ableToMove(dir, depth))
 		{
 			field.move(x + dir.dx, y + dir.dy, dir, depth - 1);

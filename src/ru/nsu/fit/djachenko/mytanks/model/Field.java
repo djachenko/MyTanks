@@ -202,8 +202,6 @@ public class Field
 	{
 		table[y][x].move(dir, depth);
 		replace(x, y, new GroundCell());
-
-		print();
 	}
 
 	public void move(int fromX, int fromY, int toX, int toY)
