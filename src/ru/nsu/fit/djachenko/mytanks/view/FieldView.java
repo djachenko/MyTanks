@@ -1,16 +1,17 @@
 package ru.nsu.fit.djachenko.mytanks.view;
 
+import ru.nsu.fit.djachenko.mytanks.model.Field;
 import ru.nsu.fit.djachenko.mytanks.model.Level;
 import ru.nsu.fit.djachenko.mytanks.model.cells.Cell;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class LevelView extends JPanel
+public class FieldView extends JPanel
 {
-	private final Level origin;
+	private final Field origin;
 
-	LevelView(Level origin)
+	FieldView(Field origin)
 	{
 		this.origin = origin;
 
@@ -36,13 +37,10 @@ public class LevelView extends JPanel
 						add(new CellView(CellView.Type.WALL, x, y));
 						break;
 					case GROUND:
-						add(new CellView(CellView.Type.GROUND, x, y));
-						break;
 					case TANK:
-						add(new CellView(CellView.Type.TANK, x, y));
-						break;
 					case BULLET:
 						add(new CellView(CellView.Type.GROUND, x, y));
+						break;
 					default:
 						break;
 				}
@@ -50,5 +48,23 @@ public class LevelView extends JPanel
 		}
 
 		setPreferredSize(new Dimension(width * CellView.GRIDSIZE, height * CellView.GRIDSIZE));
+	}
+
+	public void add(TankView tank)
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+				CellView cell = tank.at(i, j);
+
+				if (cell != null)
+				{
+					System.out.println("add() " + cell.getY());
+					add(cell);
+					setComponentZOrder(cell, 0);
+				}
+			}
+		}
 	}
 }

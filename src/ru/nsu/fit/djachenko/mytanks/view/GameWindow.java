@@ -40,7 +40,10 @@ public class GameWindow extends JFrame
 			e.printStackTrace();
 		}
 
-		add(new LevelView(level));
+		FieldView fieldView = new FieldView(level);
+
+		add(fieldView);
+		fieldView.add(new TankView(level.getTank()));
 
 		pack();
 

@@ -102,7 +102,7 @@ public class Level extends Field
 		draw(tank);
 	}
 
-	Tank getTank()
+	public Tank getTank()
 	{
 		return tank;
 	}
