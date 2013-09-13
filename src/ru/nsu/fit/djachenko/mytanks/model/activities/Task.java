@@ -6,7 +6,6 @@ public abstract class Task
 	{
 		MOVETANK(1),
 		MOVEBULLET(1),
-		SHOOT(0),
 		HIT(0);
 
 		private Type(int priority)

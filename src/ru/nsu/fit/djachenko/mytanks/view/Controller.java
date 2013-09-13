@@ -1,7 +1,7 @@
 package ru.nsu.fit.djachenko.mytanks.view;
 
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
-import ru.nsu.fit.djachenko.mytanks.model.EventManager;
+import ru.nsu.fit.djachenko.mytanks.model.Level;
 import ru.nsu.fit.djachenko.mytanks.model.UnexpectedSituationException;
 
 import java.awt.event.KeyAdapter;
@@ -9,11 +9,11 @@ import java.awt.event.KeyEvent;
 
 public class Controller extends KeyAdapter
 {
-	private EventManager manager;
+	private Level level;
 
-	Controller(EventManager manager)
+	Controller(Level level)
 	{
-		this.manager = manager;
+		this.level = level;
 	}
 
 	@Override
@@ -27,26 +27,26 @@ public class Controller extends KeyAdapter
 			{
 				case KeyEvent.VK_RIGHT:
 				case KeyEvent.VK_D:
-					manager.add(Direction.RIGHT);
+					level.moveTank(Direction.RIGHT);
 					break;
 
 				case KeyEvent.VK_UP:
 				case KeyEvent.VK_W:
-					manager.add(Direction.UP);
+					level.moveTank(Direction.UP);
 					break;
 
 				case KeyEvent.VK_LEFT:
 				case KeyEvent.VK_A:
-					manager.add(Direction.LEFT);
+					level.moveTank(Direction.LEFT);
 					break;
 
 				case KeyEvent.VK_DOWN:
 				case KeyEvent.VK_S:
-					manager.add(Direction.DOWN);
+					level.moveTank(Direction.DOWN);
 					break;
 
 				case KeyEvent.VK_SPACE:
-					manager.shoot();
+					level.shoot();
 					break;
 
 				default:
@@ -58,6 +58,6 @@ public class Controller extends KeyAdapter
 			e1.printStackTrace();
 		}
 
-		//manager.print();
+		//level.print();
 	}
 }

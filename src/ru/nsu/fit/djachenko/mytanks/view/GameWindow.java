@@ -1,6 +1,9 @@
 package ru.nsu.fit.djachenko.mytanks.view;
 
-import ru.nsu.fit.djachenko.mytanks.model.*;
+import ru.nsu.fit.djachenko.mytanks.model.Direction;
+import ru.nsu.fit.djachenko.mytanks.model.Level;
+import ru.nsu.fit.djachenko.mytanks.model.MapFormatException;
+import ru.nsu.fit.djachenko.mytanks.model.Tank;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -9,7 +12,7 @@ import java.io.IOException;
 
 public class GameWindow extends JFrame
 {
-	public GameWindow(EventManager manager)
+	public GameWindow()
 	{
 		new Timer(100, new ActionListener()
 		{
@@ -20,10 +23,10 @@ public class GameWindow extends JFrame
 			}
 		}).start();
 
-		initUI(manager);
+		initUI();
 	}
 
-	public void initUI(EventManager manager)
+	public void initUI()
 	{
 		Level level = null;
 
@@ -48,11 +51,16 @@ public class GameWindow extends JFrame
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-		addKeyListener(new Controller(manager));
+		addKeyListener(new Controller(level));
 
 		setVisible(true);
 	}
 
 	void iteration()
 	{}
+
+	public static void main(String[] args)
+	{
+		new GameWindow();
+	}
 }
