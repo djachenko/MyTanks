@@ -2,23 +2,13 @@ package ru.nsu.fit.djachenko.mytanks.model.activities;
 
 import ru.nsu.fit.djachenko.mytanks.model.Level;
 
-import java.util.Comparator;
-import java.util.PriorityQueue;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class TaskPerformer
 {
-	private final PriorityQueue<Task> tasks = new PriorityQueue<>(1, new Comparator<Task>()
-	{
-		@Override
-		public int compare(Task o1, Task o2)
-		{
-			return o1.type.priority - o2.type.priority;
-		}
-	});
+	private final LinkedList<Task> tasks = new LinkedList<>();
 
-	public TaskPerformer(final Level level)
+	public TaskPerformer()
 	{
 		new Timer(true).scheduleAtFixedRate(new TimerTask()
 		{
@@ -39,8 +29,6 @@ public class TaskPerformer
 						{
 							tasks.add(task);
 						}
-
-						level.print();
 					}
 				}
 			}

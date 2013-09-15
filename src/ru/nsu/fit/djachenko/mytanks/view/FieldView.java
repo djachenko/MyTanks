@@ -2,7 +2,9 @@ package ru.nsu.fit.djachenko.mytanks.view;
 
 import ru.nsu.fit.djachenko.mytanks.model.Field;
 import ru.nsu.fit.djachenko.mytanks.model.Level;
+import ru.nsu.fit.djachenko.mytanks.model.activities.TaskPerformer;
 import ru.nsu.fit.djachenko.mytanks.model.cells.Cell;
+import ru.nsu.fit.djachenko.mytanks.view.activities.UpdateTankViewTask;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,6 +12,7 @@ import java.awt.*;
 public class FieldView extends JPanel
 {
 	private final Field origin;
+	private TaskPerformer performer = new TaskPerformer();
 
 	FieldView(Field origin)
 	{
@@ -34,7 +37,8 @@ public class FieldView extends JPanel
 				switch (originCell.type)
 				{
 					case WALL:
-						add(new CellView(CellView.Type.WALL, x, y));
+						CellView cellView = new CellView(CellView.Type.WALL, x, y);
+						add(cellView);
 						break;
 					case GROUND:
 					case TANK:
@@ -50,21 +54,25 @@ public class FieldView extends JPanel
 		setPreferredSize(new Dimension(width * CellView.GRIDSIZE, height * CellView.GRIDSIZE));
 	}
 
+
 	public void add(TankView tank)
 	{
-		for (int i = 0; i < 3; i++)
+		/*for (int i = 0; i < 7; i++)
 		{
-			for (int j = 0; j < 3; j++)
-			{
-				CellView cell = tank.at(i, j);
+			CellView cell = tank.at(i);
 
-				if (cell != null)
-				{
-					System.out.println("add() " + cell.getY());
-					add(cell);
-					setComponentZOrder(cell, 0);
-				}
+			if (cell != null)
+			{
+				System.out.println("add() " + cell.getY());
+				add(cell);
+				setComponentZOrder(cell, 0);
 			}
-		}
+		}*/
+
+		super.add(tank);
+		setComponentZOrder(tank, 0);
+
+		performer.enqueue(new UpdateTankViewTask(tank));
 	}
+
 }

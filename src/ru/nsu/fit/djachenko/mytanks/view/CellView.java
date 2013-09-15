@@ -1,5 +1,7 @@
 package ru.nsu.fit.djachenko.mytanks.view;
 
+import ru.nsu.fit.djachenko.mytanks.model.Direction;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -27,9 +29,14 @@ public class CellView extends JLabel
 
 	public final Type type;
 
+	private int x;
+	private int y;
+
 	public CellView(Type type, int x, int y)
 	{
 		this.type = type;
+		this.x = x;
+		this.y = y;
 
 		initUI(x, y);
 	}
@@ -40,5 +47,29 @@ public class CellView extends JLabel
 		setBorder(BorderFactory.createLineBorder(type.color.darker(), 1));
 		setBackground(type.color);
 		setOpaque(true);
+	}
+
+	void move(Direction direction)
+	{
+		int dx = direction.dx;
+		int dy = direction.dy;
+
+		for (int i = 0; i < SIZE; i++)
+		{
+			setLocation(getX() + dx, getY() + dy);
+		}
+
+		x += dx;
+		y += dy;
+	}
+
+	public int X()
+	{
+		return x;
+	}
+
+	public int Y()
+	{
+		return y;
 	}
 }

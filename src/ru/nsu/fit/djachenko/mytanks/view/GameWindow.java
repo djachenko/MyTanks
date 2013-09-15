@@ -43,7 +43,9 @@ public class GameWindow extends JFrame
 		FieldView fieldView = new FieldView(level);
 
 		add(fieldView);
-		fieldView.add(new TankView(level.getTank()));
+		TankView tankView = new TankView(level.getTank());
+		fieldView.add(tankView);
+		fieldView.setComponentZOrder(tankView, 0);
 
 		pack();
 

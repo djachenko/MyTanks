@@ -2,6 +2,7 @@ package ru.nsu.fit.djachenko.mytanks.model;
 
 import ru.nsu.fit.djachenko.mytanks.model.activities.MoveBulletTask;
 import ru.nsu.fit.djachenko.mytanks.model.activities.MoveTankTask;
+import ru.nsu.fit.djachenko.mytanks.model.activities.Task;
 import ru.nsu.fit.djachenko.mytanks.model.activities.TaskPerformer;
 
 import java.io.BufferedReader;
@@ -17,14 +18,14 @@ public class Level extends Field
 	{
 		super(width, height);
 
-		performer = new TaskPerformer(this);
+		performer = new TaskPerformer();
 	}
 
 	public Level(String config) throws IOException, MapFormatException
 	{
 		init(config);
 
-		performer = new TaskPerformer(this);
+		performer = new TaskPerformer();
 	}
 
 	public void init(String config) throws IOException, MapFormatException
@@ -81,8 +82,6 @@ public class Level extends Field
 
 	public void moveTank(Direction direction) throws UnexpectedSituationException
 	{
-		//tank.move(direction);
-
 		performer.enqueue(new MoveTankTask(tank, direction));
 	}
 

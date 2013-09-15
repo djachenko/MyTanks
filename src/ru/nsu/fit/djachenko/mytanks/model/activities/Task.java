@@ -2,7 +2,7 @@ package ru.nsu.fit.djachenko.mytanks.model.activities;
 
 public abstract class Task
 {
-	enum Type
+	public enum Type
 	{
 		MOVETANK(1),
 		MOVEBULLET(1),
