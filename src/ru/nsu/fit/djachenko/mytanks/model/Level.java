@@ -1,9 +1,6 @@
 package ru.nsu.fit.djachenko.mytanks.model;
 
-import ru.nsu.fit.djachenko.mytanks.model.activities.MoveBulletTask;
-import ru.nsu.fit.djachenko.mytanks.model.activities.MoveTankTask;
-import ru.nsu.fit.djachenko.mytanks.model.activities.Task;
-import ru.nsu.fit.djachenko.mytanks.model.activities.TaskPerformer;
+import ru.nsu.fit.djachenko.mytanks.model.activities.*;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -80,14 +77,14 @@ public class Level extends Field
 		}
 	}
 
-	public void moveTank(Direction direction) throws UnexpectedSituationException
+	public void moveTank(Direction direction)
 	{
 		performer.enqueue(new MoveTankTask(tank, direction));
 	}
 
 	public void shoot()
 	{
-		tank.shoot();
+		performer.enqueue(new ShootTask(tank));
 	}
 
 	public void setTank(Tank tank) throws MapFormatException
@@ -108,9 +105,12 @@ public class Level extends Field
 
 	public void spawnBullet(int x, int y, Direction direction)
 	{
-		Bullet bullet = new Bullet(this, x, y, direction);
-		draw(bullet);
-		performer.enqueue(new MoveBulletTask(bullet));
+		if (x >= 0 && x < width() && y >= 0 && y < height())
+		{
+			Bullet bullet = new Bullet(this, x, y, direction);
+			draw(bullet);
+			performer.enqueue(new MoveBulletTask(bullet));
+		}
 	}
 
 	public boolean ableToHit(int x, int y)

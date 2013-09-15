@@ -62,14 +62,4 @@ public class CellView extends JLabel
 		x += dx;
 		y += dy;
 	}
-
-	public int X()
-	{
-		return x;
-	}
-
-	public int Y()
-	{
-		return y;
-	}
 }

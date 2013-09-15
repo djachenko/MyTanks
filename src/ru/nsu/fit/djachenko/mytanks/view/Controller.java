@@ -21,41 +21,34 @@ public class Controller extends KeyAdapter
 	{
 		int key = e.getKeyCode();
 
-		try
+		switch (key)
 		{
-			switch (key)
-			{
-				case KeyEvent.VK_RIGHT:
-				case KeyEvent.VK_D:
-					level.moveTank(Direction.RIGHT);
-					break;
+			case KeyEvent.VK_RIGHT:
+			case KeyEvent.VK_D:
+				level.moveTank(Direction.RIGHT);
+				break;
 
-				case KeyEvent.VK_UP:
-				case KeyEvent.VK_W:
-					level.moveTank(Direction.UP);
-					break;
+			case KeyEvent.VK_UP:
+			case KeyEvent.VK_W:
+				level.moveTank(Direction.UP);
+				break;
 
-				case KeyEvent.VK_LEFT:
-				case KeyEvent.VK_A:
-					level.moveTank(Direction.LEFT);
-					break;
+			case KeyEvent.VK_LEFT:
+			case KeyEvent.VK_A:
+				level.moveTank(Direction.LEFT);
+				break;
 
-				case KeyEvent.VK_DOWN:
-				case KeyEvent.VK_S:
-					level.moveTank(Direction.DOWN);
-					break;
+			case KeyEvent.VK_DOWN:
+			case KeyEvent.VK_S:
+				level.moveTank(Direction.DOWN);
+				break;
 
-				case KeyEvent.VK_SPACE:
-					level.shoot();
-					break;
+			case KeyEvent.VK_SPACE:
+				level.shoot();
+				break;
 
-				default:
-					break;
-			}
-		}
-		catch (UnexpectedSituationException e1)
-		{
-			e1.printStackTrace();
+			default:
+				break;
 		}
 
 		//level.print();

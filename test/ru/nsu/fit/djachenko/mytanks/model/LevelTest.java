@@ -150,14 +150,7 @@ public class LevelTest
 					}
 				}
 
-				try
-				{
-					level.moveTank(moveDirection);
-				}
-				catch (UnexpectedSituationException e)
-				{
-					e.printStackTrace();
-				}
+				level.moveTank(moveDirection);
 
 				if (moveDirection == tankDirection)
 				{

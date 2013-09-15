@@ -2,8 +2,6 @@ package ru.nsu.fit.djachenko.mytanks.model;
 
 public class Bullet
 {
-	public static int PERIOD = (int)(1 * 1000);
-
 	private Level level;
 
 	private int x;
@@ -38,6 +36,8 @@ public class Bullet
 
 		x += direction.dx;
 		y += direction.dy;
+
+		level.print();
 	}
 
 	public void hit()
