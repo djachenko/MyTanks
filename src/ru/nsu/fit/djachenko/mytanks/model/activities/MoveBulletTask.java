@@ -2,7 +2,7 @@ package ru.nsu.fit.djachenko.mytanks.model.activities;
 
 import ru.nsu.fit.djachenko.mytanks.model.Bullet;
 
-public class MoveBulletTask extends Task
+public class MoveBulletTask implements Task
 {
 	private Bullet bullet;
 
@@ -10,8 +10,6 @@ public class MoveBulletTask extends Task
 
 	public MoveBulletTask(Bullet bullet)
 	{
-		super(Type.MOVEBULLET);
-
 		this.bullet = bullet;
 	}
 

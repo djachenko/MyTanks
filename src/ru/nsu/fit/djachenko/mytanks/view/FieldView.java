@@ -5,6 +5,7 @@ import ru.nsu.fit.djachenko.mytanks.model.Level;
 import ru.nsu.fit.djachenko.mytanks.model.activities.TaskPerformer;
 import ru.nsu.fit.djachenko.mytanks.model.cells.Cell;
 import ru.nsu.fit.djachenko.mytanks.view.activities.UpdateTankViewTask;
+import ru.nsu.fit.djachenko.mytanks.view.activities.ViewTaskPerformer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +13,7 @@ import java.awt.*;
 public class FieldView extends JPanel
 {
 	private final Field origin;
-	private TaskPerformer performer = new TaskPerformer();
+	private ViewTaskPerformer performer = new ViewTaskPerformer();
 
 	FieldView(Field origin)
 	{
@@ -57,18 +58,6 @@ public class FieldView extends JPanel
 
 	public void add(TankView tank)
 	{
-		/*for (int i = 0; i < 7; i++)
-		{
-			CellView cell = tank.at(i);
-
-			if (cell != null)
-			{
-				System.out.println("add() " + cell.getY());
-				add(cell);
-				setComponentZOrder(cell, 0);
-			}
-		}*/
-
 		super.add(tank);
 		setComponentZOrder(tank, 0);
 

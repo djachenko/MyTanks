@@ -1,7 +1,5 @@
 package ru.nsu.fit.djachenko.mytanks.view.activities;
 
-import ru.nsu.fit.djachenko.mytanks.model.activities.Task;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,7 +7,7 @@ import java.util.LinkedList;
 
 public class ViewTaskPerformer
 {
-	private final LinkedList<Task> tasks = new LinkedList<>();
+	private final LinkedList<ViewTask> tasks = new LinkedList<>();
 	public static final int DELAY = 100;
 
 	public ViewTaskPerformer()
@@ -23,7 +21,7 @@ public class ViewTaskPerformer
 
 				for (; count > 0; count--)
 				{
-					Task task = tasks.remove();
+					ViewTask task = tasks.remove();
 
 					task.execute();
 
@@ -33,10 +31,10 @@ public class ViewTaskPerformer
 					}
 				}
 			}
-		});
+		}).start();
 	}
 
-	public void enqueue(Task task)
+	public void enqueue(ViewTask task)
 	{
 		synchronized (tasks)
 		{

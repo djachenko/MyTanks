@@ -4,15 +4,13 @@ import ru.nsu.fit.djachenko.mytanks.model.Direction;
 import ru.nsu.fit.djachenko.mytanks.model.Tank;
 import ru.nsu.fit.djachenko.mytanks.model.UnexpectedSituationException;
 
-public class MoveTankTask extends Task
+public class MoveTankTask implements Task
 {
 	private final Tank tank;
 	private final Direction direction;
 
 	public MoveTankTask(Tank tank, Direction direction)
 	{
-		super(Type.MOVETANK);
-
 		this.tank = tank;
 		this.direction = direction;
 	}
