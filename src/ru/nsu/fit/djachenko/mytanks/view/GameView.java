@@ -4,9 +4,9 @@ import ru.nsu.fit.djachenko.mytanks.model.Level;
 
 import javax.swing.*;
 
-public class GameWindow extends JFrame
+public class GameView extends JFrame
 {
-	public GameWindow(Level level)
+	public GameView(Level level)
 	{
 		initUI(level);
 	}
