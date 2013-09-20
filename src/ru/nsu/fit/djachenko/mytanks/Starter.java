@@ -4,7 +4,7 @@ import ru.nsu.fit.djachenko.mytanks.model.Direction;
 import ru.nsu.fit.djachenko.mytanks.model.Level;
 import ru.nsu.fit.djachenko.mytanks.model.MapFormatException;
 import ru.nsu.fit.djachenko.mytanks.model.Tank;
-import ru.nsu.fit.djachenko.mytanks.view.GameWindow;
+import ru.nsu.fit.djachenko.mytanks.view.GameView;
 
 import java.io.IOException;
 
@@ -24,6 +24,6 @@ public class Starter
 			e.printStackTrace();
 		}
 
-		new GameWindow(level).setVisible(true);
+		new GameView(level).setVisible(true);
 	}
 }

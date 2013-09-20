@@ -28,4 +28,9 @@ public class GameView extends JFrame
 
 		addKeyListener(new Controller(level));
 	}
+
+	void iteration()
+	{
+
+	}
 }
