@@ -1,19 +1,27 @@
 package ru.nsu.fit.djachenko.mytanks.view;
 
+import ru.nsu.fit.djachenko.mytanks.MessageManager;
+import ru.nsu.fit.djachenko.mytanks.MoveMessage;
+import ru.nsu.fit.djachenko.mytanks.ShootMessage;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
-import ru.nsu.fit.djachenko.mytanks.model.Level;
-import ru.nsu.fit.djachenko.mytanks.model.UnexpectedSituationException;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class Controller extends KeyAdapter
 {
-	private Level level;
+	private MessageManager.AccessPoint accessPoint = new MessageManager().getAccessPoint();
 
-	Controller(Level level)
+	Controller(MessageManager messageManager)
 	{
-		this.level = level;
+		if (messageManager != null)
+		{
+			this.accessPoint = messageManager.getAccessPoint();
+		}
+		else
+		{
+			throw new NullPointerException();
+		}
 	}
 
 	@Override
@@ -25,32 +33,30 @@ public class Controller extends KeyAdapter
 		{
 			case KeyEvent.VK_RIGHT:
 			case KeyEvent.VK_D:
-				level.moveTank(Direction.RIGHT);
+				accessPoint.set(new MoveMessage(Direction.RIGHT));
 				break;
 
 			case KeyEvent.VK_UP:
 			case KeyEvent.VK_W:
-				level.moveTank(Direction.UP);
+				accessPoint.set(new MoveMessage(Direction.UP));
 				break;
 
 			case KeyEvent.VK_LEFT:
 			case KeyEvent.VK_A:
-				level.moveTank(Direction.LEFT);
+				accessPoint.set(new MoveMessage(Direction.LEFT));
 				break;
 
 			case KeyEvent.VK_DOWN:
 			case KeyEvent.VK_S:
-				level.moveTank(Direction.DOWN);
+				accessPoint.set(new MoveMessage(Direction.DOWN));
 				break;
 
 			case KeyEvent.VK_SPACE:
-				level.shoot();
+				accessPoint.set(new ShootMessage());
 				break;
 
 			default:
 				break;
 		}
-
-		//level.print();
 	}
 }

@@ -1,18 +1,22 @@
 package ru.nsu.fit.djachenko.mytanks.view;
 
+import ru.nsu.fit.djachenko.mytanks.MessageManager;
+import ru.nsu.fit.djachenko.mytanks.model.Game;
 import ru.nsu.fit.djachenko.mytanks.model.Level;
 
 import javax.swing.*;
 
 public class GameView extends JFrame
 {
-	public GameView(Level level)
+	public GameView(Game game, MessageManager messageManager)
 	{
-		initUI(level);
+		initUI(game, messageManager);
 	}
 
-	public void initUI(Level level)
+	public void initUI(Game game, MessageManager messageManager)
 	{
+		Level level = game.getCurrentLevel();
+
 		FieldView fieldView = new FieldView(level);
 
 		add(fieldView);
@@ -26,11 +30,6 @@ public class GameView extends JFrame
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-		addKeyListener(new Controller(level));
-	}
-
-	void iteration()
-	{
-
+		addKeyListener(new Controller(messageManager));
 	}
 }
