@@ -1,4 +1,4 @@
-package ru.nsu.fit.djachenko.mytanks.model;
+/*package ru.nsu.fit.djachenko.mytanks.model;
 
 import org.junit.Test;
 import ru.nsu.fit.djachenko.mytanks.model.cells.Cell;
@@ -279,7 +279,7 @@ public class FieldTest
 
 				assertNotNull("Null result at (" + y + ';' + x + ") ", result);
 				/*assertEquals("Wrong cell x at (" + x + ';' + y + ").", x, result.getX());
-				assertEquals("Wrong cell y at (" + x + ';' + y + ").", y, result.getY());*///signature change
+				assertEquals("Wrong cell y at (" + x + ';' + y + ").", y, result.getY());//signature change
 			}
 		}
 	}
@@ -350,23 +350,4 @@ public class FieldTest
 		assertEquals("New cell is not ground.", Cell.Type.GROUND, field.at(0, 0).type);
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+*/

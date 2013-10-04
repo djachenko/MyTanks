@@ -1,7 +1,5 @@
 package ru.nsu.fit.djachenko.mytanks.model.activities;
 
-import ru.nsu.fit.djachenko.mytanks.model.Level;
-
 import java.util.*;
 
 public class TaskPerformer
@@ -12,6 +10,8 @@ public class TaskPerformer
 	{
 		new Timer(true).scheduleAtFixedRate(new TimerTask()
 		{
+			int iteration = 0;
+
 			@Override
 			public void run()
 			{
@@ -23,13 +23,15 @@ public class TaskPerformer
 					{
 						Task task = tasks.remove();
 
-						task.execute();
+						task.execute(iteration);
 
 						if (task.hasToBeRepeated())
 						{
 							tasks.add(task);
 						}
 					}
+
+					iteration++;
 				}
 			}
 		}, 0, 100);

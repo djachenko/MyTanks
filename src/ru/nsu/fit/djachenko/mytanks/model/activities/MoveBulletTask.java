@@ -6,7 +6,7 @@ public class MoveBulletTask implements Task
 {
 	private Bullet bullet;
 
-	private int count = 0;
+	public final static int SCIPCOUNT = 10;
 
 	public MoveBulletTask(Bullet bullet)
 	{
@@ -14,16 +14,11 @@ public class MoveBulletTask implements Task
 	}
 
 	@Override
-	public void execute()
+	public void execute(int iteration)
 	{
-		if (count == 10)
+		if (iteration % SCIPCOUNT == 0)
 		{
 			bullet.move();
-			count = 0;
-		}
-		else
-		{
-			count++;
 		}
 	}
 

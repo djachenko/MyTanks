@@ -12,7 +12,7 @@ public class ShootTask implements Task
 	}
 
 	@Override
-	public void execute()
+	public void execute(int iteration)
 	{
 		tank.shoot();
 	}
