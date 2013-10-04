@@ -103,7 +103,6 @@ public class Tank
 
 	public void flip()
 	{
-		System.out.println("flip");
 		if (ableToFlip())
 		{
 			level.move(x + currentDirection.getDx(), y + currentDirection.getDy(), x - 2 * currentDirection.getDx(), y - 2 * currentDirection.getDy());
@@ -143,9 +142,17 @@ public class Tank
 		}
 	}
 
+	public boolean ableToShoot()
+	{
+		return level.ableToSpawnBullet(x + 2 * currentDirection.dx, y + 2 * currentDirection.dy);
+	}
+
 	public void shoot()
 	{
-		level.spawnBullet(x + 2 * currentDirection.dx, y + 2 * currentDirection.dy, currentDirection);
+		if (ableToShoot())
+		{
+			level.spawnBullet(x + 2 * currentDirection.dx, y + 2 * currentDirection.dy, currentDirection);
+		}
 	}
 
 	public void hit()

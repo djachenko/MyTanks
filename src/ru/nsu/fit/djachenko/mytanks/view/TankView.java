@@ -53,11 +53,7 @@ public class TankView extends JLabel
 		}
 
 		setBounds(CellView.GRIDSIZE * (x - 1), CellView.GRIDSIZE * (y - 1), CellView.GRIDSIZE * 3, CellView.GRIDSIZE * 3);
-		setBorder(BorderFactory.createLineBorder(Color.BLUE, 3));
 		setLocation((x - 1) * CellView.GRIDSIZE, (y - 1) * CellView.GRIDSIZE);
-		System.out.println("loc: " + getX() + " " + getY());
-
-		System.out.println("tankview: " + getComponentCount());
 	}
 
 	CellView at(int index)

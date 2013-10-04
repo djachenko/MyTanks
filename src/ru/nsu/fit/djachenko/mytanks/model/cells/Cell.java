@@ -33,4 +33,5 @@ public abstract class Cell
 	public abstract boolean ableToReplace();
 	public abstract boolean ableToHit();
 	public abstract void hit();
+	public abstract boolean hasToBeWaited();
 }

@@ -66,4 +66,10 @@ public class TankCell extends Cell
 	{
 		tank.hit();
 	}
+
+	@Override
+	public boolean hasToBeWaited()
+	{
+		return false;
+	}
 }

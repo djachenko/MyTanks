@@ -42,4 +42,10 @@ public class WallCell extends Cell
 	public void hit()
 	{
 	}
+
+	@Override
+	public boolean hasToBeWaited()
+	{
+		return false;
+	}
 }

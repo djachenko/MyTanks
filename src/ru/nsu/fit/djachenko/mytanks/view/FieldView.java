@@ -3,7 +3,9 @@ package ru.nsu.fit.djachenko.mytanks.view;
 import ru.nsu.fit.djachenko.mytanks.model.Field;
 import ru.nsu.fit.djachenko.mytanks.model.Level;
 import ru.nsu.fit.djachenko.mytanks.model.activities.TaskPerformer;
+import ru.nsu.fit.djachenko.mytanks.model.cells.BulletCell;
 import ru.nsu.fit.djachenko.mytanks.model.cells.Cell;
+import ru.nsu.fit.djachenko.mytanks.view.activities.UpdateBulletViewTask;
 import ru.nsu.fit.djachenko.mytanks.view.activities.UpdateTankViewTask;
 import ru.nsu.fit.djachenko.mytanks.view.activities.ViewTaskPerformer;
 
@@ -13,11 +15,12 @@ import java.awt.*;
 public class FieldView extends JPanel
 {
 	private final Field origin;
-	private ViewTaskPerformer performer = new ViewTaskPerformer();
+	private ViewTaskPerformer performer;
 
-	FieldView(Field origin)
+	FieldView(Field origin, ViewTaskPerformer performer)
 	{
 		this.origin = origin;
+		this.performer = performer;
 
 		initUI();
 	}
@@ -55,7 +58,6 @@ public class FieldView extends JPanel
 		setPreferredSize(new Dimension(width * CellView.GRIDSIZE, height * CellView.GRIDSIZE));
 	}
 
-
 	public void add(TankView tank)
 	{
 		super.add(tank);
@@ -64,4 +66,14 @@ public class FieldView extends JPanel
 		performer.enqueue(new UpdateTankViewTask(tank));
 	}
 
+	public void add(BulletView bullet)
+	{
+		super.add(bullet);
+		setComponentZOrder(bullet, 0);
+		repaint();
+
+		Point point = bullet.getLocation();
+
+		performer.enqueue(new UpdateBulletViewTask(bullet, this));
+	}
 }

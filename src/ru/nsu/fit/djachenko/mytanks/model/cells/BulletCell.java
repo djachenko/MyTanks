@@ -74,6 +74,12 @@ public class BulletCell extends Cell
 		explode();
 	}
 
+	@Override
+	public boolean hasToBeWaited()
+	{
+		return true;
+	}
+
 	private void explode()
 	{
 		origin.explode();

@@ -41,4 +41,10 @@ public class GroundCell extends Cell
 	public void hit()
 	{
 	}
+
+	@Override
+	public boolean hasToBeWaited()
+	{
+		return false;
+	}
 }
