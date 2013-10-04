@@ -3,11 +3,11 @@ package ru.nsu.fit.djachenko.mytanks.communication;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
 import ru.nsu.fit.djachenko.mytanks.model.Game;
 
-public class MoveMessage implements MessageToModel
+public class MoveTankMessage implements MessageToModel
 {
 	private final Direction direction;
 
-	public MoveMessage(Direction direction)
+	public MoveTankMessage(Direction direction)
 	{
 		this.direction = direction;
 	}
