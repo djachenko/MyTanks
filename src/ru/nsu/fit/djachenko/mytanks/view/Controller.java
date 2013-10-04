@@ -31,22 +31,22 @@ public class Controller extends KeyAdapter
 		{
 			case KeyEvent.VK_RIGHT:
 			case KeyEvent.VK_D:
-				setPoint.set(new MoveMessage(Direction.RIGHT));
+				setPoint.set(new MoveTankMessage(Direction.RIGHT));
 				break;
 
 			case KeyEvent.VK_UP:
 			case KeyEvent.VK_W:
-				setPoint.set(new MoveMessage(Direction.UP));
+				setPoint.set(new MoveTankMessage(Direction.UP));
 				break;
 
 			case KeyEvent.VK_LEFT:
 			case KeyEvent.VK_A:
-				setPoint.set(new MoveMessage(Direction.LEFT));
+				setPoint.set(new MoveTankMessage(Direction.LEFT));
 				break;
 
 			case KeyEvent.VK_DOWN:
 			case KeyEvent.VK_S:
-				setPoint.set(new MoveMessage(Direction.DOWN));
+				setPoint.set(new MoveTankMessage(Direction.DOWN));
 				break;
 
 			case KeyEvent.VK_SPACE:
