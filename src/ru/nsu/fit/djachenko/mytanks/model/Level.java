@@ -10,6 +10,7 @@ public class Level extends Field
 {
 	private Tank tank = null;
 	private TaskPerformer performer;
+	private Game game;
 
 	public Level(int width, int height)
 	{
@@ -20,9 +21,16 @@ public class Level extends Field
 
 	public Level(String config) throws IOException, MapFormatException
 	{
+		this(config, null);
+	}
+
+	public Level(String config, Game game) throws IOException, MapFormatException
+	{
 		init(config);
 
 		performer = new TaskPerformer();
+
+		this.game = game;
 	}
 
 	public void init(String config) throws IOException, MapFormatException
@@ -103,6 +111,11 @@ public class Level extends Field
 		return tank;
 	}
 
+	public boolean ableToSpawnBullet(int x, int y)
+	{
+		return !at(x, y).hasToBeWaited();
+	}
+
 	public void spawnBullet(int x, int y, Direction direction)
 	{
 		if (x >= 0 && x < width() && y >= 0 && y < height())
@@ -110,6 +123,7 @@ public class Level extends Field
 			Bullet bullet = new Bullet(this, x, y, direction);
 			draw(bullet);
 			performer.enqueue(new MoveBulletTask(bullet));
+			game.spawnBullet(bullet);
 		}
 	}
 
