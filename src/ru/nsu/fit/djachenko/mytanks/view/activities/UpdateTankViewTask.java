@@ -12,7 +12,7 @@ public class UpdateTankViewTask implements ViewTask
 	}
 
 	@Override
-	public void execute()
+	public void execute(int iteration)
 	{
 		tankView.iteration();
 	}
