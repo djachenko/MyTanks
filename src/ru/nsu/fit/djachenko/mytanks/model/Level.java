@@ -112,6 +112,7 @@ public class Level extends Field
 	{
 		tanks.add(tank);
 		draw(tank);
+		game.addTank(tank);
 	}
 
 	public Tank getTank(int i)
@@ -129,14 +130,14 @@ public class Level extends Field
 		return !at(x, y).hasToBeWaited();
 	}
 
-	public void spawnBullet(int x, int y, Direction direction)
+	public void addBullet(int x, int y, Direction direction)
 	{
 		if (x >= 0 && x < width() && y >= 0 && y < height())
 		{
 			Bullet bullet = new Bullet(this, x, y, direction);
 			draw(bullet);
 			performer.enqueue(new MoveBulletTask(bullet));
-			game.spawnBullet(bullet);
+			game.addBullet(bullet);
 		}
 	}
 

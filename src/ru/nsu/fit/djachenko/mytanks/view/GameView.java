@@ -19,7 +19,7 @@ public class GameView extends JFrame
 	{
 		initUI(game, thereChannel);
 
-		performer.enqueue(new HandleMessageTask(hereChannel.getGetPoint(), this));
+		performer.enqueue(new HandleMessageTask(hereChannel, this));
 	}
 
 	public void initUI(Game game, MessageChannel<MessageToModel> thereChannel)
@@ -29,9 +29,6 @@ public class GameView extends JFrame
 		fieldView = new FieldView(level, performer);
 
 		add(fieldView);
-		TankView tankView = new TankView(level.getActiveTank());
-		fieldView.add(tankView);
-		fieldView.setComponentZOrder(tankView, 0);
 
 		pack();
 

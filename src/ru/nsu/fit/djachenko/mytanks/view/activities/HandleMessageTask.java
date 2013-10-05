@@ -6,19 +6,19 @@ import ru.nsu.fit.djachenko.mytanks.view.GameView;
 
 public class HandleMessageTask implements ViewTask
 {
-	private final MessageChannel<MessageToView>.GetPoint getPoint;
+	private final MessageChannel<MessageToView> channel;
 	private final GameView gameView;
 
-	public HandleMessageTask(MessageChannel<MessageToView>.GetPoint getPoint, GameView gameView)
+	public HandleMessageTask(MessageChannel<MessageToView> channel, GameView gameView)
 	{
-		this.getPoint = getPoint;
+		this.channel = channel;
 		this.gameView = gameView;
 	}
 
 	@Override
 	public void execute(int iteration)
 	{
-		MessageToView message = getPoint.tryGet();
+		MessageToView message = channel.tryGet();
 
 		if (message != null)
 		{

@@ -5,77 +5,40 @@ import java.util.Queue;
 
 public class MessageChannel<T extends Message>
 {
-	public class GetPoint
+	private final Queue<T> queue = new LinkedList<>();
+
+	public synchronized T get()
 	{
-		private Queue<T> queue = new LinkedList<>();
-
-		public synchronized T get()
+		while (queue.isEmpty())
 		{
-			while (queue.isEmpty())
+			try
 			{
-				try
-				{
-					wait();
-				}
-				catch (InterruptedException e)
-				{
-					e.printStackTrace();
-				}
+				wait();
 			}
+			catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
+		}
 
+		return queue.remove();
+	}
+
+	public synchronized T tryGet()
+	{
+		if (!queue.isEmpty())
+		{
 			return queue.remove();
 		}
-
-		public synchronized T tryGet()
+		else
 		{
-			if (!queue.isEmpty())
-			{
-				return queue.remove();
-			}
-			else
-			{
-				return null;
-			}
-		}
-
-		synchronized void add(T message)
-		{
-			queue.add(message);
-
-			notifyAll();
+			return null;
 		}
 	}
 
-	public class SetPoint
+	public synchronized void set(T message)
 	{
-		public void set(T message)
-		{
-			synchronized (queue)
-			{
-				for (GetPoint point : queue)
-				{
-					point.add(message);
-				}
-			}
-		}
-	}
-
-	private final Queue<GetPoint> queue = new LinkedList<>();
-
-	public GetPoint getGetPoint()
-	{
-		GetPoint getPoint = new GetPoint();
-
-		synchronized (queue)
-		{
-			queue.add(getPoint);
-		}
-
-		return getPoint;
-	}
-
-	public SetPoint getSetPoint()
-	{
-		return new SetPoint();
+		queue.add(message);
+		notify();
 	}
 }

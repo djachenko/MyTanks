@@ -16,7 +16,7 @@ public class TankView extends JLabel
 	private int y;
 	private Direction direction;
 
-	TankView(Tank origin)
+	public TankView(Tank origin)
 	{
 		this.origin = origin;
 

@@ -1,19 +1,23 @@
 package ru.nsu.fit.djachenko.mytanks.model;
 
-import ru.nsu.fit.djachenko.mytanks.communication.DrawBulletMessage;
-import ru.nsu.fit.djachenko.mytanks.communication.MessageChannel;
-import ru.nsu.fit.djachenko.mytanks.communication.MessageToModel;
-import ru.nsu.fit.djachenko.mytanks.communication.MessageToView;
+import ru.nsu.fit.djachenko.mytanks.communication.*;
 
 import java.io.IOException;
 
 public class Game extends Thread
 {
-	private MessageChannel<MessageToModel>.GetPoint getPoint = null;
-	private MessageChannel<MessageToView>.SetPoint setPoint = null;
+	private MessageChannel<MessageToModel> hereChannel = null;
+	private MessageChannel<MessageToView> thereChannel = null;
 	private Level currentLevel = null;
 
 	public Game(MessageChannel<MessageToModel> hereChannel, MessageChannel<MessageToView> thereChannel)
+	{
+		this.hereChannel = hereChannel;
+		this.thereChannel = thereChannel;
+	}
+
+	@Override
+	public void run()
 	{
 		try
 		{
@@ -28,16 +32,9 @@ public class Game extends Thread
 			e.printStackTrace();
 		}
 
-		getPoint = hereChannel.getGetPoint();
-		setPoint = thereChannel.getSetPoint();
-	}
-
-	@Override
-	public void run()
-	{
 		while (true)
 		{
-			MessageToModel message = getPoint.get();
+			MessageToModel message = hereChannel.get();
 
 			message.handle(this);
 		}
@@ -76,8 +73,13 @@ public class Game extends Thread
 		}*/
 	}
 
-	public void spawnBullet(Bullet bullet)
+	public void addBullet(Bullet bullet)
 	{
-		setPoint.set(new DrawBulletMessage(bullet));
+		thereChannel.set(new DrawBulletMessage(bullet));
+	}
+
+	public void addTank(Tank tank)
+	{
+		thereChannel.set(new DrawTankMessage(tank));
 	}
 }

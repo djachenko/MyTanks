@@ -151,7 +151,7 @@ public class Tank
 	{
 		if (ableToShoot())
 		{
-			level.spawnBullet(x + 2 * currentDirection.dx, y + 2 * currentDirection.dy, currentDirection);
+			level.addBullet(x + 2 * currentDirection.dx, y + 2 * currentDirection.dy, currentDirection);
 		}
 	}
 

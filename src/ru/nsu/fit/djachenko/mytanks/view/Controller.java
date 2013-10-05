@@ -8,13 +8,13 @@ import java.awt.event.KeyEvent;
 
 public class Controller extends KeyAdapter
 {
-	private MessageChannel<MessageToModel>.SetPoint setPoint;
+	private MessageChannel<MessageToModel> channelToModel;
 
 	Controller(MessageChannel<MessageToModel> messageChannel)
 	{
 		if (messageChannel != null)
 		{
-			this.setPoint = messageChannel.getSetPoint();
+			this.channelToModel = messageChannel;
 		}
 		else
 		{
@@ -26,31 +26,32 @@ public class Controller extends KeyAdapter
 	public void keyPressed(KeyEvent e)
 	{
 		int key = e.getKeyCode();
+		System.out.println("key " + key);
 
 		switch (key)
 		{
 			case KeyEvent.VK_RIGHT:
 			case KeyEvent.VK_D:
-				setPoint.set(new MoveTankMessage(Direction.RIGHT));
+				channelToModel.set(new MoveTankMessage(Direction.RIGHT));
 				break;
 
 			case KeyEvent.VK_UP:
 			case KeyEvent.VK_W:
-				setPoint.set(new MoveTankMessage(Direction.UP));
+				channelToModel.set(new MoveTankMessage(Direction.UP));
 				break;
 
 			case KeyEvent.VK_LEFT:
 			case KeyEvent.VK_A:
-				setPoint.set(new MoveTankMessage(Direction.LEFT));
+				channelToModel.set(new MoveTankMessage(Direction.LEFT));
 				break;
 
 			case KeyEvent.VK_DOWN:
 			case KeyEvent.VK_S:
-				setPoint.set(new MoveTankMessage(Direction.DOWN));
+				channelToModel.set(new MoveTankMessage(Direction.DOWN));
 				break;
 
 			case KeyEvent.VK_SPACE:
-				setPoint.set(new ShootMessage());
+				channelToModel.set(new ShootMessage());
 				break;
 
 			default:

@@ -62,6 +62,7 @@ public class FieldView extends JPanel
 	{
 		super.add(tank);
 		setComponentZOrder(tank, 0);
+		repaint();
 
 		performer.enqueue(new UpdateTankViewTask(tank));
 	}
@@ -71,8 +72,6 @@ public class FieldView extends JPanel
 		super.add(bullet);
 		setComponentZOrder(bullet, 0);
 		repaint();
-
-		Point point = bullet.getLocation();
 
 		performer.enqueue(new UpdateBulletViewTask(bullet, this));
 	}
