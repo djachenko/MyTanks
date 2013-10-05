@@ -33,12 +33,12 @@ public class BulletCell extends Cell
 	{
 		if (depth != 1)
 		{
-			origin.hit(x - dir.dx, y - dir.dy);
+			origin.hit(- dir.dx, - dir.dy);//REFACTOR
 			explode();
 		}
 		else if (origin.ableToHit(x + dir.dx, y + dir.dy))
 		{
-			origin.hit(x + dir.dx, y + dir.dy);
+			origin.hit(dir.dx, dir.dy);//REFACTOR
 			explode();
 		}
 		else

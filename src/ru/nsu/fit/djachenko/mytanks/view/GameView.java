@@ -29,7 +29,7 @@ public class GameView extends JFrame
 		fieldView = new FieldView(level, performer);
 
 		add(fieldView);
-		TankView tankView = new TankView(level.getTank());
+		TankView tankView = new TankView(level.getActiveTank());
 		fieldView.add(tankView);
 		fieldView.setComponentZOrder(tankView, 0);
 

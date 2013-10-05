@@ -5,12 +5,15 @@ import ru.nsu.fit.djachenko.mytanks.model.activities.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Level extends Field
 {
-	private Tank tank = null;
+	private Tank activeTank = null;
 	private TaskPerformer performer;
 	private Game game;
+	private List<Tank> tanks = new LinkedList<>();
 
 	public Level(int width, int height)
 	{
@@ -75,8 +78,8 @@ public class Level extends Field
 				int y = Integer.parseInt(tankParams[1]);
 				Direction direction = Direction.valueOf(tankParams[2].toUpperCase());
 
-				tank = new Tank(this, x, y, direction);
-				draw(tank);
+				activeTank = new Tank(this, x, y, direction);
+				draw(activeTank);
 			}
 		}
 		catch (IllegalArgumentException e)
@@ -87,28 +90,38 @@ public class Level extends Field
 
 	public void moveTank(Direction direction)
 	{
-		performer.enqueue(new MoveTankTask(tank, direction));
+		performer.enqueue(new MoveTankTask(activeTank, direction));
 	}
 
 	public void shoot()
 	{
-		performer.enqueue(new ShootTask(tank));
+		performer.enqueue(new ShootTask(activeTank));
 	}
 
-	public void setTank(Tank tank) throws MapFormatException
+	public void setActiveTank(int index) throws MapFormatException
 	{
-		if (this.tank != null)
-		{
-			erase(this.tank);
-		}
+		setActiveTank(tanks.get(index));
+	}
 
-		this.tank = tank;
+	public void setActiveTank(Tank tank) throws MapFormatException
+	{
+		this.activeTank = tank;
+	}
+
+	public void addTank(Tank tank) throws MapFormatException
+	{
+		tanks.add(tank);
 		draw(tank);
 	}
 
-	public Tank getTank()
+	public Tank getTank(int i)
 	{
-		return tank;
+		return tanks.get(i);
+	}
+
+	public Tank getActiveTank()
+	{
+		return activeTank;
 	}
 
 	public boolean ableToSpawnBullet(int x, int y)

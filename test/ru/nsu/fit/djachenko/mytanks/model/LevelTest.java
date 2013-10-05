@@ -122,7 +122,7 @@ public class LevelTest
 
 				try
 				{
-					level.setTank(tank);
+					level.setActiveTank(tank);
 				}
 				catch (MapFormatException e)
 				{
@@ -196,19 +196,19 @@ public class LevelTest
 	{
 		Level level = new Level(5, 5);
 
-		assertNull("Not null tank before initialization", level.getTank());
+		assertNull("Not null tank before initialization", level.getActiveTank());
 
 		Tank tank = new Tank(level, 2, 2, Direction.DOWN);
 
 		try
 		{
-			level.setTank(tank);
+			level.setActiveTank(tank);
 		}
 		catch (MapFormatException e)
 		{
 			e.printStackTrace();
 		}
 
-		assertNotNull("Null tank after initialization", level.getTank());
+		assertNotNull("Null tank after initialization", level.getActiveTank());
 	}
 }
