@@ -26,7 +26,6 @@ public class Controller extends KeyAdapter
 	public void keyPressed(KeyEvent e)
 	{
 		int key = e.getKeyCode();
-		System.out.println("key " + key);
 
 		switch (key)
 		{

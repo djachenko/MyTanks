@@ -2,8 +2,6 @@ package ru.nsu.fit.djachenko.mytanks.view;
 
 import ru.nsu.fit.djachenko.mytanks.model.Field;
 import ru.nsu.fit.djachenko.mytanks.model.Level;
-import ru.nsu.fit.djachenko.mytanks.model.activities.TaskPerformer;
-import ru.nsu.fit.djachenko.mytanks.model.cells.BulletCell;
 import ru.nsu.fit.djachenko.mytanks.model.cells.Cell;
 import ru.nsu.fit.djachenko.mytanks.view.activities.UpdateBulletViewTask;
 import ru.nsu.fit.djachenko.mytanks.view.activities.UpdateTankViewTask;
@@ -14,18 +12,16 @@ import java.awt.*;
 
 public class FieldView extends JPanel
 {
-	private final Field origin;
 	private ViewTaskPerformer performer;
 
 	FieldView(Field origin, ViewTaskPerformer performer)
 	{
-		this.origin = origin;
 		this.performer = performer;
 
-		initUI();
+		initUI(origin);
 	}
 
-	private void initUI()
+	private void initUI(Field origin)
 	{
 		setLayout(null);
 
@@ -64,7 +60,7 @@ public class FieldView extends JPanel
 		setComponentZOrder(tank, 0);
 		repaint();
 
-		performer.enqueue(new UpdateTankViewTask(tank));
+		performer.enqueue(new UpdateTankViewTask(this, tank));
 	}
 
 	public void add(BulletView bullet)

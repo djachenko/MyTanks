@@ -25,7 +25,7 @@ public class Game extends Thread
 			Tank first = new Tank(currentLevel, 4, 13, Direction.UP);
 			currentLevel.addTank(first);
 			currentLevel.setActiveTank(0);
-			currentLevel.addTank(new Tank(currentLevel, 10, 13, Direction.UP));
+			currentLevel.addTank(new Tank(currentLevel, 20, 13, Direction.UP));
 		}
 		catch (IOException | MapFormatException e)
 		{

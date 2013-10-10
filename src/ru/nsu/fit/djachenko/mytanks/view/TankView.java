@@ -81,55 +81,63 @@ public class TankView extends JLabel
 
 	public void iteration()
 	{
-		if (direction != origin.getDirection())
+		if(origin.isAlive())
 		{
-			Direction originDirection = origin.getDirection();
-			int dx = originDirection.dx;
-			int dy = originDirection.dy;
-
-			if (direction == originDirection.opposite())
+			if (direction != origin.getDirection())
 			{
-				tank[1 + dx][1 + dy].move(direction);
-				tank[1 - dx][1 - dy].move(direction);
-				tank[1 + dy - dx][1 + dx - dy].move(direction);
-				tank[1 + dy + dx][1 + dx + dy].move(direction);
+				Direction originDirection = origin.getDirection();
+				int dx = originDirection.dx;
+				int dy = originDirection.dy;
 
-				tank[1 + direction.dy - dx][1 + direction.dx - dy] = tank[1 - dx][1 - dy];
-				tank[1 + direction.dy + dx][1 + direction.dx + dy] = tank[1 + dx][1 + dy];
-				tank[1 - dx][1 - dy] = tank[1 - direction.dy - dx][1 - direction.dx - dy];
-				tank[1 + dx][1 + dy] = tank[1 - direction.dy + dx][1 - direction.dx + dy];
-				tank[1 - direction.dy - dx][1 - direction.dx - dy] = null;
-				tank[1 - direction.dy + dx][1 - direction.dx + dy] = null;
+				if (direction == originDirection.opposite())
+				{
+					tank[1 + dx][1 + dy].move(direction);
+					tank[1 - dx][1 - dy].move(direction);
+					tank[1 + dy - dx][1 + dx - dy].move(direction);
+					tank[1 + dy + dx][1 + dx + dy].move(direction);
+
+					tank[1 + direction.dy - dx][1 + direction.dx - dy] = tank[1 - dx][1 - dy];
+					tank[1 + direction.dy + dx][1 + direction.dx + dy] = tank[1 + dx][1 + dy];
+					tank[1 - dx][1 - dy] = tank[1 - direction.dy - dx][1 - direction.dx - dy];
+					tank[1 + dx][1 + dy] = tank[1 - direction.dy + dx][1 - direction.dx + dy];
+					tank[1 - direction.dy - dx][1 - direction.dx - dy] = null;
+					tank[1 - direction.dy + dx][1 - direction.dx + dy] = null;
+				}
+				else
+				{
+					tank[1 - dy][1 - dx].move(direction);//middle left
+					tank[1 - dy - direction.dy][1 - dx - direction.dx].move(direction);//up left
+					tank[1 - direction.dy][1 - direction.dx].move(originDirection.opposite());//middle up
+					tank[1 + dy - direction.dy][1 + dx - direction.dx].move(originDirection.opposite());//right up
+
+					tank[1 + direction.dy - dy][1 + direction.dx - dx] = tank[1 - dy][1 - dx];
+					tank[1 - dy][1 - dx] = tank[1 - dy - direction.dy][1 - dx - direction.dx];
+					tank[1 - dy - direction.dy][1 - dx - direction.dx] = tank[1 - direction.dy][1 - direction.dx];
+					tank[1 - direction.dy][1 - direction.dx] = tank[1 + dy - direction.dy][1 + dx - direction.dx];
+					tank[1 + dy - direction.dy][1 + dx - direction.dx] = null;
+				}
+
+				direction = originDirection;
 			}
-			else
+
+			if (x != origin.getX() || y != origin.getY())//moved
 			{
-				tank[1 - dy][1 - dx].move(direction);//middle left
-				tank[1 - dy - direction.dy][1 - dx - direction.dx].move(direction);//up left
-				tank[1 - direction.dy][1 - direction.dx].move(originDirection.opposite());//middle up
-				tank[1 + dy - direction.dy][1 + dx - direction.dx].move(originDirection.opposite());//right up
+				int dx = origin.getX() - x;
+				int dy = origin.getY() - y;
 
-				tank[1 + direction.dy - dy][1 + direction.dx - dx] = tank[1 - dy][1 - dx];
-				tank[1 - dy][1 - dx] = tank[1 - dy - direction.dy][1 - dx - direction.dx];
-				tank[1 - dy - direction.dy][1 - dx - direction.dx] = tank[1 - direction.dy][1 - direction.dx];
-				tank[1 - direction.dy][1 - direction.dx] = tank[1 + dy - direction.dy][1 + dx - direction.dx];
-				tank[1 + dy - direction.dy][1 + dx - direction.dx] = null;
+				for (int i = 0; i < CellView.SIZE; i++)
+				{
+					setLocation(getX() + dx, getY() + dy);
+				}
+
+				x += dx;
+				y += dy;
 			}
-
-			direction = originDirection;
 		}
+	}
 
-		if (x != origin.getX() || y != origin.getY())//moved
-		{
-			int dx = origin.getX() - x;
-			int dy = origin.getY() - y;
-
-			for (int i = 0; i < CellView.SIZE; i++)
-			{
-				setLocation(getX() + dx, getY() + dy);
-			}
-
-			x += dx;
-			y += dy;
-		}
+	public boolean isAlive()
+	{
+		return origin.isAlive();
 	}
 }

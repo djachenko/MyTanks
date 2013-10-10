@@ -8,12 +8,16 @@ public class Tank
 	private Level level;
 	private Direction currentDirection;
 
+	private boolean alive;
+
 	public Tank(Level field, int x, int y, Direction dir)
 	{
 		this.level = field;
 
 		this.x = x;
 		this.y = y;
+
+		this.alive = true;
 
 		currentDirection = dir;
 	}
@@ -157,6 +161,9 @@ public class Tank
 
 	public void hit()
 	{
+		alive = false;
+
+		level.removeTank(this);
 	}
 
 	public int getX()
@@ -173,31 +180,9 @@ public class Tank
 	{
 		return currentDirection;
 	}
+
+	public boolean isAlive()
+	{
+		return alive;
+	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

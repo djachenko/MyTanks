@@ -8,26 +8,35 @@ public class UpdateBulletViewTask implements ViewTask
 	private BulletView bulletView;
 	private FieldView fieldView;
 
+	private boolean readyToRemove;
+
 	public UpdateBulletViewTask(BulletView bulletView, FieldView fieldView)
 	{
 		this.bulletView = bulletView;
 		this.fieldView = fieldView;
+
+		readyToRemove = false;
 	}
 
 	@Override
 	public void execute(int iteration)
 	{
-		bulletView.iteration();
+		readyToRemove = !bulletView.isActive();
 
-		if (!bulletView.isActive())
+		if (!readyToRemove)
+		{
+			bulletView.iteration();
+		}
+		else
 		{
 			fieldView.remove(bulletView);
+			fieldView.repaint();
 		}
 	}
 
 	@Override
 	public boolean hasToBeRepeated()
 	{
-		return bulletView.isActive();
+		return !readyToRemove;
 	}
 }

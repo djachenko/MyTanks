@@ -115,6 +115,12 @@ public class Level extends Field
 		game.addTank(tank);
 	}
 
+	public void removeTank(Tank tank)
+	{
+		tanks.remove(tank);
+		erase(tank);
+	}
+
 	public Tank getTank(int i)
 	{
 		return tanks.get(i);
@@ -127,7 +133,7 @@ public class Level extends Field
 
 	public boolean ableToSpawnBullet(int x, int y)
 	{
-		return !at(x, y).hasToBeWaited();
+		return x >= 0 && x < width() && y >= 0 && y < height() && !at(x, y).hasToBeWaited();
 	}
 
 	public void addBullet(int x, int y, Direction direction)
@@ -141,6 +147,11 @@ public class Level extends Field
 		}
 	}
 
+	public void removeBullet(Bullet bullet)
+	{
+		erase(bullet);
+	}
+
 	public boolean ableToHit(int x, int y)
 	{
 		return x >= 0 && x < width() && y >= 0 && y < height() && at(x, y).ableToHit() ||
@@ -149,7 +160,7 @@ public class Level extends Field
 
 	public void hit(int x, int y)
 	{
-		if (ableToHit(x, y) && (x != -1 && x != width() && (y != -1 || y != height())))
+		if (ableToHit(x, y) && (x != -1 && x != width() && (y != -1 && y != height())))
 		{
 			at(x, y).hit();
 		}
