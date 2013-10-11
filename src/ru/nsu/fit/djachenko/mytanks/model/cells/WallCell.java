@@ -46,6 +46,6 @@ public class WallCell extends Cell
 	@Override
 	public boolean hasToBeWaited()
 	{
-		return false;
+		return true;
 	}
 }

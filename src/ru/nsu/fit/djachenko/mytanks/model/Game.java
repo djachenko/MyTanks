@@ -62,15 +62,7 @@ public class Game extends Thread
 	}
 
 	public void startLevel(int index)
-	{/*
-		try
-		{
-			currentLevel = new Level();
-		}
-		catch (IOException | MapFormatException e)
-		{
-			e.printStackTrace();
-		}*/
+	{
 	}
 
 	public void addBullet(Bullet bullet)

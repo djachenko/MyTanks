@@ -130,7 +130,7 @@ public class Field
 		}
 	}
 
-	void erase(Tank tank)
+	public void erase(Tank tank)
 	{
 		int x = tank.getX();
 		int y = tank.getY();

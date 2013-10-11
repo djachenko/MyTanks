@@ -118,7 +118,7 @@ public class Level extends Field
 	public void removeTank(Tank tank)
 	{
 		tanks.remove(tank);
-		erase(tank);
+		performer.enqueue(new RemoveTankTask(tank, this));
 	}
 
 	public Tank getTank(int i)
