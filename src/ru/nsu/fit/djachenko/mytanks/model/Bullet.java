@@ -47,8 +47,9 @@ public class Bullet
 
 	public void explode()
 	{
-		level.erase(this);//REFACTOR
 		active = false;
+
+		level.removeBullet(this);
 	}
 
 	public int getX()

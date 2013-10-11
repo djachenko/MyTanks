@@ -149,7 +149,7 @@ public class Level extends Field
 
 	public void removeBullet(Bullet bullet)
 	{
-		erase(bullet);
+		performer.enqueue(new RemoveBulletTask(bullet, this));
 	}
 
 	public boolean ableToHit(int x, int y)
