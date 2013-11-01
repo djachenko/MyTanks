@@ -12,12 +12,12 @@ import java.awt.event.ActionListener;
 
 public class StartMenuView extends JPanel
 {
-	public StartMenuView(MessageChannel<MessageToModel> channel)
+	StartMenuView(MessageChannel<MessageToModel> channel)
 	{
 		initUI(channel);
 	}
 
-	public void initUI(final MessageChannel<MessageToModel> channel)
+	private void initUI(final MessageChannel<MessageToModel> channel)
 	{
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -95,15 +95,5 @@ public class StartMenuView extends JPanel
 		int height = 5 * (StartMenuViewButton.HEIGHT + 5);
 
 		setPreferredSize(new Dimension(width, height));
-	}
-
-	public static void main(String[] args)
-	{
-		JFrame win = new JFrame();
-
-		win.add(new StartMenuView(new MessageChannel<MessageToModel>()));
-		win.setVisible(true);
-		win.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		win.pack();
 	}
 }

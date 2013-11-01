@@ -8,7 +8,7 @@ public class StartMenuViewButton extends JButton
 	public static final int WIDTH = 150;
 	public static final int HEIGHT = 40;
 
-	public StartMenuViewButton(String text)
+	StartMenuViewButton(String text)
 	{
 		super(text);
 

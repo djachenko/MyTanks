@@ -26,7 +26,7 @@ public class TankCell extends Cell
 	@Override
 	public boolean ableToMove(Direction dir, int depth)
 	{
-		return depth > 0 && field.ableToMove(x + dir.dx, y + dir.dy, dir, depth - 1);
+		return depth > 0 && field.ableToMove(x + dir.getDx(), y + dir.getDy(), dir, depth - 1);
 	}
 
 	@Override
@@ -34,11 +34,11 @@ public class TankCell extends Cell
 	{
 		if (ableToMove(dir, depth))
 		{
-			field.move(x + dir.dx, y + dir.dy, dir, depth - 1);
-			field.replace(x + dir.dx, y + dir.dy, this);
+			field.move(x + dir.getDx(), y + dir.getDy(), dir, depth - 1);
+			field.replace(x + dir.getDx(), y + dir.getDy(), this);
 
-			x += dir.dx;
-			y += dir.dy;
+			x += dir.getDx();
+			y += dir.getDy();
 		}
 	}
 

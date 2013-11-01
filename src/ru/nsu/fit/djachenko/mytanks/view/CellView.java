@@ -12,42 +12,41 @@ public class CellView extends JLabel
 
 	public enum Type
 	{
-		GROUND(new Color(255, 244, 244), 1),
-		WALL(new Color(1, 1, 1), 1),
-		TANK(new Color(107, 107, 107), 1),
-		BULLET(new Color(184, 184, 184), 1);
+		GROUND(new Color(255, 244, 244)),
+		WALL(new Color(1, 1, 1)),
+		TANK(new Color(107, 107, 107)),
+		BULLET(new Color(184, 184, 184));
 
-		public final Color color;
-		public final int order;
+		private final Color color;
 
-		private Type(Color color, int order)
+		private Type(Color color)
 		{
 			this.color = color;
-			this.order = order;
+		}
+
+		Color getColor()
+		{
+			return color;
 		}
 	}
 
-	private final Type type;
-
-	public CellView(Type type, int x, int y)
+	CellView(Type type, int x, int y)
 	{
-		this.type = type;
-
-		initUI(x, y);
+		initUI(type, x, y);
 	}
 
-	void initUI(int x, int y)
+	private void initUI(Type type, int x, int y)
 	{
 		setBounds(GRIDSIZE * x, GRIDSIZE * y, SIZE, SIZE);
-		setBorder(BorderFactory.createLineBorder(type.color.darker(), 1));
-		setBackground(type.color);
+		setBorder(BorderFactory.createLineBorder(type.getColor().darker(), 1));
+		setBackground(type.getColor());
 		setOpaque(true);
 	}
 
 	void move(Direction direction)
 	{
-		int dx = direction.dx;
-		int dy = direction.dy;
+		int dx = direction.getDx();
+		int dy = direction.getDy();
 
 		for (int i = 0; i < SIZE; i++)
 		{

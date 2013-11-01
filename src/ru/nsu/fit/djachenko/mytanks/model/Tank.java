@@ -10,9 +10,9 @@ public class Tank
 
 	private boolean alive;
 
-	public Tank(Level field, int x, int y, Direction dir)
+	public Tank(Level level, int x, int y, Direction dir)
 	{
-		this.level = field;
+		this.level = level;
 
 		this.x = x;
 		this.y = y;
@@ -114,8 +114,8 @@ public class Tank
 
 			currentDirection = currentDirection.opposite();
 
-			x += currentDirection.dx;
-			y += currentDirection.dy;
+			x += currentDirection.getDx();
+			y += currentDirection.getDy();
 		}
 	}
 
@@ -123,11 +123,11 @@ public class Tank
 	{
 		if (ableToTurn(direction))
 		{
-			int curDx = currentDirection.dx;
-			int curDy = currentDirection.dy;
+			int curDx = currentDirection.getDx();
+			int curDy = currentDirection.getDy();
 
-			int dx = direction.dx;
-			int dy = direction.dy;
+			int dx = direction.getDx();
+			int dy = direction.getDy();
 
 			if (direction != currentDirection.opposite())
 			{
@@ -149,14 +149,14 @@ public class Tank
 
 	public boolean ableToShoot()
 	{
-		return level.ableToSpawnBullet(x + 2 * currentDirection.dx, y + 2 * currentDirection.dy);
+		return level.ableToSpawnBullet(x + 2 * currentDirection.getDx(), y + 2 * currentDirection.getDy());
 	}
 
 	public void shoot()
 	{
 		if (ableToShoot())
 		{
-			level.addBullet(x + 2 * currentDirection.dx, y + 2 * currentDirection.dy, currentDirection);
+			level.spawnBullet(x + 2 * currentDirection.getDx(), y + 2 * currentDirection.getDy(), currentDirection);
 		}
 	}
 
@@ -164,7 +164,7 @@ public class Tank
 	{
 		alive = false;
 
-		level.removeTank(this);
+		level.remove(this);
 	}
 
 	public int getX()

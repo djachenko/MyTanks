@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 
 public class ChooseLevelView extends JPanel
 {
-	public ChooseLevelView(MessageChannel<MessageToModel> channel, LevelHolder levelHolder)
+	ChooseLevelView(MessageChannel<MessageToModel> channel, LevelHolder levelHolder)
 	{
 		initUI(channel, levelHolder);
 	}

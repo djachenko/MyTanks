@@ -33,20 +33,20 @@ public class BulletCell extends Cell
 	{
 		if (depth != 1)
 		{
-			origin.hit(- dir.dx, - dir.dy);//REFACTOR
+			origin.hit(- dir.getDx(), - dir.getDy());//REFACTOR
 			explode();
 		}
-		else if (origin.ableToHit(x + dir.dx, y + dir.dy))
+		else if (origin.ableToHit(x + dir.getDx(), y + dir.getDy()))
 		{
-			origin.hit(dir.dx, dir.dy);//REFACTOR
+			origin.hit(dir.getDx(), dir.getDy());//REFACTOR
 			explode();
 		}
 		else
 		{
-			field.replace(x + dir.dx, y + dir.dy, this);
+			field.replace(x + dir.getDx(), y + dir.getDy(), this);
 
-			x += dir.dx;
-			y += dir.dy;
+			x += dir.getDx();
+			y += dir.getDy();
 		}
 	}
 

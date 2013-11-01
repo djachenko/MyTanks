@@ -4,7 +4,7 @@ import ru.nsu.fit.djachenko.mytanks.model.Tank;
 
 public class ShootTask implements Task
 {
-	Tank tank;
+	private Tank tank;
 
 	public ShootTask(Tank tank)
 	{

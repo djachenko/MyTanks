@@ -36,8 +36,8 @@ public enum Direction
 			};//y axis is down-directed
 
 
-	public final int dx;
-	public final int dy;
+	private final int dx;
+	private final int dy;
 
 	private Direction(int x, int y)
 	{

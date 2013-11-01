@@ -34,8 +34,8 @@ public class Bullet
 	{
 		level.move(x, y, direction, 1);
 
-		x += direction.dx;
-		y += direction.dy;
+		x += direction.getDx();
+		y += direction.getDy();
 	}
 
 	public void hit()
@@ -47,7 +47,7 @@ public class Bullet
 	{
 		active = false;
 
-		level.removeBullet(this);
+		level.remove(this);
 	}
 
 	public int getX()

@@ -18,7 +18,7 @@ public class TankView extends JLabel
 	private int y;
 	private Direction direction;
 
-	public TankView(Tank origin)
+	TankView(Tank origin)
 	{
 		this.origin = origin;
 
@@ -35,8 +35,8 @@ public class TankView extends JLabel
 	{
 		setLayout(null);
 
-		int dx = direction.dx;
-		int dy = direction.dy;
+		int dx = direction.getDx();
+		int dy = direction.getDy();
 
 		for (int i = -1; i <= 1; i++)//y
 		{
@@ -58,29 +58,6 @@ public class TankView extends JLabel
 		setLocation((x - 1) * CellView.GRIDSIZE, (y - 1) * CellView.GRIDSIZE);
 	}
 
-	CellView at(int index)
-	{
-		for (int i = 0; i < 3; i++)
-		{
-			for (int j = 0; j < 3; j++)
-			{
-				if (tank[i][j] != null)
-				{
-					if (index == 0)
-					{
-						return tank[i][j];
-					}
-					else
-					{
-						index--;
-					}
-				}
-			}
-		}
-
-		return null;
-	}
-
 	public void iteration()
 	{
 		if(origin.isAlive())
@@ -88,8 +65,8 @@ public class TankView extends JLabel
 			if (direction != origin.getDirection())
 			{
 				Direction originDirection = origin.getDirection();
-				int dx = originDirection.dx;
-				int dy = originDirection.dy;
+				int dx = originDirection.getDx();
+				int dy = originDirection.getDy();
 
 				if (direction == originDirection.opposite())
 				{
@@ -98,25 +75,25 @@ public class TankView extends JLabel
 					tank[1 + dy - dx][1 + dx - dy].move(direction);
 					tank[1 + dy + dx][1 + dx + dy].move(direction);
 
-					tank[1 + direction.dy - dx][1 + direction.dx - dy] = tank[1 - dx][1 - dy];
-					tank[1 + direction.dy + dx][1 + direction.dx + dy] = tank[1 + dx][1 + dy];
-					tank[1 - dx][1 - dy] = tank[1 - direction.dy - dx][1 - direction.dx - dy];
-					tank[1 + dx][1 + dy] = tank[1 - direction.dy + dx][1 - direction.dx + dy];
-					tank[1 - direction.dy - dx][1 - direction.dx - dy] = null;
-					tank[1 - direction.dy + dx][1 - direction.dx + dy] = null;
+					tank[1 + direction.getDy() - dx][1 + direction.getDx() - dy] = tank[1 - dx][1 - dy];
+					tank[1 + direction.getDy() + dx][1 + direction.getDx() + dy] = tank[1 + dx][1 + dy];
+					tank[1 - dx][1 - dy] = tank[1 - direction.getDy() - dx][1 - direction.getDx() - dy];
+					tank[1 + dx][1 + dy] = tank[1 - direction.getDy() + dx][1 - direction.getDx() + dy];
+					tank[1 - direction.getDy() - dx][1 - direction.getDx() - dy] = null;
+					tank[1 - direction.getDy() + dx][1 - direction.getDx() + dy] = null;
 				}
 				else
 				{
 					tank[1 - dy][1 - dx].move(direction);//middle left
-					tank[1 - dy - direction.dy][1 - dx - direction.dx].move(direction);//up left
-					tank[1 - direction.dy][1 - direction.dx].move(originDirection.opposite());//middle up
-					tank[1 + dy - direction.dy][1 + dx - direction.dx].move(originDirection.opposite());//right up
+					tank[1 - dy - direction.getDy()][1 - dx - direction.getDx()].move(direction);//up left
+					tank[1 - direction.getDy()][1 - direction.getDx()].move(originDirection.opposite());//middle up
+					tank[1 + dy - direction.getDy()][1 + dx - direction.getDx()].move(originDirection.opposite());//right up
 
-					tank[1 + direction.dy - dy][1 + direction.dx - dx] = tank[1 - dy][1 - dx];
-					tank[1 - dy][1 - dx] = tank[1 - dy - direction.dy][1 - dx - direction.dx];
-					tank[1 - dy - direction.dy][1 - dx - direction.dx] = tank[1 - direction.dy][1 - direction.dx];
-					tank[1 - direction.dy][1 - direction.dx] = tank[1 + dy - direction.dy][1 + dx - direction.dx];
-					tank[1 + dy - direction.dy][1 + dx - direction.dx] = null;
+					tank[1 + direction.getDy() - dy][1 + direction.getDx() - dx] = tank[1 - dy][1 - dx];
+					tank[1 - dy][1 - dx] = tank[1 - dy - direction.getDy()][1 - dx - direction.getDx()];
+					tank[1 - dy - direction.getDy()][1 - dx - direction.getDx()] = tank[1 - direction.getDy()][1 - direction.getDx()];
+					tank[1 - direction.getDy()][1 - direction.getDx()] = tank[1 + dy - direction.getDy()][1 + dx - direction.getDx()];
+					tank[1 + dy - direction.getDy()][1 + dx - direction.getDx()] = null;
 				}
 
 				direction = originDirection;

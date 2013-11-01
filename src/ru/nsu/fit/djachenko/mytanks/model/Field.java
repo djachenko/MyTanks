@@ -11,20 +11,17 @@ public class Field
 {
 	private Cell[][] table = null;
 
-	public Field()
-	{}
-
-	public Field(String configFile) throws IOException
+	Field(String configFile) throws IOException
 	{
 		init(configFile);
 	}
 
-	void init(String configPath) throws IOException
+	private void init(String configPath) throws IOException
 	{
 		init(new File(configPath));
 	}
 
-	public void init(File configFile) throws IOException
+	private void init(File configFile) throws IOException
 	{
 		try (BufferedReader reader = new BufferedReader(new FileReader(configFile)))
 		{
@@ -81,6 +78,14 @@ public class Field
 		}
 	}
 
+	void draw(Bullet bullet)
+	{
+		int x = bullet.getX();
+		int y = bullet.getY();
+
+		replace(x, y, new BulletCell(this, bullet, x, y));
+	}
+
 	void draw(Tank tank)
 	{
 		int x = tank.getX();
@@ -96,22 +101,19 @@ public class Field
 			{
 				if (!((dx == 0 && k == dy && j != 0) || (dy == 0 && k != 0 && j == dx)))
 				{
-					/*if (ableToReplace(x + j, y + k))
-					{
-						replace(x + j, y + k, new TankCell(this, tank, x + j, y + k));
-					}
-					 */
 					if (table[y + k][x + j].type == Cell.Type.GROUND)
 					{
 						table[y + k][x + j] = new TankCell(this, tank, x + j, y + k);
 					}
-					else
-					{
-						//throw new MapFormatException("Tank overlaps " + table[y + k][x + j].type.name().toLowerCase() + " at (" + (x + j) + "; " + (y + k) + ')');
-					}
+					//throw new MapFormatException("Tank overlaps " + table[y + k][x + j].type.name().toLowerCase() + " at (" + (x + j) + "; " + (y + k) + ')');
 				}
 			}
 		}
+	}
+
+	public void erase(Bullet bullet)
+	{
+		replace(bullet.getX(), bullet.getY(), new GroundCell());
 	}
 
 	public void erase(Tank tank)
@@ -133,19 +135,6 @@ public class Field
 				}
 			}
 		}
-	}
-
-	void draw(Bullet bullet)
-	{
-		int x = bullet.getX();
-		int y = bullet.getY();
-
-		replace(x, y, new BulletCell(this, bullet, x, y));
-	}
-
-	public void erase(Bullet bullet)
-	{
-		replace(bullet.getX(), bullet.getY(), new GroundCell());
 	}
 
 	public int height()
@@ -195,7 +184,7 @@ public class Field
 		table[fromY][fromX] = new GroundCell();
 	}
 
-	public boolean ableToReplace(int x, int y)
+	boolean ableToReplace(int x, int y)
 	{
 		return x >= 0 && x < width() && y >= 0 && y < height() && table[y][x].ableToReplace();
 	}
@@ -207,13 +196,6 @@ public class Field
 		{
 			throw forbidden()
 		} */
-	}
-
-	public void swap(int x1, int y1, int x2, int y2)
-	{
-		Cell temp = table[y1][x1];
-		table[y1][x1] = table[y2][x2];
-		table[y2][x2] = temp;
 	}
 
 	public void print()

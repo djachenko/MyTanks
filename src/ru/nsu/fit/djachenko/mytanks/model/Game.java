@@ -56,11 +56,8 @@ public class Game extends Thread
 
 		currentLevel = new Level(new LevelHolder().getLevel(index), channelsToView, players);
 
-		Tank first = new Tank(currentLevel, 4, 13, Direction.UP);
-
-		currentLevel.addTank(first);
-		currentLevel.setActiveTank(0);
-		currentLevel.addTank(new Tank(currentLevel, 20, 13, Direction.UP));
+		currentLevel.add(new Tank(currentLevel, 4, 13, Direction.UP));
+		currentLevel.add(new Tank(currentLevel, 20, 13, Direction.UP));
 	}
 
 	private void sendMessageToView(MessageToView messageToView)

@@ -69,7 +69,7 @@ public class LevelView extends JPanel
 		setPreferredSize(new Dimension(width * CellView.GRIDSIZE, height * CellView.GRIDSIZE));
 	}
 
-	public void add(TankView tank)
+	private void add(TankView tank)
 	{
 		super.add(tank);
 		setComponentZOrder(tank, 0);
@@ -78,7 +78,7 @@ public class LevelView extends JPanel
 		performer.enqueue(new UpdateTankViewTask(this, tank));
 	}
 
-	public void add(BulletView bullet)
+	private void add(BulletView bullet)
 	{
 		super.add(bullet);
 		setComponentZOrder(bullet, 0);
