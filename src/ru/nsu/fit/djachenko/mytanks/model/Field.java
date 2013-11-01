@@ -14,30 +14,17 @@ public class Field
 	public Field()
 	{}
 
-	public Field(int width, int height)//empty field
-	{
-		table = new Cell[height][width];
-
-		for (int y = 0; y < table.length; y++)
-		{
-			for (int x = 0; x < table[y].length; x++)
-			{
-				table[y][x] = new GroundCell();
-			}
-		}
-	}
-
-	public Field(String configFile) throws IOException, MapFormatException
+	public Field(String configFile) throws IOException
 	{
 		init(configFile);
 	}
 
-	public void init(String configPath) throws IOException, MapFormatException
+	void init(String configPath) throws IOException
 	{
 		init(new File(configPath));
 	}
 
-	public void init(File configFile) throws MapFormatException, IOException
+	public void init(File configFile) throws IOException
 	{
 		try (BufferedReader reader = new BufferedReader(new FileReader(configFile)))
 		{
@@ -45,14 +32,14 @@ public class Field
 
 			if (fieldParametersLine == null)
 			{
-				throw new MapFormatException("Empty map file");
+				//throw new MapFormatException("Empty map file");
 			}
 
 			String[] fieldParameters = fieldParametersLine.split(" ");
 
 			if (fieldParameters.length < 2)
 			{
-				throw new MapFormatException("Wrong field parameters format");
+				//throw new MapFormatException("Wrong field parameters format");
 			}
 
 			int tableWidth = Integer.parseInt(fieldParameters[0]);
@@ -66,7 +53,7 @@ public class Field
 
 				if (rowString == null || rowString.length() != table[j].length)
 				{
-					throw new MapFormatException("Wrong map size");
+					//throw new MapFormatException("Wrong map size");
 				}
 
 				for (int i = 0; i < table[j].length; i++)
@@ -83,18 +70,18 @@ public class Field
 
 							break;
 						default:
-							throw new MapFormatException("Wrong map representation format");
+							//throw new MapFormatException("Wrong map representation format");
 					}
 				}
 			}
 		}
 		catch (IllegalArgumentException e)
 		{
-			throw new MapFormatException("Unparsable parameters");
+			//throw new MapFormatException("Unparsable parameters");
 		}
 	}
 
-	public void draw(Tank tank) throws MapFormatException
+	void draw(Tank tank)
 	{
 		int x = tank.getX();
 		int y = tank.getY();
@@ -102,7 +89,6 @@ public class Field
 
 		int dx = direction.getDx();
 		int dy = direction.getDy();
-
 
 		for (int k = -1; k <= 1; k++)//y
 		{
@@ -121,12 +107,10 @@ public class Field
 					}
 					else
 					{
-						throw new MapFormatException("Tank overlaps " + table[y + k][x + j].type.name().toLowerCase() + " at (" + (x + j) + "; " + (y + k) + ')');
+						//throw new MapFormatException("Tank overlaps " + table[y + k][x + j].type.name().toLowerCase() + " at (" + (x + j) + "; " + (y + k) + ')');
 					}
 				}
 			}
-
-			System.out.println();
 		}
 	}
 
@@ -151,7 +135,7 @@ public class Field
 		}
 	}
 
-	public void draw(Bullet bullet)
+	void draw(Bullet bullet)
 	{
 		int x = bullet.getX();
 		int y = bullet.getY();

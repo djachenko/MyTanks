@@ -1,19 +1,19 @@
 package ru.nsu.fit.djachenko.mytanks.view.activities;
 
-import ru.nsu.fit.djachenko.mytanks.view.FieldView;
+import ru.nsu.fit.djachenko.mytanks.view.LevelView;
 import ru.nsu.fit.djachenko.mytanks.view.TankView;
 
 public class UpdateTankViewTask implements ViewTask
 {
 	private TankView tankView;
-	private FieldView fieldView;
+	private LevelView levelView;
 
 	private boolean readyToRemove;
 
-	public UpdateTankViewTask(FieldView fieldView, TankView tankView)
+	public UpdateTankViewTask(LevelView levelView, TankView tankView)
 	{
 		this.tankView = tankView;
-		this.fieldView = fieldView;
+		this.levelView = levelView;
 
 		readyToRemove = false;
 	}
@@ -29,8 +29,8 @@ public class UpdateTankViewTask implements ViewTask
 		}
 		else
 		{
-			fieldView.remove(tankView);
-			fieldView.repaint();
+			levelView.remove(tankView);
+			levelView.repaint();
 		}
 	}
 

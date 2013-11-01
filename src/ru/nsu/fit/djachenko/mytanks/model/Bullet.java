@@ -7,7 +7,7 @@ public class Bullet
 	private int x;
 	private int y;
 
-	public final Direction direction;
+	private final Direction direction;
 	private boolean active = true;
 
 	Bullet(Level level, int x, int y, Direction direction)
@@ -36,8 +36,6 @@ public class Bullet
 
 		x += direction.dx;
 		y += direction.dy;
-
-		level.print();
 	}
 
 	public void hit()

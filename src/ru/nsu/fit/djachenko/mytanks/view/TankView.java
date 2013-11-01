@@ -5,6 +5,8 @@ import ru.nsu.fit.djachenko.mytanks.model.Tank;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class TankView extends JLabel
 {

@@ -1,42 +1,43 @@
 package ru.nsu.fit.djachenko.mytanks.model;
 
+import ru.nsu.fit.djachenko.mytanks.communication.*;
 import ru.nsu.fit.djachenko.mytanks.model.activities.*;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class Level extends Field
 {
 	private Tank activeTank = null;
 	private TaskPerformer performer;
-	private Game game;
-	private List<Tank> tanks = new LinkedList<>();
+	private List<Tank> tanks = new ArrayList<>();
+	private List<Bullet> bullets = new LinkedList<>();
+	private Map<Integer, Tank> tankMap = new HashMap<>();
+
+	private List<MessageChannel<MessageToView>> channelsToView;
+	private List<Player> players;
 
 	public Level(int width, int height)
 	{
-		super(width, height);
-
-		performer = new TaskPerformer();
 	}
 
-	public Level(String config) throws IOException, MapFormatException
+	public Level(String config)
 	{
-		this(config, null);
 	}
 
-	public Level(String config, Game game) throws IOException, MapFormatException
+	public Level(String config, List<MessageChannel<MessageToView>> channels, List<Player> players) throws IOException
 	{
 		init(config);
 
 		performer = new TaskPerformer();
 
-		this.game = game;
+		this.channelsToView = channels;
+		this.players = players;
 	}
 
-	public void init(String config) throws IOException, MapFormatException
+	public void init(String config) throws IOException
 	{
 		super.init(config);
 
@@ -53,7 +54,7 @@ public class Level extends Field
 
 			if (tanks == null)
 			{
-				throw new MapFormatException("No tank info present");
+				//throw new MapFormatException("No tank info present");
 			}
 
 			int tankCount = Integer.parseInt(tanks);
@@ -64,14 +65,14 @@ public class Level extends Field
 
 				if (tankString == null)
 				{
-					throw new MapFormatException("Wrong tank count");
+					//throw new MapFormatException("Wrong tank count");
 				}
 
 				String[] tankParams = tankString.split(" ");
 
 				if (tankParams.length != 3)
 				{
-					throw new MapFormatException("Wrong tank description");
+					//throw new MapFormatException("Wrong tank description");
 				}
 
 				int x = Integer.parseInt(tankParams[0]);
@@ -84,7 +85,7 @@ public class Level extends Field
 		}
 		catch (IllegalArgumentException e)
 		{
-			throw new MapFormatException("Unparseable parameters");
+			//throw new MapFormatException("Unparseable parameters");
 		}
 	}
 
@@ -93,26 +94,31 @@ public class Level extends Field
 		performer.enqueue(new MoveTankTask(activeTank, direction));
 	}
 
-	public void shoot()
+	private void moveTank(int id, Direction direction)
 	{
-		performer.enqueue(new ShootTask(activeTank));
+		performer.enqueue(new MoveTankTask(getTank(id), direction));
 	}
 
-	public void setActiveTank(int index) throws MapFormatException
+	private void shoot(int id)
 	{
-		setActiveTank(tanks.get(index));
+		performer.enqueue(new ShootTask(getTank(id)));
 	}
 
-	public void setActiveTank(Tank tank) throws MapFormatException
+	public void setActiveTank(int index)
+	{
+		setActiveTank(getTank(index));
+	}
+
+	public void setActiveTank(Tank tank)
 	{
 		this.activeTank = tank;
 	}
 
-	public void addTank(Tank tank) throws MapFormatException
+	public void addTank(Tank tank)
 	{
 		tanks.add(tank);
 		draw(tank);
-		game.addTank(tank);
+		send(new DrawTankMessage(tank));
 	}
 
 	public void removeTank(Tank tank)
@@ -121,9 +127,9 @@ public class Level extends Field
 		performer.enqueue(new RemoveTankTask(tank, this));
 	}
 
-	public Tank getTank(int i)
+	private Tank getTank(int id)
 	{
-		return tanks.get(i);
+		return tanks.get(id);
 	}
 
 	public Tank getActiveTank()
@@ -141,14 +147,16 @@ public class Level extends Field
 		if (x >= 0 && x < width() && y >= 0 && y < height())
 		{
 			Bullet bullet = new Bullet(this, x, y, direction);
+			bullets.add(bullet);
 			draw(bullet);
 			performer.enqueue(new MoveBulletTask(bullet));
-			game.addBullet(bullet);
+			send(new DrawBulletMessage(bullet));
 		}
 	}
 
 	public void removeBullet(Bullet bullet)
 	{
+		bullets.remove(bullet);
 		performer.enqueue(new RemoveBulletTask(bullet, this));
 	}
 
@@ -164,5 +172,37 @@ public class Level extends Field
 		{
 			at(x, y).hit();
 		}
+	}
+
+	public Iterable<Bullet> getBullets()
+	{
+		return bullets;
+	}
+
+	public Iterable<Tank> getTanks()
+	{
+		return tanks;
+	}
+
+	private void send(MessageToView message)
+	{
+		for (MessageChannel<MessageToView> channel : channelsToView)
+		{
+			channel.set(message);
+		}
+	}
+
+	public void accept(MessageToModel message)
+	{
+	}
+
+	public void accept(MoveTankMessage message)
+	{
+		moveTank(message.getPlayerId(), message.getDirection());
+	}
+
+	public void accept(ShootMessage message)
+	{
+		shoot(message.getId());
 	}
 }

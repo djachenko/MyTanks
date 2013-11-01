@@ -1,8 +1,17 @@
 package ru.nsu.fit.djachenko.mytanks.communication;
 
-import ru.nsu.fit.djachenko.mytanks.view.GameView;
+import ru.nsu.fit.djachenko.mytanks.view.AppWindow;
+import ru.nsu.fit.djachenko.mytanks.view.LevelView;
 
-public interface MessageToView extends Message
+public abstract class MessageToView implements Message
 {
-	public void handle(GameView gameView);
+	public void handle(AppWindow appWindow)
+	{
+		appWindow.accept(this);
+	}
+
+	public void handle(LevelView levelView)
+	{
+		levelView.accept(this);
+	}
 }

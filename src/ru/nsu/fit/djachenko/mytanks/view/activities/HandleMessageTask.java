@@ -2,17 +2,17 @@ package ru.nsu.fit.djachenko.mytanks.view.activities;
 
 import ru.nsu.fit.djachenko.mytanks.communication.MessageChannel;
 import ru.nsu.fit.djachenko.mytanks.communication.MessageToView;
-import ru.nsu.fit.djachenko.mytanks.view.GameView;
+import ru.nsu.fit.djachenko.mytanks.view.AppWindow;
 
 public class HandleMessageTask implements ViewTask
 {
 	private final MessageChannel<MessageToView> channel;
-	private final GameView gameView;
+	private final AppWindow appWindow;
 
-	public HandleMessageTask(MessageChannel<MessageToView> channel, GameView gameView)
+	public HandleMessageTask(MessageChannel<MessageToView> channel, AppWindow appWindow)
 	{
 		this.channel = channel;
-		this.gameView = gameView;
+		this.appWindow = appWindow;
 	}
 
 	@Override
@@ -22,7 +22,7 @@ public class HandleMessageTask implements ViewTask
 
 		if (message != null)
 		{
-			message.handle(gameView);
+			message.handle(appWindow);
 		}
 	}
 

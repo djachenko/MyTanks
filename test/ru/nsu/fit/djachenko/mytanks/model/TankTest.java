@@ -19,14 +19,14 @@ public class TankTest
 		{
 			level = new Level(PATH + "TankTestMap.tnk");
 		}
-		catch (IOException | MapFormatException e)
+		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
 	}
 
 	@Test
-	public void testAbleToMove() throws UnexpectedSituationException, MapFormatException
+	public void testAbleToMove()
 	{
 		for (int x = 3; x <= 5; x++)
 		{

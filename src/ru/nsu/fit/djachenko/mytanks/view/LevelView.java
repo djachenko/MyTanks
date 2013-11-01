@@ -1,7 +1,12 @@
 package ru.nsu.fit.djachenko.mytanks.view;
 
-import ru.nsu.fit.djachenko.mytanks.model.Field;
+import ru.nsu.fit.djachenko.mytanks.communication.AddControllerMessage;
+import ru.nsu.fit.djachenko.mytanks.communication.DrawBulletMessage;
+import ru.nsu.fit.djachenko.mytanks.communication.DrawTankMessage;
+import ru.nsu.fit.djachenko.mytanks.communication.MessageToView;
+import ru.nsu.fit.djachenko.mytanks.model.Bullet;
 import ru.nsu.fit.djachenko.mytanks.model.Level;
+import ru.nsu.fit.djachenko.mytanks.model.Tank;
 import ru.nsu.fit.djachenko.mytanks.model.cells.Cell;
 import ru.nsu.fit.djachenko.mytanks.view.activities.UpdateBulletViewTask;
 import ru.nsu.fit.djachenko.mytanks.view.activities.UpdateTankViewTask;
@@ -10,18 +15,18 @@ import ru.nsu.fit.djachenko.mytanks.view.activities.ViewTaskPerformer;
 import javax.swing.*;
 import java.awt.*;
 
-public class FieldView extends JPanel
+public class LevelView extends JPanel
 {
 	private ViewTaskPerformer performer;
 
-	FieldView(Field origin, ViewTaskPerformer performer)
+	LevelView(Level origin, ViewTaskPerformer performer)
 	{
 		this.performer = performer;
 
 		initUI(origin);
 	}
 
-	private void initUI(Field origin)
+	private void initUI(Level origin)
 	{
 		setLayout(null);
 
@@ -51,6 +56,16 @@ public class FieldView extends JPanel
 			}
 		}
 
+		for (Tank tank : origin.getTanks())//REFACTOR maybe ViewFactory with type overload
+		{
+			add(new TankView(tank));
+		}
+
+		for (Bullet bullet : origin.getBullets())
+		{
+			add(new BulletView(bullet));
+		}
+
 		setPreferredSize(new Dimension(width * CellView.GRIDSIZE, height * CellView.GRIDSIZE));
 	}
 
@@ -70,5 +85,25 @@ public class FieldView extends JPanel
 		repaint();
 
 		performer.enqueue(new UpdateBulletViewTask(bullet, this));
+	}
+
+	public void accept(MessageToView message)
+	{
+		//throw ;
+	}
+
+	public void accept(DrawTankMessage message)
+	{
+		add(new TankView(message.getTank()));
+	}
+
+	public void accept(DrawBulletMessage message)
+	{
+		add(new BulletView(message.getBullet()));
+	}
+
+	public void accept(AddControllerMessage message)
+	{
+		addKeyListener(message.getController());
 	}
 }

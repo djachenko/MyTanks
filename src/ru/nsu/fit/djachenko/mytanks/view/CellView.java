@@ -27,16 +27,11 @@ public class CellView extends JLabel
 		}
 	}
 
-	public final Type type;
-
-	private int x;
-	private int y;
+	private final Type type;
 
 	public CellView(Type type, int x, int y)
 	{
 		this.type = type;
-		this.x = x;
-		this.y = y;
 
 		initUI(x, y);
 	}
@@ -58,8 +53,5 @@ public class CellView extends JLabel
 		{
 			setLocation(getX() + dx, getY() + dy);
 		}
-
-		x += dx;
-		y += dy;
 	}
 }

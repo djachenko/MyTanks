@@ -1,20 +1,32 @@
 package ru.nsu.fit.djachenko.mytanks.communication;
 
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
-import ru.nsu.fit.djachenko.mytanks.model.Game;
+import ru.nsu.fit.djachenko.mytanks.model.Level;
 
-public class MoveTankMessage implements MessageToModel
+public class MoveTankMessage extends MessageToModel
 {
-	private final Direction direction;
+	private Direction direction;
+	private int playerId;
 
-	public MoveTankMessage(Direction direction)
+	public MoveTankMessage(int playerId, Direction direction)
 	{
 		this.direction = direction;
+		this.playerId = playerId;
 	}
 
 	@Override
-	public void handle(Game game)
+	public void handle(Level level)
 	{
-		game.moveTank(direction);
+		level.accept(this);
+	}
+
+	public Direction getDirection()
+	{
+		return direction;
+	}
+
+	public int getPlayerId()
+	{
+		return playerId;
 	}
 }

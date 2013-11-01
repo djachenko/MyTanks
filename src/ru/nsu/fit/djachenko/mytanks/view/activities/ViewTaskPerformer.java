@@ -14,22 +14,29 @@ public class ViewTaskPerformer
 	{
 		new Timer(DELAY, new ActionListener()
 		{
+			private int iteration = 0;
+
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				int count = tasks.size();
-
-				for (; count > 0; count--)
+				synchronized (tasks)
 				{
-					ViewTask task = tasks.remove();
+					int count = tasks.size();
 
-					task.execute(0);
-
-					if (task.hasToBeRepeated())
+					for (; count > 0; count--)
 					{
-						tasks.add(task);
+						ViewTask task = tasks.remove();
+
+						task.execute(iteration);
+
+						if (task.hasToBeRepeated())
+						{
+							tasks.add(task);
+						}
 					}
 				}
+
+				iteration++;
 			}
 		}).start();
 	}

@@ -1,7 +1,6 @@
 package ru.nsu.fit.djachenko.mytanks.model.cells;
 
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
-import ru.nsu.fit.djachenko.mytanks.model.Field;
 
 public abstract class Cell
 {
@@ -22,7 +21,7 @@ public abstract class Cell
 
 	public final Type type;
 
-	public Cell(Type type)
+	Cell(Type type)
 	{
 		this.type = type;
 	}

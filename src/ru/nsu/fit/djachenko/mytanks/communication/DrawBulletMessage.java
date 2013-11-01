@@ -1,10 +1,9 @@
 package ru.nsu.fit.djachenko.mytanks.communication;
 
 import ru.nsu.fit.djachenko.mytanks.model.Bullet;
-import ru.nsu.fit.djachenko.mytanks.view.BulletView;
-import ru.nsu.fit.djachenko.mytanks.view.GameView;
+import ru.nsu.fit.djachenko.mytanks.view.LevelView;
 
-public class DrawBulletMessage implements MessageToView
+public class DrawBulletMessage extends MessageToView
 {
 	private Bullet bullet;
 
@@ -14,8 +13,13 @@ public class DrawBulletMessage implements MessageToView
 	}
 
 	@Override
-	public void handle(GameView gameView)
+	public void handle(LevelView levelView)
 	{
-		gameView.add(new BulletView(bullet));
+		levelView.accept(this);
+	}
+
+	public Bullet getBullet()
+	{
+		return bullet;
 	}
 }

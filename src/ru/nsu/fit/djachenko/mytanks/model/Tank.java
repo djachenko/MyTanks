@@ -22,7 +22,7 @@ public class Tank
 		currentDirection = dir;
 	}
 
-	public boolean ableToMove(Direction direction) throws UnexpectedSituationException
+	public boolean ableToMove(Direction direction)
 	{
 		switch (currentDirection)
 		{
@@ -35,11 +35,12 @@ public class Tank
 			case DOWN:
 				return level.ableToMove(x - 1, y - 1, direction, 2) && level.ableToMove(x, y - 1, direction, 3) && level.ableToMove(x + 1, y - 1, direction, 2);
 			default:
-				throw new UnexpectedSituationException(currentDirection.name());
+				//throw
+				return false;
 		}
 	}
 
-	public void move(Direction direction) throws UnexpectedSituationException
+	public void move(Direction direction)
 	{
 		if (direction != currentDirection)
 		{
@@ -74,7 +75,7 @@ public class Tank
 
 					break;
 				default:
-					throw new UnexpectedSituationException(direction.name());
+					//throw
 			}
 
 			x += direction.getDx();

@@ -2,7 +2,6 @@ package ru.nsu.fit.djachenko.mytanks.model.activities;
 
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
 import ru.nsu.fit.djachenko.mytanks.model.Tank;
-import ru.nsu.fit.djachenko.mytanks.model.UnexpectedSituationException;
 
 public class MoveTankTask implements Task
 {
@@ -18,14 +17,7 @@ public class MoveTankTask implements Task
 	@Override
 	public void execute(int iteration)
 	{
-		try
-		{
-			tank.move(direction);
-		}
-		catch (UnexpectedSituationException e)
-		{
-			e.printStackTrace();
-		}
+		tank.move(direction);
 	}
 
 	@Override

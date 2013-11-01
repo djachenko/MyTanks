@@ -1,16 +1,24 @@
 package ru.nsu.fit.djachenko.mytanks.communication;
 
-import ru.nsu.fit.djachenko.mytanks.model.Game;
+import ru.nsu.fit.djachenko.mytanks.model.Level;
 
-public class ShootMessage implements MessageToModel
+public class ShootMessage extends MessageToModel
 {
-	public ShootMessage()
+	private int id;
+
+	public ShootMessage(int id)
 	{
+		this.id = id;
 	}
 
 	@Override
-	public void handle(Game game)
+	public void handle(Level level)
 	{
-		game.shoot();
+		level.accept(this);
+	}
+
+	public int getId()
+	{
+		return id;
 	}
 }

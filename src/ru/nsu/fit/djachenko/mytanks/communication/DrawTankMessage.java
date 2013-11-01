@@ -1,23 +1,25 @@
 package ru.nsu.fit.djachenko.mytanks.communication;
 
 import ru.nsu.fit.djachenko.mytanks.model.Tank;
-import ru.nsu.fit.djachenko.mytanks.view.GameView;
-import ru.nsu.fit.djachenko.mytanks.view.TankView;
+import ru.nsu.fit.djachenko.mytanks.view.LevelView;
 
-public class DrawTankMessage implements MessageToView
+public class DrawTankMessage extends MessageToView
 {
 	private Tank tank;
 
 	public DrawTankMessage(Tank tank)
 	{
 		this.tank = tank;
-		System.out.println("draw tank " + this);
 	}
 
 	@Override
-	public void handle(GameView gameView)
+	public void handle(LevelView levelView)
 	{
-		gameView.add(new TankView(tank));
-		System.out.println("DrawTankMessage" + this.getClass().getCanonicalName());
+		levelView.accept(this);
+	}
+
+	public Tank getTank()
+	{
+		return tank;
 	}
 }
