@@ -12,7 +12,7 @@ public class TankCell extends Cell
 	private int x;
 	private int y;
 
-	public TankCell(Field field, Tank tank, int x, int y)
+	TankCell(Field field, Tank tank, int x, int y)
 	{
 		super(Type.TANK);
 

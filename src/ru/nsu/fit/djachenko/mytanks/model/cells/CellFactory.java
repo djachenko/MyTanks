@@ -1,0 +1,53 @@
+package ru.nsu.fit.djachenko.mytanks.model.cells;
+
+import ru.nsu.fit.djachenko.mytanks.model.Bullet;
+import ru.nsu.fit.djachenko.mytanks.model.Field;
+import ru.nsu.fit.djachenko.mytanks.model.Tank;
+
+public class CellFactory
+{
+	private static GroundCell groundCell;
+	private static WallCell wallCell;
+
+	public BulletCell getBulletCell(Field field, Bullet origin, int x, int y)
+	{
+		return new BulletCell(field, origin, x, y);
+	}
+
+	public GroundCell getGroundCell()
+	{
+		if (groundCell == null)
+		{
+			synchronized (this.getClass())
+			{
+				if (groundCell == null)
+				{
+					groundCell = new GroundCell();
+				}
+			}
+		}
+
+		return groundCell;
+	}
+
+	public TankCell getTankCell(Field field, Tank tank, int x, int y)
+	{
+		return new TankCell(field, tank, x, y);
+	}
+
+	public WallCell getWallCell()
+	{
+		if (wallCell == null)
+		{
+			synchronized (this.getClass())
+			{
+				if (wallCell == null)
+				{
+					wallCell = new WallCell();
+				}
+			}
+		}
+
+		return wallCell;
+	}
+}

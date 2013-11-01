@@ -4,7 +4,7 @@ import ru.nsu.fit.djachenko.mytanks.model.Direction;
 
 public class GroundCell extends Cell
 {
-	public GroundCell()
+	GroundCell()
 	{
 		super(Type.GROUND);
 	}

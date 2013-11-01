@@ -4,8 +4,7 @@ import ru.nsu.fit.djachenko.mytanks.model.Direction;
 
 public class WallCell extends Cell
 {
-
-	public WallCell(int x, int y)
+	WallCell()
 	{
 		super(Type.WALL);
 	}

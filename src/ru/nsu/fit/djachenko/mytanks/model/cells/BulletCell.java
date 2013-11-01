@@ -11,7 +11,7 @@ public class BulletCell extends Cell
 	private int x;
 	private int y;
 
-	public BulletCell(Field field, Bullet origin, int x, int y)
+	BulletCell(Field field, Bullet origin, int x, int y)
 	{
 		super(Type.BULLET);
 
