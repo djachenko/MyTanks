@@ -34,8 +34,11 @@ public class Bullet
 	{
 		level.move(x, y, direction, 1);
 
-		x += direction.getDx();
-		y += direction.getDy();
+		if (active)
+		{
+			x += direction.getDx();
+			y += direction.getDy();
+		}
 	}
 
 	public void hit()

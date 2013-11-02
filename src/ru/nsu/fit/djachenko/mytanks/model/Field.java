@@ -10,6 +10,7 @@ import java.io.IOException;
 public class Field
 {
 	private Cell[][] table = null;
+	private CellFactory cellFactory = new CellFactory();
 
 	Field(String configFile) throws IOException
 	{
@@ -59,11 +60,11 @@ public class Field
 					{
 						case ' ':
 						case '.':
-							table[j][i] = new GroundCell();
+							table[j][i] = cellFactory.getGroundCell();
 
 							break;
 						case 'x':
-							table[j][i] = new WallCell(i, j);
+							table[j][i] = cellFactory.getWallCell();
 
 							break;
 						default:
@@ -83,7 +84,7 @@ public class Field
 		int x = bullet.getX();
 		int y = bullet.getY();
 
-		replace(x, y, new BulletCell(this, bullet, x, y));
+		replace(x, y, cellFactory.getBulletCell(this, bullet, x, y));
 	}
 
 	void draw(Tank tank)
@@ -103,7 +104,7 @@ public class Field
 				{
 					if (table[y + k][x + j].type == Cell.Type.GROUND)
 					{
-						table[y + k][x + j] = new TankCell(this, tank, x + j, y + k);
+						table[y + k][x + j] = cellFactory.getTankCell(this, tank, x + j, y + k);
 					}
 					//throw new MapFormatException("Tank overlaps " + table[y + k][x + j].type.name().toLowerCase() + " at (" + (x + j) + "; " + (y + k) + ')');
 				}
@@ -113,7 +114,7 @@ public class Field
 
 	public void erase(Bullet bullet)
 	{
-		replace(bullet.getX(), bullet.getY(), new GroundCell());
+		replace(bullet.getX(), bullet.getY(), cellFactory.getGroundCell());
 	}
 
 	public void erase(Tank tank)
@@ -131,7 +132,7 @@ public class Field
 			{
 				if (!((dx == 0 && k == dy && j != 0) || (dy == 0 && k != 0 && j == dx)))
 				{
-					table[y + k][x + j] = new GroundCell();
+					table[y + k][x + j] = cellFactory.getGroundCell();
 				}
 			}
 		}
@@ -174,14 +175,14 @@ public class Field
 	public void move(int x, int y, Direction dir, int depth)
 	{
 		table[y][x].move(dir, depth);
-		replace(x, y, new GroundCell());
+		replace(x, y, cellFactory.getGroundCell());
 	}
 
 	public void move(int fromX, int fromY, int toX, int toY)
 	{
 		table[fromY][fromX].move(toX, toY);
 		table[toY][toX] = table[fromY][fromX];
-		table[fromY][fromX] = new GroundCell();
+		table[fromY][fromX] = cellFactory.getGroundCell();
 	}
 
 	boolean ableToReplace(int x, int y)

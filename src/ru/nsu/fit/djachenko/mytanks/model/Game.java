@@ -14,6 +14,7 @@ public class Game extends Thread
 	private final MessageChannel<MessageToModel> channelToModel = new MessageChannel<>();
 	private List<MessageChannel<MessageToView>> channelsToView = new LinkedList<>();
 	private Level currentLevel = null;
+	private LevelHolder holder = new LevelHolder();
 	private int pauses = 0;
 
 	private Map<MessageChannel<MessageToView>, int[]> playerIds = new HashMap<>();
@@ -48,13 +49,7 @@ public class Game extends Thread
 
 	private void startLevel(int index) throws IOException
 	{
-		System.out.println("index " + index);
-
-		LevelHolder holder = new LevelHolder();
-
-		System.out.println(holder.countLevels() + holder.getLevel(0));
-
-		currentLevel = new Level(new LevelHolder().getLevel(index), channelsToView, players);
+		currentLevel = new Level(holder.getLevel(index), channelsToView, players);
 
 		currentLevel.add(new Tank(currentLevel, 4, 13, Direction.UP));
 		currentLevel.add(new Tank(currentLevel, 20, 13, Direction.UP));

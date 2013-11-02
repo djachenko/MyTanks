@@ -2,6 +2,10 @@ package ru.nsu.fit.djachenko.mytanks.model;
 
 public class Tank
 {
+	private static int count = 0;
+
+	private final int id = count++;
+
 	private int x;
 	private int y;
 
@@ -185,5 +189,10 @@ public class Tank
 	public boolean isAlive()
 	{
 		return alive;
+	}
+
+	public int getId()
+	{
+		return id;
 	}
 }

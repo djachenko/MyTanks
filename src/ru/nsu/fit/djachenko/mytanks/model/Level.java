@@ -9,12 +9,13 @@ import java.util.*;
 public class Level extends Field
 {
 	private TaskPerformer performer;
-	private List<Tank> tanks = new ArrayList<>();
-	private List<Bullet> bullets = new LinkedList<>();
 	private Map<Integer, Tank> tankMap = new HashMap<>();
+	private List<Bullet> bullets = new LinkedList<>();
 
 	private List<MessageChannel<MessageToView>> channelsToView;
 	private List<Player> players;
+
+	private Map<Integer, Integer> resolveIdMap = new HashMap<>();
 
 	public Level(String config, List<MessageChannel<MessageToView>> channels, List<Player> players) throws IOException
 	{
@@ -28,8 +29,12 @@ public class Level extends Field
 
 	private void moveTank(int id, Direction direction)
 	{
-		performer.enqueue(new MoveTankTask(getTank(id), direction));
-		print();
+		Tank tank = getTank(id);
+
+		if (tank != null)
+		{
+			performer.enqueue(new MoveTankTask(tank, direction));
+		}
 	}
 
 	private void shoot(int id)
@@ -39,7 +44,18 @@ public class Level extends Field
 
 	public void add(Tank tank)
 	{
-		tanks.add(tank);
+		tankMap.put(tank.getId(), tank);
+		draw(tank);
+		send(new DrawTankMessage(tank));
+	}
+
+	public void add(Tank tank, int playerId)
+	{
+		int tankId = tank.getId();
+
+		tankMap.put(tankId, tank);
+		resolveIdMap.put(playerId, tankId);
+
 		draw(tank);
 		send(new DrawTankMessage(tank));
 	}
@@ -52,14 +68,9 @@ public class Level extends Field
 		send(new DrawBulletMessage(bullet));
 	}
 
-	private void add(Tank tank, int id)
-	{
-		tankMap.put(id, tank);
-	}
-
 	void remove(Tank tank)
 	{
-		tanks.remove(tank);
+		tankMap.remove(tank.getId());
 		performer.enqueue(new RemoveTankTask(tank, this));
 	}
 
@@ -69,14 +80,9 @@ public class Level extends Field
 		performer.enqueue(new RemoveBulletTask(bullet, this));
 	}
 
-	private void removeTank(int id)
-	{
-		tankMap.remove(id);
-	}
-
 	private Tank getTank(int id)
 	{
-		return tanks.get(id);
+		return tankMap.get(id);
 	}
 
 	boolean ableToSpawnBullet(int x, int y)
@@ -106,6 +112,16 @@ public class Level extends Field
 		}
 	}
 
+	private void spawnTank(int playerId)
+	{
+		Tank tank = new Tank(this, -1, -1, null);
+
+		tankMap.put(tank.getId(), tank);
+
+		send(new DrawTankMessage(tank));
+	    resolveIdMap.put(playerId, tank.getId());
+	}
+
 	public Iterable<Bullet> getBullets()
 	{
 		return bullets;
@@ -113,7 +129,21 @@ public class Level extends Field
 
 	public Iterable<Tank> getTanks()
 	{
-		return tanks;
+		return tankMap.values();
+	}
+
+	private int resolveTankId(int id)
+	{
+		Integer result = resolveIdMap.get(id);
+
+		if (result == null)
+		{
+			return -1;
+		}
+		else
+		{
+			return result;
+		}
 	}
 
 	private void send(MessageToView message)
@@ -126,10 +156,14 @@ public class Level extends Field
 
 	public void accept(MessageToModel message)
 	{
+		//throw
 	}
 
 	public void accept(MoveTankMessage message)
 	{
+		//int tankId = resolveTankId(message.getPlayerId());
+		//moveTank(tankId, message.getDirection());//moveTank(resolveTankId(message.getPlayerId()), message.getDirection());
+
 		moveTank(message.getPlayerId(), message.getDirection());
 	}
 
