@@ -8,16 +8,22 @@ import ru.nsu.fit.djachenko.mytanks.model.Bullet;
 import ru.nsu.fit.djachenko.mytanks.model.Level;
 import ru.nsu.fit.djachenko.mytanks.model.Tank;
 import ru.nsu.fit.djachenko.mytanks.model.cells.Cell;
+import ru.nsu.fit.djachenko.mytanks.testing.TankMovedMessage;
+import ru.nsu.fit.djachenko.mytanks.testing.TankRemovedMessage;
 import ru.nsu.fit.djachenko.mytanks.view.activities.UpdateBulletViewTask;
 import ru.nsu.fit.djachenko.mytanks.view.activities.UpdateTankViewTask;
 import ru.nsu.fit.djachenko.mytanks.view.activities.ViewTaskPerformer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LevelView extends JPanel
 {
 	private ViewTaskPerformer performer;
+	private Map<Integer, TankView> tankViews = new HashMap<>();
+	private Map<Integer, BulletView> bulletViews = new HashMap<>();
 
 	LevelView(Level origin, ViewTaskPerformer performer)
 	{
@@ -56,16 +62,6 @@ public class LevelView extends JPanel
 			}
 		}
 
-		for (Tank tank : origin.getTanks())//REFACTOR maybe ViewFactory with type overload
-		{
-			add(new TankView(tank));
-		}
-
-		for (Bullet bullet : origin.getBullets())
-		{
-			add(new BulletView(bullet));
-		}
-
 		setPreferredSize(new Dimension(width * CellView.GRIDSIZE, height * CellView.GRIDSIZE));
 	}
 
@@ -74,17 +70,57 @@ public class LevelView extends JPanel
 		super.add(tank);
 		setComponentZOrder(tank, 0);
 		repaint();
+	}
 
-		performer.enqueue(new UpdateTankViewTask(this, tank));
+	private void add(TankView tankView, int id)
+	{
+		tankViews.put(id, tankView);
+		add(tankView);
 	}
 
 	private void add(BulletView bullet)
 	{
+		//bulletViews.put(0, bullet);
+
 		super.add(bullet);
 		setComponentZOrder(bullet, 0);
 		repaint();
 
 		performer.enqueue(new UpdateBulletViewTask(bullet, this));
+	}
+
+	public void remove(TankView tankView)
+	{
+		super.remove(tankView);
+	}
+
+	public void remove(BulletView bulletView)
+	{
+		//bulletViews.remove(0);
+
+		super.remove(bulletView);
+	}
+
+	private void removeTank(int id)
+	{
+		TankView tankView = tankViews.get(id);
+
+		if (tankView != null)
+		{
+			super.remove(tankView);
+			tankViews.remove(id);
+		}
+	}
+
+	private void removeBullet(int id)
+	{
+		BulletView bulletView = bulletViews.get(id);
+
+		if (bulletView != null)
+		{
+			super.remove(bulletView);
+			bulletViews.remove(id);
+		}
 	}
 
 	public void accept(MessageToView message)
@@ -94,16 +130,28 @@ public class LevelView extends JPanel
 
 	public void accept(DrawTankMessage message)
 	{
-		add(new TankView(message.getTank()));
+		System.out.println("draw message");
+		add(new TankView(message.getX(), message.getY(), message.getDirection()), message.getId());
 	}
 
 	public void accept(DrawBulletMessage message)
 	{
 		add(new BulletView(message.getBullet()));
+		//add(new BulletView(message.getX(), message.getY(), message.getDirection()), message.getId());
 	}
 
 	public void accept(AddControllerMessage message)
 	{
 		addKeyListener(message.getController());
+	}
+
+	public void accept(TankMovedMessage message)
+	{
+		tankViews.get(message.getId()).move(message.getDirection());
+	}
+
+	public void accept(TankRemovedMessage message)
+	{
+		removeTank(message.getId());
 	}
 }

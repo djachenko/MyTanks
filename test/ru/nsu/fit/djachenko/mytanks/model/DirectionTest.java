@@ -41,14 +41,14 @@ public class DirectionTest
 			switch (direction)
 			{
 				case RIGHT:
-					assertEquals("Direction." + direction.name() + ".dx is wrong", 1, direction.dx);
+					assertEquals("Direction." + direction.name() + ".getDx() is wrong", 1, direction.getDx());
 					break;
 				case LEFT:
-					assertEquals("Direction." + direction.name() + ".dx is wrong", -1, direction.dx);
+					assertEquals("Direction." + direction.name() + ".getDx() is wrong", -1, direction.getDx());
 					break;
 				case UP:
 				case DOWN:
-					assertEquals("Direction." + direction.name() + ".dx is wrong", 0, direction.dx);
+					assertEquals("Direction." + direction.name() + ".getDx() is wrong", 0, direction.getDx());
 					break;
 				default:
 					fail("Direction." + direction.name() + " was not expected");
@@ -65,14 +65,14 @@ public class DirectionTest
 			switch (direction)
 			{
 				case UP:
-					assertEquals("Direction." + direction.name() + ".dy is wrong", -1, direction.dy);
+					assertEquals("Direction." + direction.name() + ".getDy() is wrong", -1, direction.getDy());
 					break;
 				case DOWN:
-					assertEquals("Direction." + direction.name() + ".dy is wrong", 1, direction.dy);
+					assertEquals("Direction." + direction.name() + ".getDy() is wrong", 1, direction.getDy());
 					break;
 				case LEFT:
 				case RIGHT:
-					assertEquals("Direction." + direction.name() + ".dy is wrong", 0, direction.dy);
+					assertEquals("Direction." + direction.name() + ".getDy() is wrong", 0, direction.getDy());
 					break;
 				default:
 					fail("Direction." + direction.name() + " was not expected");

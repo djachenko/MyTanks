@@ -137,8 +137,8 @@ public class LevelTest
 						int dy = y - tankY;
 
 						if (Math.abs(dx) <= 1 && Math.abs(dy) <= 1 &&
-								!(tankDirection.isVertical() && dx != 0 && dy == tankDirection.dy ||
-										tankDirection.isHorisontal() && dx == tankDirection.dx && dy != 0))
+								!(tankDirection.isVertical() && dx != 0 && dy == tankDirection.getDy() ||
+										tankDirection.isHorisontal() && dx == tankDirection.getDx() && dy != 0))
 						{
 							assertNotNull("Null cell at (" + y + ';' + x + ") ", level.at(x, y));
 							assertEquals("Wrong cell type at (" + x + ';' + y + ").", Cell.Type.TANK, level.at(x, y).type);
@@ -154,11 +154,11 @@ public class LevelTest
 
 				if (moveDirection == tankDirection)
 				{
-					assertEquals("Tank middle x wasn't moved. " + tank.getY() + tankDirection.name(), tankX + moveDirection.dx, tank.getX());
-					assertEquals("Tank middle y wasn't moved.", tankY + moveDirection.dy, tank.getY());
+					assertEquals("Tank middle x wasn't moved. " + tank.getY() + tankDirection.name(), tankX + moveDirection.getDx(), tank.getX());
+					assertEquals("Tank middle y wasn't moved.", tankY + moveDirection.getDy(), tank.getY());
 
-					tankX += moveDirection.dx;
-					tankY += moveDirection.dy;
+					tankX += moveDirection.getDx();
+					tankY += moveDirection.getDy();
 				}
 				else
 				{
@@ -175,8 +175,8 @@ public class LevelTest
 
 
 						if (Math.abs(dx) <= 1 && Math.abs(dy) <= 1 &&
-								!(moveDirection.isVertical() && dx != 0 && dy == moveDirection.dy ||
-										moveDirection.isHorisontal() && dx == moveDirection.dx && dy != 0))
+								!(moveDirection.isVertical() && dx != 0 && dy == moveDirection.getDy() ||
+										moveDirection.isHorisontal() && dx == moveDirection.getDx() && dy != 0))
 						{
 							assertNotNull("Null cell at (" + y + ';' + x + ") ", level.at(x, y));
 							assertEquals("Wrong cell type at (" + x + ';' + y + ").", Cell.Type.TANK, level.at(x, y).type);

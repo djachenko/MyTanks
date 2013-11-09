@@ -14,11 +14,14 @@ public class LevelStartedMessage extends MessageToView
 		this.level = level;
 		this.wasdId = ids[0];
 		this.arrowsId = ids[1];
+
+		System.out.println("lsm ctor");
 	}
 
 	@Override
 	public void handle(AppWindow appWindow)
 	{
+		System.out.println("lasm h");
 		appWindow.accept(this);
 	}
 

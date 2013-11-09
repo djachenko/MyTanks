@@ -1,5 +1,7 @@
 package ru.nsu.fit.djachenko.mytanks.model;
 
+import ru.nsu.fit.djachenko.mytanks.testing.TankMovedMessage;
+
 public class Tank
 {
 	private static int count = 0;
@@ -49,6 +51,7 @@ public class Tank
 		if (direction != currentDirection)
 		{
 			turn(direction);
+			level.send(new TankMovedMessage(id, direction));
 		}
 		else if (ableToMove(direction))
 		{
@@ -84,7 +87,11 @@ public class Tank
 
 			x += direction.getDx();
 			y += direction.getDy();
+
+			level.send(new TankMovedMessage(id, direction));
 		}
+
+		level.print();
 	}
 
 	public boolean ableToTurn(Direction direction)
@@ -120,6 +127,8 @@ public class Tank
 
 			x += currentDirection.getDx();
 			y += currentDirection.getDy();
+
+			level.send(new TankMovedMessage(id, currentDirection));
 		}
 	}
 

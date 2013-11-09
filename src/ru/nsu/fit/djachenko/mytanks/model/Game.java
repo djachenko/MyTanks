@@ -13,6 +13,7 @@ public class Game extends Thread
 {
 	private final MessageChannel<MessageToModel> channelToModel = new MessageChannel<>();
 	private List<MessageChannel<MessageToView>> channelsToView = new LinkedList<>();
+
 	private Level currentLevel = null;
 	private LevelHolder holder = new LevelHolder();
 	private int pauses = 0;
@@ -49,14 +50,21 @@ public class Game extends Thread
 
 	private void startLevel(int index) throws IOException
 	{
-		currentLevel = new Level(holder.getLevel(index), channelsToView, players);
+		currentLevel = new Level(holder.getLevel(index), this);
 
-		currentLevel.add(new Tank(currentLevel, 4, 13, Direction.UP));
+		for (MessageChannel<MessageToView> channelToView : channelsToView)
+		{
+			int[] ids = playerIds.get(channelToView);
+			channelToView.set(new LevelStartedMessage(currentLevel, ids));
+		}
+
 		currentLevel.add(new Tank(currentLevel, 20, 13, Direction.UP));
+		currentLevel.add(new Tank(currentLevel, 4, 13, Direction.UP));
 	}
 
-	private void sendMessageToView(MessageToView messageToView)
+	void send(MessageToView messageToView)
 	{
+		System.out.println(messageToView.getClass().getSimpleName() + " " + channelsToView.size());
 		synchronized (this)
 		{
 			while (isPaused())
@@ -128,12 +136,6 @@ public class Game extends Thread
 		catch (IOException e)
 		{
 			e.printStackTrace();
-		}
-
-		for (MessageChannel<MessageToView> channelToView : channelsToView)
-		{
-			int[] ids = playerIds.get(channelToView);
-			channelToView.set(new LevelStartedMessage(currentLevel, ids));
 		}
 	}
 

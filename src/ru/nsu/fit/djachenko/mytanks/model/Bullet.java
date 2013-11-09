@@ -63,6 +63,11 @@ public class Bullet
 		return y;
 	}
 
+	public Direction getDirection()
+	{
+		return direction;
+	}
+
 	public boolean isActive()
 	{
 		return active;

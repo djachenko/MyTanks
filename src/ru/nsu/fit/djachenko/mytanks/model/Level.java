@@ -2,29 +2,29 @@ package ru.nsu.fit.djachenko.mytanks.model;
 
 import ru.nsu.fit.djachenko.mytanks.communication.*;
 import ru.nsu.fit.djachenko.mytanks.model.activities.*;
+import ru.nsu.fit.djachenko.mytanks.testing.TankMovedMessage;
+import ru.nsu.fit.djachenko.mytanks.testing.TankRemovedMessage;
 
 import java.io.IOException;
 import java.util.*;
 
 public class Level extends Field
 {
+	private final Game game;
+
 	private TaskPerformer performer;
 	private Map<Integer, Tank> tankMap = new HashMap<>();
 	private List<Bullet> bullets = new LinkedList<>();
 
-	private List<MessageChannel<MessageToView>> channelsToView;
-	private List<Player> players;
-
 	private Map<Integer, Integer> resolveIdMap = new HashMap<>();
 
-	public Level(String config, List<MessageChannel<MessageToView>> channels, List<Player> players) throws IOException
+	public Level(String config, Game game) throws IOException
 	{
 		super(config);
 
-		performer = new TaskPerformer();
+		this.game = game;
 
-		this.channelsToView = channels;
-		this.players = players;
+		performer = new TaskPerformer();
 	}
 
 	private void moveTank(int id, Direction direction)
@@ -70,8 +70,10 @@ public class Level extends Field
 
 	void remove(Tank tank)
 	{
+		System.out.println("rem tank");
 		tankMap.remove(tank.getId());
 		performer.enqueue(new RemoveTankTask(tank, this));
+		send(new TankRemovedMessage(tank.getId()));
 	}
 
 	void remove(Bullet bullet)
@@ -146,12 +148,9 @@ public class Level extends Field
 		}
 	}
 
-	private void send(MessageToView message)
+	void send(MessageToView message)
 	{
-		for (MessageChannel<MessageToView> channel : channelsToView)
-		{
-			channel.set(message);
-		}
+		game.send(message);
 	}
 
 	public void accept(MessageToModel message)

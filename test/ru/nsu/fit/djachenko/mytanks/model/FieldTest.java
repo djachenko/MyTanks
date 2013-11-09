@@ -150,8 +150,8 @@ public class FieldTest
 							int dy = y - tankY;
 
 							if (Math.abs(dx) <= 1 && Math.abs(dy) <= 1 &&
-									!(tankDirection.isVertical() && dx != 0 && dy == tankDirection.dy ||
-									tankDirection.isHorisontal() && dx == tankDirection.dx && dy != 0))
+									!(tankDirection.isVertical() && dx != 0 && dy == tankDirection.getDy() ||
+									tankDirection.isHorisontal() && dx == tankDirection.getDx() && dy != 0))
 							{
 								assertNotNull("Null cell at (" + y + ';' + x + ") ", level.at(x, y));
 								assertEquals("Wrong cell type at (" + x + ';' + y + ").", Cell.Type.TANK, level.at(x, y).type);
@@ -200,8 +200,8 @@ public class FieldTest
 							int dy = y - tankY;
 
 							if (Math.abs(dx) <= 1 && Math.abs(dy) <= 1 &&
-									!(tankDirection.isVertical() && dx != 0 && dy == tankDirection.dy ||
-											tankDirection.isHorisontal() && dx == tankDirection.dx && dy != 0))
+									!(tankDirection.isVertical() && dx != 0 && dy == tankDirection.getDy() ||
+											tankDirection.isHorisontal() && dx == tankDirection.getDx() && dy != 0))
 							{
 								assertNotNull("Null cell at (" + y + ';' + x + ") ", level.at(x, y));
 								assertEquals("Wrong cell type at (" + x + ';' + y + ").", Cell.Type.TANK, level.at(x, y).type);
