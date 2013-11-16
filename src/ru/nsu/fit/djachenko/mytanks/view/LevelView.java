@@ -4,14 +4,11 @@ import ru.nsu.fit.djachenko.mytanks.communication.AddControllerMessage;
 import ru.nsu.fit.djachenko.mytanks.communication.DrawBulletMessage;
 import ru.nsu.fit.djachenko.mytanks.communication.DrawTankMessage;
 import ru.nsu.fit.djachenko.mytanks.communication.MessageToView;
-import ru.nsu.fit.djachenko.mytanks.model.Bullet;
 import ru.nsu.fit.djachenko.mytanks.model.Level;
-import ru.nsu.fit.djachenko.mytanks.model.Tank;
 import ru.nsu.fit.djachenko.mytanks.model.cells.Cell;
 import ru.nsu.fit.djachenko.mytanks.testing.TankMovedMessage;
 import ru.nsu.fit.djachenko.mytanks.testing.TankRemovedMessage;
 import ru.nsu.fit.djachenko.mytanks.view.activities.UpdateBulletViewTask;
-import ru.nsu.fit.djachenko.mytanks.view.activities.UpdateTankViewTask;
 import ru.nsu.fit.djachenko.mytanks.view.activities.ViewTaskPerformer;
 
 import javax.swing.*;
