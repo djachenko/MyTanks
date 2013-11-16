@@ -2,8 +2,8 @@ package ru.nsu.fit.djachenko.mytanks.model;
 
 import ru.nsu.fit.djachenko.mytanks.communication.*;
 import ru.nsu.fit.djachenko.mytanks.model.activities.*;
-import ru.nsu.fit.djachenko.mytanks.testing.TankMovedMessage;
-import ru.nsu.fit.djachenko.mytanks.testing.TankRemovedMessage;
+import ru.nsu.fit.djachenko.mytanks.communication.BulletRemovedMessage;
+import ru.nsu.fit.djachenko.mytanks.communication.TankRemovedMessage;
 
 import java.io.IOException;
 import java.util.*;
@@ -89,6 +89,7 @@ public class Level extends Field
 	{
 		bullets.remove(bullet);
 		erase(bullet);
+		send(new BulletRemovedMessage(bullet.getId()));
 	}
 
 	private Tank getTank(int id)

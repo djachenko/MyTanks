@@ -5,7 +5,6 @@ import ru.nsu.fit.djachenko.mytanks.controller.ArrowsController;
 import ru.nsu.fit.djachenko.mytanks.controller.WASDController;
 import ru.nsu.fit.djachenko.mytanks.model.Client;
 import ru.nsu.fit.djachenko.mytanks.model.LevelHolder;
-import ru.nsu.fit.djachenko.mytanks.model.Game;
 import ru.nsu.fit.djachenko.mytanks.view.activities.HandleMessageTask;
 import ru.nsu.fit.djachenko.mytanks.view.activities.ViewTaskPerformer;
 
@@ -63,7 +62,7 @@ public class AppWindow extends JFrame
 		setLocationRelativeTo(null);
 	}
 
-	void setLevelChooseMenu()
+	private void setLevelChooseMenu()
 	{
 		if (chooseLevelMenu == null)
 		{
@@ -83,7 +82,7 @@ public class AppWindow extends JFrame
 
 	private void startLevel(LevelStartedMessage message)//REFACTOR
 	{
-		currentLevelView = new LevelView(message.getLevel(), performer);
+		currentLevelView = new LevelView(message.getLevel());
 		currentLevelView.addKeyListener(new WASDController(channelToClient, message.getWasdId()));
 		currentLevelView.addKeyListener(new ArrowsController(channelToClient, message.getArrowsId()));
 
@@ -98,19 +97,6 @@ public class AppWindow extends JFrame
 		pack();
 		setLocationRelativeTo(null);
 		currentLevelView.requestFocus();
-	}
-
-	private void stopLevel()
-	{
-		if (currentLevelView == null)
-		{
-			//throw ;
-		}
-		else
-		{
-			currentLevelView = null;
-			setLevelChooseMenu();
-		}
 	}
 
 	public MessageChannel<MessageToView> getChannelToView()

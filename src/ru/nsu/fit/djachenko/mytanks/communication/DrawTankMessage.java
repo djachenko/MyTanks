@@ -17,15 +17,11 @@ public class DrawTankMessage extends MessageToView
 		this.y = tank.getY();
 		this.id = tank.getId();
 		this.direction = tank.getDirection();
-
-		System.out.println("dtm ctor");
 	}
 
 	@Override
 	public void handle(LevelView levelView)
 	{
-		System.out.println("dtm handle");
-
 		levelView.accept(this);
 	}
 

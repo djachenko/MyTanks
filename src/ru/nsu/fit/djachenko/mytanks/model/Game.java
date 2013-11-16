@@ -64,7 +64,6 @@ public class Game extends Thread
 
 	void send(MessageToView messageToView)
 	{
-		System.out.println(messageToView.getClass().getSimpleName() + " " + channelsToView.size());
 		synchronized (this)
 		{
 			while (isPaused())

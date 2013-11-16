@@ -1,42 +1,20 @@
 package ru.nsu.fit.djachenko.mytanks.view;
 
-import ru.nsu.fit.djachenko.mytanks.model.Bullet;
+import ru.nsu.fit.djachenko.mytanks.model.Direction;
 
 public class BulletView extends CellView
 {
-	private final Bullet origin;
+	private Direction direction;
 
-	private int x;
-	private int y;
-
-	public BulletView(Bullet origin)
+	BulletView(int x, int y, Direction direction)
 	{
-		super(Type.BULLET, origin.getX(), origin.getY());
+		super(Type.BULLET, x, y);
 
-		this.origin = origin;
-		this.x = origin.getX();
-		this.y = origin.getY();
+		this.direction = direction;
 	}
 
-	public void iteration()
+	void move()
 	{
-		if (x != origin.getX() || y != origin.getY())//moved
-		{
-			int dx = origin.getX() - x;
-			int dy = origin.getY() - y;
-
-			for (int i = 0; i < CellView.SIZE; i++)
-			{
-				setLocation(getX() + dx, getY() + dy);
-			}
-
-			x += dx;
-			y += dy;
-		}
-	}
-
-	public boolean isActive()
-	{
-		return origin.isActive();
+		super.move(direction);
 	}
 }

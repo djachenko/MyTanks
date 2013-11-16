@@ -1,11 +1,13 @@
 package ru.nsu.fit.djachenko.mytanks.model;
 
-import ru.nsu.fit.djachenko.mytanks.testing.TankMovedMessage;
+import ru.nsu.fit.djachenko.mytanks.communication.TankMovedMessage;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Tank
 {
 	private static int count = 0;
-
 	private final int id = count++;
 
 	private int x;
@@ -14,7 +16,7 @@ public class Tank
 	private Level level;
 	private Direction currentDirection;
 
-	private boolean alive;
+	private Map<Direction, TankMovedMessage> messages = new HashMap<>();
 
 	public Tank(Level level, int x, int y, Direction dir)
 	{
@@ -23,39 +25,19 @@ public class Tank
 		this.x = x;
 		this.y = y;
 
-		this.alive = true;
-
 		currentDirection = dir;
-	}
 
-	public boolean ableToMove(Direction direction)
-	{
-		switch (currentDirection)
+		for (Direction direction : Direction.values())
 		{
-			case RIGHT:
-				return level.ableToMove(x - 1, y - 1, direction, 2) && level.ableToMove(x - 1, y, direction, 3) && level.ableToMove(x - 1, y + 1, direction, 2);
-			case UP:
-				return level.ableToMove(x - 1, y + 1, direction, 2) && level.ableToMove(x, y + 1, direction, 3) && level.ableToMove(x + 1, y + 1, direction, 2);
-			case LEFT:
-				return level.ableToMove(x + 1, y - 1, direction, 2) && level.ableToMove(x + 1, y, direction, 3) && level.ableToMove(x + 1, y + 1, direction, 2);
-			case DOWN:
-				return level.ableToMove(x - 1, y - 1, direction, 2) && level.ableToMove(x, y - 1, direction, 3) && level.ableToMove(x + 1, y - 1, direction, 2);
-			default:
-				//throw
-				return false;
+			messages.put(direction, new TankMovedMessage(id, direction));
 		}
 	}
 
 	public void move(Direction direction)
 	{
-		System.out.println("pre " + alive);
-
 		if (direction != currentDirection)
 		{
 			turn(direction);
-			level.send(new TankMovedMessage(id, direction));
-
-			System.out.println("post " + alive);
 		}
 		else if (ableToMove(direction))
 		{
@@ -92,52 +74,11 @@ public class Tank
 			x += direction.getDx();
 			y += direction.getDy();
 
-			level.send(new TankMovedMessage(id, direction));
-			System.out.println("post " + alive);
-		}
-
-		level.print();
-	}
-
-	public boolean ableToTurn(Direction direction)
-	{
-		if (direction == currentDirection)
-		{
-			return true;
-		}
-
-		if (direction != currentDirection.opposite())
-		{
-			return level.ableToReplace(x + currentDirection.getDx() - direction.getDx(), y + currentDirection.getDy() - direction.getDy());
-		}
-		else
-		{
-			return level.ableToReplace(x + currentDirection.getDx() + direction.getDy(), y + currentDirection.getDy() + direction.getDx()) &&
-					level.ableToReplace(x + currentDirection.getDx() - direction.getDy(), y + currentDirection.getDy() - direction.getDx());
+			level.send(messages.get(direction));
 		}
 	}
 
-	public boolean ableToFlip()
-	{
-		return level.ableToReplace(x - 2 * currentDirection.getDx(), y - 2 * currentDirection.getDy());
-	}
-
-	public void flip()
-	{
-		if (ableToFlip())
-		{
-			level.move(x + currentDirection.getDx(), y + currentDirection.getDy(), x - 2 * currentDirection.getDx(), y - 2 * currentDirection.getDy());
-
-			currentDirection = currentDirection.opposite();
-
-			x += currentDirection.getDx();
-			y += currentDirection.getDy();
-
-			level.send(new TankMovedMessage(id, currentDirection));
-		}
-	}
-
-	public void turn(Direction direction)
+	private void turn(Direction direction)
 	{
 		if (ableToTurn(direction))
 		{
@@ -158,6 +99,7 @@ public class Tank
 			}
 
 			currentDirection = direction;
+			level.send(messages.get(direction));
 		}
 		else if (direction == currentDirection.opposite())
 		{
@@ -165,9 +107,61 @@ public class Tank
 		}
 	}
 
-	public boolean ableToShoot()
+	private void flip()
 	{
-		return level.ableToSpawnBullet(x + 2 * currentDirection.getDx(), y + 2 * currentDirection.getDy());
+		if (ableToFlip())
+		{
+			level.move(x + currentDirection.getDx(), y + currentDirection.getDy(), x - 2 * currentDirection.getDx(), y - 2 * currentDirection.getDy());
+
+			currentDirection = currentDirection.opposite();
+
+			x += currentDirection.getDx();
+			y += currentDirection.getDy();
+
+			level.send(messages.get(currentDirection));
+			level.send(messages.get(currentDirection));
+		}
+	}
+
+	private boolean ableToMove(Direction direction)
+	{
+		switch (currentDirection)
+		{
+			case RIGHT:
+				return level.ableToMove(x - 1, y - 1, direction, 2) && level.ableToMove(x - 1, y, direction, 3) && level.ableToMove(x - 1, y + 1, direction, 2);
+			case UP:
+				return level.ableToMove(x - 1, y + 1, direction, 2) && level.ableToMove(x, y + 1, direction, 3) && level.ableToMove(x + 1, y + 1, direction, 2);
+			case LEFT:
+				return level.ableToMove(x + 1, y - 1, direction, 2) && level.ableToMove(x + 1, y, direction, 3) && level.ableToMove(x + 1, y + 1, direction, 2);
+			case DOWN:
+				return level.ableToMove(x - 1, y - 1, direction, 2) && level.ableToMove(x, y - 1, direction, 3) && level.ableToMove(x + 1, y - 1, direction, 2);
+			default:
+				//throw
+				return false;
+		}
+	}
+
+	private boolean ableToTurn(Direction direction)
+	{
+		if (direction == currentDirection)
+		{
+			return true;
+		}
+
+		if (direction != currentDirection.opposite())
+		{
+			return level.ableToReplace(x + currentDirection.getDx() - direction.getDx(), y + currentDirection.getDy() - direction.getDy());
+		}
+		else
+		{
+			return level.ableToReplace(x + currentDirection.getDx() + direction.getDy(), y + currentDirection.getDy() + direction.getDx()) &&
+					level.ableToReplace(x + currentDirection.getDx() - direction.getDy(), y + currentDirection.getDy() - direction.getDx());
+		}
+	}
+
+	private boolean ableToFlip()
+	{
+		return level.ableToReplace(x - 2 * currentDirection.getDx(), y - 2 * currentDirection.getDy());
 	}
 
 	public void shoot()
@@ -178,10 +172,13 @@ public class Tank
 		}
 	}
 
+	private boolean ableToShoot()
+	{
+		return level.ableToSpawnBullet(x + 2 * currentDirection.getDx(), y + 2 * currentDirection.getDy());
+	}
+
 	public void hit()
 	{
-		alive = false;
-
 		level.hitTank(this);
 	}
 
@@ -198,11 +195,6 @@ public class Tank
 	public Direction getDirection()
 	{
 		return currentDirection;
-	}
-
-	public boolean isAlive()
-	{
-		return alive;
 	}
 
 	public int getId()

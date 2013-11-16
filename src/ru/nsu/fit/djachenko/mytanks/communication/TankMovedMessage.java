@@ -1,4 +1,4 @@
-package ru.nsu.fit.djachenko.mytanks.testing;
+package ru.nsu.fit.djachenko.mytanks.communication;
 
 import ru.nsu.fit.djachenko.mytanks.communication.MessageToView;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;

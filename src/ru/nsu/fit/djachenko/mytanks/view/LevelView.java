@@ -6,10 +6,10 @@ import ru.nsu.fit.djachenko.mytanks.communication.DrawTankMessage;
 import ru.nsu.fit.djachenko.mytanks.communication.MessageToView;
 import ru.nsu.fit.djachenko.mytanks.model.Level;
 import ru.nsu.fit.djachenko.mytanks.model.cells.Cell;
-import ru.nsu.fit.djachenko.mytanks.testing.TankMovedMessage;
-import ru.nsu.fit.djachenko.mytanks.testing.TankRemovedMessage;
-import ru.nsu.fit.djachenko.mytanks.view.activities.UpdateBulletViewTask;
-import ru.nsu.fit.djachenko.mytanks.view.activities.ViewTaskPerformer;
+import ru.nsu.fit.djachenko.mytanks.communication.BulletMovedMessage;
+import ru.nsu.fit.djachenko.mytanks.communication.BulletRemovedMessage;
+import ru.nsu.fit.djachenko.mytanks.communication.TankMovedMessage;
+import ru.nsu.fit.djachenko.mytanks.communication.TankRemovedMessage;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,14 +18,11 @@ import java.util.Map;
 
 public class LevelView extends JPanel
 {
-	private ViewTaskPerformer performer;
 	private Map<Integer, TankView> tankViews = new HashMap<>();
 	private Map<Integer, BulletView> bulletViews = new HashMap<>();
 
-	LevelView(Level origin, ViewTaskPerformer performer)
+	LevelView(Level origin)
 	{
-		this.performer = performer;
-
 		initUI(origin);
 	}
 
@@ -75,27 +72,13 @@ public class LevelView extends JPanel
 		add(tankView);
 	}
 
-	private void add(BulletView bullet)
+	private void add(BulletView bulletView, int id)
 	{
-		//bulletViews.put(0, bullet);
+		bulletViews.put(id, bulletView);
 
-		super.add(bullet);
-		setComponentZOrder(bullet, 0);
-		repaint();
-
-		performer.enqueue(new UpdateBulletViewTask(bullet, this));
-	}
-
-	public void remove(TankView tankView)
-	{
-		super.remove(tankView);
-	}
-
-	public void remove(BulletView bulletView)
-	{
-		//bulletViews.remove(0);
-
-		super.remove(bulletView);
+		super.add(bulletView);
+		setComponentZOrder(bulletView, 0);
+		repaint(bulletView.getBounds());
 	}
 
 	private void removeTank(int id)
@@ -105,6 +88,7 @@ public class LevelView extends JPanel
 		if (tankView != null)
 		{
 			super.remove(tankView);
+			repaint(tankView.getBounds());
 			tankViews.remove(id);
 		}
 	}
@@ -116,6 +100,7 @@ public class LevelView extends JPanel
 		if (bulletView != null)
 		{
 			super.remove(bulletView);
+			repaint(bulletView.getBounds());
 			bulletViews.remove(id);
 		}
 	}
@@ -127,14 +112,13 @@ public class LevelView extends JPanel
 
 	public void accept(DrawTankMessage message)
 	{
-		System.out.println("draw message");
 		add(new TankView(message.getX(), message.getY(), message.getDirection()), message.getId());
 	}
 
 	public void accept(DrawBulletMessage message)
 	{
-		add(new BulletView(message.getBullet()));
-		//add(new BulletView(message.getX(), message.getY(), message.getDirection()), message.getId());
+//		add(new BulletView(message.getBullet()));
+		add(new BulletView(message.getX(), message.getY(), message.getDirection()), message.getId());
 	}
 
 	public void accept(AddControllerMessage message)
@@ -155,5 +139,20 @@ public class LevelView extends JPanel
 	public void accept(TankRemovedMessage message)
 	{
 		removeTank(message.getId());
+	}
+
+	public void accept(BulletMovedMessage message)
+	{
+		BulletView bulletView = bulletViews.get(message.getId());
+
+		if (bulletView != null)
+		{
+			bulletView.move();
+		}
+	}
+
+	public void accept(BulletRemovedMessage message)
+	{
+		removeBullet(message.getId());
 	}
 }

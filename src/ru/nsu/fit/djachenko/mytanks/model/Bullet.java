@@ -1,7 +1,13 @@
 package ru.nsu.fit.djachenko.mytanks.model;
 
+import ru.nsu.fit.djachenko.mytanks.communication.BulletMovedMessage;
+
 public class Bullet
 {
+	private static int count = 0;
+
+	private final int id = count++;
+
 	private Level level;
 
 	private int x;
@@ -9,6 +15,7 @@ public class Bullet
 
 	private final Direction direction;
 	private boolean active = true;
+	private BulletMovedMessage movedMessage = new BulletMovedMessage(id);
 
 	Bullet(Level level, int x, int y, Direction direction)
 	{
@@ -38,6 +45,8 @@ public class Bullet
 		{
 			x += direction.getDx();
 			y += direction.getDy();
+
+			level.send(movedMessage);
 		}
 	}
 
@@ -71,5 +80,10 @@ public class Bullet
 	public boolean isActive()
 	{
 		return active;
+	}
+
+	public int getId()
+	{
+		return id;
 	}
 }
