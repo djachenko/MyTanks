@@ -2,6 +2,7 @@ package ru.nsu.fit.djachenko.mytanks.model.cells;
 
 import ru.nsu.fit.djachenko.mytanks.model.Bullet;
 import ru.nsu.fit.djachenko.mytanks.model.Field;
+import ru.nsu.fit.djachenko.mytanks.model.Level;
 import ru.nsu.fit.djachenko.mytanks.model.Tank;
 
 public class CellFactory
@@ -18,7 +19,7 @@ public class CellFactory
 	{
 		if (groundCell == null)
 		{
-			synchronized (this.getClass())
+			synchronized (CellFactory.class)
 			{
 				if (groundCell == null)
 				{

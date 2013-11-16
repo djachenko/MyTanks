@@ -48,10 +48,14 @@ public class Tank
 
 	public void move(Direction direction)
 	{
+		System.out.println("pre " + alive);
+
 		if (direction != currentDirection)
 		{
 			turn(direction);
 			level.send(new TankMovedMessage(id, direction));
+
+			System.out.println("post " + alive);
 		}
 		else if (ableToMove(direction))
 		{
@@ -89,6 +93,7 @@ public class Tank
 			y += direction.getDy();
 
 			level.send(new TankMovedMessage(id, direction));
+			System.out.println("post " + alive);
 		}
 
 		level.print();
@@ -177,7 +182,7 @@ public class Tank
 	{
 		alive = false;
 
-		level.remove(this);
+		level.hitTank(this);
 	}
 
 	public int getX()

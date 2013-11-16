@@ -37,9 +37,19 @@ public class Level extends Field
 		}
 	}
 
+	public void hitTank(Tank tank)
+	{
+		performer.enqueue(new RemoveTankTask(tank, this));
+	}
+
 	private void shoot(int id)
 	{
-		performer.enqueue(new ShootTask(getTank(id)));
+		Tank tank = getTank(id);
+
+		if (tank != null)
+		{
+			performer.enqueue(new ShootTask(tank));
+		}
 	}
 
 	public void add(Tank tank)
@@ -68,18 +78,17 @@ public class Level extends Field
 		send(new DrawBulletMessage(bullet));
 	}
 
-	void remove(Tank tank)
+	public void remove(Tank tank)
 	{
-		System.out.println("rem tank");
 		tankMap.remove(tank.getId());
-		performer.enqueue(new RemoveTankTask(tank, this));
+		erase(tank);
 		send(new TankRemovedMessage(tank.getId()));
 	}
 
 	void remove(Bullet bullet)
 	{
 		bullets.remove(bullet);
-		performer.enqueue(new RemoveBulletTask(bullet, this));
+		erase(bullet);
 	}
 
 	private Tank getTank(int id)
@@ -122,16 +131,6 @@ public class Level extends Field
 
 		send(new DrawTankMessage(tank));
 	    resolveIdMap.put(playerId, tank.getId());
-	}
-
-	public Iterable<Bullet> getBullets()
-	{
-		return bullets;
-	}
-
-	public Iterable<Tank> getTanks()
-	{
-		return tankMap.values();
 	}
 
 	private int resolveTankId(int id)

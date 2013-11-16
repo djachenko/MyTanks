@@ -147,7 +147,12 @@ public class LevelView extends JPanel
 
 	public void accept(TankMovedMessage message)
 	{
-		tankViews.get(message.getId()).move(message.getDirection());
+		TankView tankView = tankViews.get(message.getId());
+
+		if (tankView != null)
+		{
+			tankView.move(message.getDirection());
+		}
 	}
 
 	public void accept(TankRemovedMessage message)

@@ -15,19 +15,6 @@ public class TankView extends JLabel
 	private int y;
 	private Direction currentDirection;
 
-	TankView(Tank origin)
-	{
-		this.origin = origin;
-
-		x = origin.getX();
-		y = origin.getY();
-		currentDirection = origin.getDirection();
-
-		tank = new CellView[3][3];
-
-		initUI();
-	}
-
 	TankView(int x, int y, Direction direction)
 	{
 		this.x = x;
@@ -125,8 +112,6 @@ public class TankView extends JLabel
 
 	public void move(Direction newDirection)
 	{
-		System.out.println("tankview move");
-
 		if (currentDirection != newDirection)
 		{
 			int newDx = newDirection.getDx();

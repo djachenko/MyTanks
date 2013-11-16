@@ -17,7 +17,7 @@ public class RemoveTankTask implements Task
 	@Override
 	public void execute(int iteration)
 	{
-		level.erase(tank);
+		level.remove(tank);
 	}
 
 	@Override
