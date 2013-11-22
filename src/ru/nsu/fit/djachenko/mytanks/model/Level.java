@@ -63,25 +63,6 @@ public class Level extends Field
 		}
 	}
 
-	public void add(Tank tank)
-	{
-		tankMap.put(tank.getId(), tank);
-		draw(tank);
-		send(new DrawTankMessage(tank));
-	}
-
-	public void add(Tank tank, int playerId)
-	{
-		int tankId = tank.getId();
-
-		tankMap.put(tankId, tank);
-		playerToTank.put(playerId, tankId);
-		tankToPlayer.put(tankId, playerId);
-
-		draw(tank);
-		send(new DrawTankMessage(tank));
-	}
-
 	private void add(Bullet bullet)
 	{
 		bullets.add(bullet);
@@ -197,6 +178,6 @@ public class Level extends Field
 
 	public void accept(ShootMessage message)
 	{
-		shoot(message.getId());
+		shoot(resolveTankId(message.getId()));
 	}
 }
