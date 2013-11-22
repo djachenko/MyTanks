@@ -16,7 +16,11 @@ public class Level extends Field
 	private Map<Integer, Tank> tankMap = new HashMap<>();
 	private List<Bullet> bullets = new LinkedList<>();
 
-	private Map<Integer, Integer> resolveIdMap = new HashMap<>();
+	private Map<Integer, Integer> playerToTank = new HashMap<>();
+	private Map<Integer, Integer> tankToPlayer = new HashMap<>();
+
+	private List<SpawnPoint> spawnPoints;
+	Random random = new Random();
 
 	public Level(String config, Game game) throws IOException
 	{
@@ -25,6 +29,13 @@ public class Level extends Field
 		this.game = game;
 
 		performer = new TaskPerformer();
+
+		spawnPoints = scanForSpawnPoints();
+
+		for (SpawnPoint spawnPoint : spawnPoints)
+		{
+			System.out.println("(" + spawnPoint.getX() + ';' + spawnPoint.getY() + ')');
+		}
 	}
 
 	private void moveTank(int id, Direction direction)
@@ -64,7 +75,8 @@ public class Level extends Field
 		int tankId = tank.getId();
 
 		tankMap.put(tankId, tank);
-		resolveIdMap.put(playerId, tankId);
+		playerToTank.put(playerId, tankId);
+		tankToPlayer.put(tankId, playerId);
 
 		draw(tank);
 		send(new DrawTankMessage(tank));
@@ -83,6 +95,13 @@ public class Level extends Field
 		tankMap.remove(tank.getId());
 		erase(tank);
 		send(new TankRemovedMessage(tank.getId()));
+
+		int playerId = tankToPlayer.get(tank.getId());
+
+		tankToPlayer.remove(tank.getId());
+		playerToTank.remove(playerId);
+
+		performer.enqueue(new SpawnTankTask(this, random.nextDouble() % 15, playerId));
 	}
 
 	void remove(Bullet bullet)
@@ -124,19 +143,32 @@ public class Level extends Field
 		}
 	}
 
-	private void spawnTank(int playerId)
+	public void spawnTank(int playerId)
 	{
-		Tank tank = new Tank(this, -1, -1, null);
+		SpawnPoint point;
+
+		do
+		{
+			point = spawnPoints.get(random.nextInt(spawnPoints.size()));
+		}
+		while (!check(point));
+
+		Direction direction = Direction.values()[random.nextInt(Direction.values().length)];
+
+		Tank tank = new Tank(this, point.getX(), point.getY(), direction);
 
 		tankMap.put(tank.getId(), tank);
+		playerToTank.put(playerId, tank.getId());
+		tankToPlayer.put(tank.getId(), playerId);
+
+		draw(tank);
 
 		send(new DrawTankMessage(tank));
-	    resolveIdMap.put(playerId, tank.getId());
 	}
 
 	private int resolveTankId(int id)
 	{
-		Integer result = resolveIdMap.get(id);
+		Integer result = playerToTank.get(id);
 
 		if (result == null)
 		{
@@ -160,10 +192,7 @@ public class Level extends Field
 
 	public void accept(MoveTankMessage message)
 	{
-		//int tankId = resolveTankId(message.getPlayerId());
-		//moveTank(tankId, message.getDirection());//moveTank(resolveTankId(message.getPlayerId()), message.getDirection());
-
-		moveTank(message.getPlayerId(), message.getDirection());
+		moveTank(resolveTankId(message.getPlayerId()), message.getDirection());
 	}
 
 	public void accept(ShootMessage message)

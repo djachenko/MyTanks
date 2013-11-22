@@ -218,21 +218,9 @@ public class Field
 		System.out.println(temp);
 	}
 
-	private void scanForSpawnPoints()
+	List<SpawnPoint> scanForSpawnPoints()
 	{
-		class Point
-		{
-			private int x;
-			private int y;
-
-			Point(int x, int y)
-			{
-				this.x = x;
-				this.y = y;
-			}
-		}
-
-		List<Point> list = new LinkedList<>();
+		List<SpawnPoint> list = new LinkedList<>();
 
 		for (int y = 1; y < height() - 1; y++)
 		{
@@ -253,9 +241,30 @@ public class Field
 
 				if (ok)
 				{
-					list.add(new Point(x, y));
+					list.add(new SpawnPoint(x, y));
 				}
 			}
 		}
+
+		return list;
+	}
+
+	boolean check(SpawnPoint point)
+	{
+		int x = point.getX();
+		int y = point.getY();
+
+		for (int i = -1; i <= 1; i++)
+		{
+			for (int j = -1; j <= 1; j++)
+			{
+				if (table[y + j][x + i].getClass() != GroundCell.class)
+				{
+					return false;
+				}
+			}
+		}
+
+		return true;
 	}
 }
