@@ -1,13 +1,12 @@
 package ru.nsu.fit.djachenko.mytanks.communication;
 
-import ru.nsu.fit.djachenko.mytanks.communication.MessageToView;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
 import ru.nsu.fit.djachenko.mytanks.view.LevelView;
 
 public class TankMovedMessage extends MessageToView
 {
-	private int id;
-	private Direction direction;
+	private final int id;
+	private final Direction direction;
 
 	public TankMovedMessage(int id, Direction direction)
 	{

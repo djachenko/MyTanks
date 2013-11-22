@@ -13,14 +13,14 @@ public class Level extends Field
 	private final Game game;
 
 	private TaskPerformer performer;
-	private Map<Integer, Tank> tankMap = new HashMap<>();
-	private List<Bullet> bullets = new LinkedList<>();
+	private final Map<Integer, Tank> tankMap = new HashMap<>();
+	private final List<Bullet> bullets = new LinkedList<>();
 
-	private Map<Integer, Integer> playerToTank = new HashMap<>();
-	private Map<Integer, Integer> tankToPlayer = new HashMap<>();
+	private final Map<Integer, Integer> playerToTank = new HashMap<>();
+	private final Map<Integer, Integer> tankToPlayer = new HashMap<>();
 
 	private List<SpawnPoint> spawnPoints;
-	Random random = new Random();
+	private final Random random = new Random();
 
 	public Level(String config, Game game) throws IOException
 	{

@@ -4,7 +4,7 @@ import ru.nsu.fit.djachenko.mytanks.model.Level;
 
 public class ShootMessage extends MessageToModel
 {
-	private int id;
+	private final int id;
 
 	public ShootMessage(int id)
 	{

@@ -5,8 +5,8 @@ import ru.nsu.fit.djachenko.mytanks.model.Level;
 
 public class MoveTankMessage extends MessageToModel
 {
-	private Direction direction;
-	private int playerId;
+	private final Direction direction;
+	private final int playerId;
 
 	public MoveTankMessage(int playerId, Direction direction)
 	{

@@ -6,7 +6,7 @@ import ru.nsu.fit.djachenko.mytanks.view.AppWindow;
 
 public class LevelStartedMessage extends MessageToView
 {
-	private Level level;
+	private final Level level;
 	private int wasdId;
 	private int arrowsId;
 

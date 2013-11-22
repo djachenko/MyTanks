@@ -6,10 +6,10 @@ import ru.nsu.fit.djachenko.mytanks.view.LevelView;
 
 public class DrawTankMessage extends MessageToView
 {
-	private int x;
-	private int y;
-	private Direction direction;
-	private int id;
+	private final int x;
+	private final int y;
+	private final Direction direction;
+	private final int id;
 
 	public DrawTankMessage(Tank tank)
 	{

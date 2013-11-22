@@ -11,8 +11,8 @@ import java.awt.event.KeyListener;
 
 public class ArrowsController implements KeyListener, Controller
 {
-	private MessageChannel<MessageToModel> channelToModel;
-	private int playerId;
+	private final MessageChannel<MessageToModel> channelToModel;
+	private final int playerId;
 
 	public ArrowsController(MessageChannel<MessageToModel> channel, int playerId)
 	{

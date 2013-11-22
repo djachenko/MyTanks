@@ -1,11 +1,10 @@
 package ru.nsu.fit.djachenko.mytanks.communication;
 
-import ru.nsu.fit.djachenko.mytanks.communication.MessageToView;
 import ru.nsu.fit.djachenko.mytanks.view.LevelView;
 
 public class BulletMovedMessage extends MessageToView
 {
-	private int id;
+	private final int id;
 
 	public BulletMovedMessage(int id)
 	{

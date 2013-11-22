@@ -8,7 +8,7 @@ public class LevelHolder
 {
 	private static final String CONFIG = "resources/config";
 
-	static String[] levels;
+	private static String[] levels;
 
 	public LevelHolder()
 	{

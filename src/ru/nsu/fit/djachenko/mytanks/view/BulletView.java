@@ -2,9 +2,9 @@ package ru.nsu.fit.djachenko.mytanks.view;
 
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
 
-public class BulletView extends CellView
+class BulletView extends CellView
 {
-	private Direction direction;
+	private final Direction direction;
 
 	BulletView(int x, int y, Direction direction)
 	{

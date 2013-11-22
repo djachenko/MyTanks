@@ -12,7 +12,7 @@ import java.util.List;
 public class Field
 {
 	private Cell[][] table = null;
-	private CellFactory cellFactory = new CellFactory();
+	private final CellFactory cellFactory = new CellFactory();
 
 	Field(String configFile) throws IOException
 	{
@@ -119,7 +119,7 @@ public class Field
 		replace(bullet.getX(), bullet.getY(), cellFactory.getGroundCell());
 	}
 
-	public void erase(Tank tank)
+	void erase(Tank tank)
 	{
 		int x = tank.getX();
 		int y = tank.getY();

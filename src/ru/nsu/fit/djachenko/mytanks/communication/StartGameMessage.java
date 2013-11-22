@@ -5,7 +5,7 @@ import ru.nsu.fit.djachenko.mytanks.model.GameMode;
 
 public class StartGameMessage extends MessageToModel
 {
-	private GameMode mode;
+	private final GameMode mode;
 
 	public StartGameMessage(GameMode mode)
 	{

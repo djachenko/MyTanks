@@ -18,8 +18,8 @@ import java.util.Map;
 
 public class LevelView extends JPanel
 {
-	private Map<Integer, TankView> tankViews = new HashMap<>();
-	private Map<Integer, BulletView> bulletViews = new HashMap<>();
+	private final Map<Integer, TankView> tankViews = new HashMap<>();
+	private final Map<Integer, BulletView> bulletViews = new HashMap<>();
 
 	LevelView(Level origin)
 	{

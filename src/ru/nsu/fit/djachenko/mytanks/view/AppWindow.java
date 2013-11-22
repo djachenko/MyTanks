@@ -17,7 +17,7 @@ public class AppWindow extends JFrame
 	private StartMenuView startMenu;
 	private ChooseLevelView chooseLevelMenu;
 	private LevelView currentLevelView;
-	private ViewTaskPerformer performer;
+	private final ViewTaskPerformer performer;
 
 	private JPanel currentPanel;
 
@@ -99,7 +99,7 @@ public class AppWindow extends JFrame
 		currentLevelView.requestFocus();
 	}
 
-	public MessageChannel<MessageToView> getChannelToView()
+	MessageChannel<MessageToView> getChannelToView()
 	{
 		return channelToView;
 	}

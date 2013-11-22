@@ -8,14 +8,14 @@ public class Bullet
 
 	private final int id = count++;
 
-	private Level level;
+	private final Level level;
 
 	private int x;
 	private int y;
 
 	private final Direction direction;
 	private boolean active = true;
-	private BulletMovedMessage movedMessage = new BulletMovedMessage(id);
+	private final BulletMovedMessage movedMessage = new BulletMovedMessage(id);
 
 	Bullet(Level level, int x, int y, Direction direction)
 	{

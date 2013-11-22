@@ -3,7 +3,7 @@ package ru.nsu.fit.djachenko.mytanks.view;
 import javax.swing.*;
 import java.awt.*;
 
-public class StartMenuViewButton extends JButton
+class StartMenuViewButton extends JButton
 {
 	public static final int WIDTH = 150;
 	public static final int HEIGHT = 40;

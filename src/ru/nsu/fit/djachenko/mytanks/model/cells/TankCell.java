@@ -6,8 +6,8 @@ import ru.nsu.fit.djachenko.mytanks.model.Tank;
 
 public class TankCell extends Cell
 {
-	private Field field;
-	private Tank tank;
+	private final Field field;
+	private final Tank tank;
 
 	private int x;
 	private int y;

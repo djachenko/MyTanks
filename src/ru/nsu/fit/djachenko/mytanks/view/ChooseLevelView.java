@@ -10,7 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ChooseLevelView extends JPanel
+class ChooseLevelView extends JPanel
 {
 	ChooseLevelView(MessageChannel<MessageToModel> channel, LevelHolder levelHolder)
 	{
@@ -29,7 +29,7 @@ public class ChooseLevelView extends JPanel
 
 			levelButton.addActionListener(new ActionListener()
 			{
-				private int id = finalI;
+				private final int id = finalI;
 
 				@Override
 				public void actionPerformed(ActionEvent e)

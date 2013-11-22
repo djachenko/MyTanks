@@ -4,7 +4,7 @@ import ru.nsu.fit.djachenko.mytanks.model.Bullet;
 
 public class MoveBulletTask implements Task
 {
-	private Bullet bullet;
+	private final Bullet bullet;
 
 	private final static int SCIPCOUNT = 5;
 

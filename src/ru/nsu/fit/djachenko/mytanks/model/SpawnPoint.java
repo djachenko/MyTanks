@@ -1,9 +1,9 @@
 package ru.nsu.fit.djachenko.mytanks.model;
 
-public class SpawnPoint
+class SpawnPoint
 {
-	private int x;
-	private int y;
+	private final int x;
+	private final int y;
 
 	SpawnPoint(int x, int y)
 	{

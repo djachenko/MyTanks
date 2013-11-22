@@ -13,10 +13,10 @@ public class Tank
 	private int x;
 	private int y;
 
-	private Level level;
+	private final Level level;
 	private Direction currentDirection;
 
-	private Map<Direction, TankMovedMessage> messages = new HashMap<>();
+	private final Map<Direction, TankMovedMessage> messages = new HashMap<>();
 
 	public Tank(Level level, int x, int y, Direction dir)
 	{

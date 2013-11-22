@@ -6,7 +6,7 @@ import java.awt.event.KeyListener;
 
 public class AddControllerMessage extends MessageToView
 {
-	private KeyListener controller;
+	private final KeyListener controller;
 
 	public AddControllerMessage(KeyListener controller)
 	{

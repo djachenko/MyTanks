@@ -4,7 +4,7 @@ import ru.nsu.fit.djachenko.mytanks.model.Game;
 
 public class StartLevelMessage extends MessageToModel
 {
-	private int levelId;
+	private final int levelId;
 
 	public StartLevelMessage(int levelId)
 	{

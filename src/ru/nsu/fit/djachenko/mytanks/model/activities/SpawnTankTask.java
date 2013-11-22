@@ -5,8 +5,8 @@ import ru.nsu.fit.djachenko.mytanks.model.Level;
 public class SpawnTankTask implements Task
 {
 	private long countdown;
-	private Level level;
-	private int playerId;
+	private final Level level;
+	private final int playerId;
 
 	public SpawnTankTask(Level level, double delay, int playerId)
 	{

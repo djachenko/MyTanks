@@ -11,8 +11,8 @@ import java.awt.event.KeyListener;
 
 public class WASDController implements KeyListener, Controller
 {
-	private MessageChannel<MessageToModel> channelToModel;
-	private int playerId;
+	private final MessageChannel<MessageToModel> channelToModel;
+	private final int playerId;
 
 	public WASDController(MessageChannel<MessageToModel> channel, int playerId)
 	{

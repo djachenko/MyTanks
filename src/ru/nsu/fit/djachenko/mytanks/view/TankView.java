@@ -4,9 +4,9 @@ import ru.nsu.fit.djachenko.mytanks.model.Direction;
 
 import javax.swing.*;
 
-public class TankView extends JLabel
+class TankView extends JLabel
 {
-	private CellView[][] tank;
+	private final CellView[][] tank;
 
 	private Direction currentDirection;
 

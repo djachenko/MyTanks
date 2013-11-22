@@ -5,8 +5,8 @@ import ru.nsu.fit.djachenko.mytanks.model.Tank;
 
 public class RemoveTankTask implements Task
 {
-	private Tank tank;
-	private Level level;
+	private final Tank tank;
+	private final Level level;
 
 	public RemoveTankTask(Tank tank, Level level)
 	{

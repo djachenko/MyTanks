@@ -1,11 +1,11 @@
 package ru.nsu.fit.djachenko.mytanks.model;
 
-public class Player
+class Player
 {
 	private static int count = 0;
 	private final int id = count++;
 
-	private String name;
+	private final String name;
 
 	public Player(String name)
 	{

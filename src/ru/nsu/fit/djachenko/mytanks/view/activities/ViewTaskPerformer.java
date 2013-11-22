@@ -8,7 +8,7 @@ import java.util.LinkedList;
 public class ViewTaskPerformer
 {
 	private final LinkedList<ViewTask> tasks = new LinkedList<>();
-	public static final int DELAY = 10;
+	private static final int DELAY = 10;
 
 	public ViewTaskPerformer()
 	{
