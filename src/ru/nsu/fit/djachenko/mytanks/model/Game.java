@@ -24,8 +24,11 @@ public class Game
 
 		send(new LevelStartedMessage(currentLevel));
 
-		currentLevel.add(new Tank(currentLevel, 20, 13, Direction.UP), 0);
-		currentLevel.add(new Tank(currentLevel, 4, 13, Direction.UP), 1);
+
+		for (Player player : players)
+		{
+			currentLevel.spawnTank(player.getId());
+		}
 	}
 
 	void send(MessageToView messageToView)
