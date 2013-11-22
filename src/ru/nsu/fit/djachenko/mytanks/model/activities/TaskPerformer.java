@@ -4,6 +4,7 @@ import java.util.*;
 
 public class TaskPerformer
 {
+	public static final int PERIOD = 100;
 	private final LinkedList<Task> tasks = new LinkedList<>();
 
 	public TaskPerformer()
@@ -34,7 +35,7 @@ public class TaskPerformer
 					iteration++;
 				}
 			}
-		}, 0, 100);
+		}, 0, PERIOD);
 	}
 
 	public void enqueue(Task task)

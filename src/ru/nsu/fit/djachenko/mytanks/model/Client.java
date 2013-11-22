@@ -1,19 +1,16 @@
 package ru.nsu.fit.djachenko.mytanks.model;
 
-import ru.nsu.fit.djachenko.mytanks.communication.MessageChannel;
-import ru.nsu.fit.djachenko.mytanks.communication.MessageToModel;
-import ru.nsu.fit.djachenko.mytanks.communication.MessageToView;
-import ru.nsu.fit.djachenko.mytanks.communication.ChooseLevelMessage;
-import ru.nsu.fit.djachenko.mytanks.communication.CreatePlayersMessage;
-import ru.nsu.fit.djachenko.mytanks.communication.StartGameMessage;
+import ru.nsu.fit.djachenko.mytanks.communication.*;
 
 public class Client implements Runnable
 {
 	private Game game;
 
 	private final MessageChannel<MessageToModel> channelToClient = new MessageChannel<>();
-	private MessageChannel<MessageToModel> channelToGame;
 	private MessageChannel<MessageToView> channelToView;
+
+	private int wasdId;
+	private int arrowsId;
 
 	public MessageChannel<MessageToModel> getChannelToClient()
 	{
@@ -29,10 +26,7 @@ public class Client implements Runnable
 	{
 		game = new Game();
 
-		game.addChannelToView(channelToView);
-		channelToGame = game.getChannelToModel();
-
-		game.start();
+		game.register(this);
 	}
 
 	void createPlayers(GameMode mode)
@@ -40,8 +34,14 @@ public class Client implements Runnable
 		switch (mode)
 		{
 			case SINGLE:
-				channelToGame.set(new CreatePlayersMessage(channelToView, "Harry"));
+				int id = game.registerPlayer();
+
+				wasdId = id;
+				arrowsId = id;
 				break;
+			case SHARED:
+				wasdId = game.registerPlayer();
+				arrowsId = game.registerPlayer();
 		}
 	}
 
@@ -58,10 +58,12 @@ public class Client implements Runnable
 
 	public void accept(MessageToModel message)
 	{
-		if (channelToGame != null)
-		{
-			channelToGame.set(message);
-		}
+		message.handle(game);
+	}
+
+	public void accept(MessageToView message)
+	{
+		channelToView.set(message);
 	}
 
 	public void accept(StartGameMessage message)
@@ -70,5 +72,13 @@ public class Client implements Runnable
 		createPlayers(message.getMode());
 
 		channelToView.set(new ChooseLevelMessage());
+	}
+
+	public void accept(LevelStartedMessage message)
+	{
+		message.setArrowsId(arrowsId);
+		message.setWasdId(wasdId);
+
+		channelToView.set(message);
 	}
 }

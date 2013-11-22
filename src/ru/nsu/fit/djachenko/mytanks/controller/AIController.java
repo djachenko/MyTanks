@@ -1,16 +1,15 @@
 package ru.nsu.fit.djachenko.mytanks.controller;
 
-import ru.nsu.fit.djachenko.mytanks.communication.MessageChannel;
-import ru.nsu.fit.djachenko.mytanks.communication.MessageToModel;
+import ru.nsu.fit.djachenko.mytanks.model.Game;
 
 public class AIController implements Runnable, Controller
 {
-	private MessageChannel<MessageToModel> channelToModel;
+	private Game game;
 	private int playerId;
 
-	public AIController(MessageChannel<MessageToModel> channel, int playerId)
+	public AIController(Game game, int playerId)
 	{
-		this.channelToModel = channel;
+		this.game = game;
 		this.playerId = playerId;
 	}
 

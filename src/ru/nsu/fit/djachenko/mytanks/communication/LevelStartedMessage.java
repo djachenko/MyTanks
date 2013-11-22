@@ -1,5 +1,6 @@
 package ru.nsu.fit.djachenko.mytanks.communication;
 
+import ru.nsu.fit.djachenko.mytanks.model.Client;
 import ru.nsu.fit.djachenko.mytanks.model.Level;
 import ru.nsu.fit.djachenko.mytanks.view.AppWindow;
 
@@ -9,11 +10,9 @@ public class LevelStartedMessage extends MessageToView
 	private int wasdId;
 	private int arrowsId;
 
-	public LevelStartedMessage(Level level, int[] ids)
+	public LevelStartedMessage(Level level)
 	{
 		this.level = level;
-		this.wasdId = ids[0];
-		this.arrowsId = ids[1];
 	}
 
 	@Override
@@ -22,14 +21,30 @@ public class LevelStartedMessage extends MessageToView
 		appWindow.accept(this);
 	}
 
+	@Override
+	public void handle(Client client)
+	{
+		client.accept(this);
+	}
+
 	public Level getLevel()
 	{
 		return level;
 	}
 
+	public void setWasdId(int id)
+	{
+		this.wasdId = id;
+	}
+
 	public int getWasdId()
 	{
 		return wasdId;
+	}
+
+	public void setArrowsId(int id)
+	{
+		this.arrowsId = id;
 	}
 
 	public int getArrowsId()
