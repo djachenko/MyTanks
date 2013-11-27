@@ -12,7 +12,7 @@ import java.util.List;
 public class Field
 {
 	private Cell[][] table = null;
-	private final CellFactory cellFactory = new CellFactory();
+	private final CellFactory cellFactory = CellFactory.getInstance();
 
 	Field(String configFile) throws IOException
 	{
@@ -81,63 +81,14 @@ public class Field
 		}
 	}
 
-	void draw(Bullet bullet)
+	void draw(FieldElement element)
 	{
-		int x = bullet.getX();
-		int y = bullet.getY();
-
-		replace(x, y, cellFactory.getBulletCell(this, bullet, x, y));
+		element.draw(this);
 	}
 
-	void draw(Tank tank)
+	void erase(FieldElement element)
 	{
-		int x = tank.getX();
-		int y = tank.getY();
-		Direction direction = tank.getDirection();
-
-		int dx = direction.getDx();
-		int dy = direction.getDy();
-
-		for (int k = -1; k <= 1; k++)//y
-		{
-			for (int j = -1; j <= 1; j++)//x
-			{
-				if (!((dx == 0 && k == dy && j != 0) || (dy == 0 && k != 0 && j == dx)))
-				{
-					if (table[y + k][x + j].type == Cell.Type.GROUND)
-					{
-						table[y + k][x + j] = cellFactory.getTankCell(this, tank, x + j, y + k);
-					}
-					//throw new MapFormatException("Tank overlaps " + table[y + k][x + j].type.name().toLowerCase() + " at (" + (x + j) + "; " + (y + k) + ')');
-				}
-			}
-		}
-	}
-
-	public void erase(Bullet bullet)
-	{
-		replace(bullet.getX(), bullet.getY(), cellFactory.getGroundCell());
-	}
-
-	void erase(Tank tank)
-	{
-		int x = tank.getX();
-		int y = tank.getY();
-		Direction direction = tank.getDirection();
-
-		int dx = direction.getDx();
-		int dy = direction.getDy();
-
-		for (int j = -1; j <= 1; j++)//x
-		{
-			for (int k = -1; k <= 1; k++)//y
-			{
-				if (!((dx == 0 && k == dy && j != 0) || (dy == 0 && k != 0 && j == dx)))
-				{
-					table[y + k][x + j] = cellFactory.getGroundCell();
-				}
-			}
-		}
+		element.erase(this);
 	}
 
 	public int height()

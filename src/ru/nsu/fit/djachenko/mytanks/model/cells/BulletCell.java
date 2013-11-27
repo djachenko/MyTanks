@@ -34,12 +34,6 @@ public class BulletCell extends Cell
 		if (depth != 1)
 		{
 			origin.hit(- dir.getDx(), - dir.getDy());//REFACTOR
-			explode();
-		}
-		else if (origin.ableToHit(x + dir.getDx(), y + dir.getDy()))
-		{
-			origin.hit(dir.getDx(), dir.getDy());//REFACTOR
-			explode();
 		}
 		else
 		{
@@ -71,18 +65,11 @@ public class BulletCell extends Cell
 	public void hit()
 	{
 		origin.hit();
-		explode();
 	}
 
 	@Override
 	public boolean hasToBeWaited()
 	{
 		return true;
-	}
-
-	private void explode()
-	{
-		origin.explode();
-		field.replace(x, y, new GroundCell());
 	}
 }

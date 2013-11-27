@@ -1,11 +1,12 @@
 package ru.nsu.fit.djachenko.mytanks.model;
 
 import ru.nsu.fit.djachenko.mytanks.communication.TankMovedMessage;
+import ru.nsu.fit.djachenko.mytanks.model.cells.CellFactory;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Tank
+public class Tank implements FieldElement
 {
 	private static int count = 0;
 	private final int id = count++;
@@ -180,6 +181,46 @@ public class Tank
 	public void hit()
 	{
 		level.hitTank(this);
+	}
+
+	@Override
+	public void draw(Field field)
+	{
+		int dx = currentDirection.getDx();
+		int dy = currentDirection.getDy();
+
+		CellFactory cellFactory = CellFactory.getInstance();
+
+		for (int k = -1; k <= 1; k++)//y
+		{
+			for (int j = -1; j <= 1; j++)//x
+			{
+				if (!((dx == 0 && k == dy && j != 0) || (dy == 0 && k != 0 && j == dx)))
+				{
+					field.replace(x + j, y + k, cellFactory.getTankCell(field, this, x + j, y + k));
+				}
+			}
+		}
+	}
+
+	@Override
+	public void erase(Field field)
+	{
+		int dx = currentDirection.getDx();
+		int dy = currentDirection.getDy();
+
+		CellFactory cellFactory = CellFactory.getInstance();
+
+		for (int k = -1; k <= 1; k++)//y
+		{
+			for (int j = -1; j <= 1; j++)//x
+			{
+				if (!((dx == 0 && k == dy && j != 0) || (dy == 0 && k != 0 && j == dx)))
+				{
+					field.replace(x + j, y + k, cellFactory.getGroundCell());
+				}
+			}
+		}
 	}
 
 	public int getX()

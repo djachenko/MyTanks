@@ -82,7 +82,7 @@ public class Level extends Field
 		tankToPlayer.remove(tank.getId());
 		playerToTank.remove(playerId);
 
-		performer.enqueue(new SpawnTankTask(this, random.nextDouble() % 15, playerId));
+		performer.enqueue(new SpawnTankTask(this, random.nextDouble() * 15, playerId));
 	}
 
 	void remove(Bullet bullet)
@@ -106,7 +106,14 @@ public class Level extends Field
 	{
 		if (x >= 0 && x < width() && y >= 0 && y < height())
 		{
-			add(new Bullet(this, x, y, direction));
+			if (ableToHit(x, y))
+			{
+				hit(x, y);
+			}
+			else
+			{
+				add(new Bullet(this, x, y, direction));
+			}
 		}
 	}
 

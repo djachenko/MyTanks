@@ -1,11 +1,11 @@
 package ru.nsu.fit.djachenko.mytanks.model;
 
 import ru.nsu.fit.djachenko.mytanks.communication.BulletMovedMessage;
+import ru.nsu.fit.djachenko.mytanks.model.cells.CellFactory;
 
-public class Bullet
+public class Bullet implements FieldElement
 {
 	private static int count = 0;
-
 	private final int id = count++;
 
 	private final Level level;
@@ -35,11 +35,19 @@ public class Bullet
 	public void hit(int dx, int dy)
 	{
 		level.hit(x + dx, y + dy);
+		explode();
 	}
 
 	public void move()
 	{
-		level.move(x, y, direction, 1);
+		if (ableToHit(x + direction.getDx(), y + direction.getDy()))
+		{
+			hit(direction.getDx(), direction.getDy());
+		}
+		else
+		{
+			level.move(x, y, direction, 1);
+		}
 
 		if (active)
 		{
@@ -55,11 +63,23 @@ public class Bullet
 		explode();
 	}
 
-	public void explode()
+	private void explode()
 	{
 		active = false;
 
 		level.remove(this);
+	}
+
+	@Override
+	public void draw(Field field)
+	{
+		field.replace(x, y, CellFactory.getInstance().getBulletCell(field, this, x, y));
+	}
+
+	@Override
+	public void erase(Field field)
+	{
+		field.replace(x, y, CellFactory.getInstance().getGroundCell());
 	}
 
 	public int getX()
