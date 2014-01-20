@@ -13,16 +13,12 @@ public class SpawnTankTask implements Task
 		this.countdown = Math.round(delay * (1000 / TaskPerformer.PERIOD));
 		this.level = level;
 		this.playerId = playerId;
-
-		System.out.println("spawntask");
 	}
 
 	@Override
 	public void execute(int iteration)
 	{
 		countdown--;
-
-		System.out.println(countdown);
 
 		if (countdown == 0)
 		{
