@@ -6,7 +6,7 @@ public class MoveBulletTask implements Task
 {
 	private final Bullet bullet;
 
-	private final static int SCIPCOUNT = 5;
+	private final static int SCIPCOUNT = 2;
 
 	public MoveBulletTask(Bullet bullet)
 	{
