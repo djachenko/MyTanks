@@ -2,22 +2,15 @@ package ru.nsu.fit.djachenko.mytanks.controller;
 
 import ru.nsu.fit.djachenko.mytanks.communication.MessageChannel;
 import ru.nsu.fit.djachenko.mytanks.communication.MessageToModel;
-import ru.nsu.fit.djachenko.mytanks.communication.MoveTankMessage;
-import ru.nsu.fit.djachenko.mytanks.communication.ShootMessage;
-import ru.nsu.fit.djachenko.mytanks.model.Direction;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class WASDController implements KeyListener, Controller
+public class WASDController extends UserController implements KeyListener
 {
-	private final MessageChannel<MessageToModel> channelToModel;
-	private final int playerId;
-
 	public WASDController(MessageChannel<MessageToModel> channel, int playerId)
 	{
-		this.channelToModel = channel;
-		this.playerId = playerId;
+		super(channel, playerId);
 	}
 
 	@Override
@@ -33,23 +26,23 @@ public class WASDController implements KeyListener, Controller
 		switch (key)
 		{
 			case KeyEvent.VK_W:
-				channelToModel.set(new MoveTankMessage(playerId, Direction.UP));
+				enable(UP);
 				break;
 
 			case KeyEvent.VK_A:
-				channelToModel.set(new MoveTankMessage(playerId, Direction.LEFT));
+				enable(LEFT);
 				break;
 
 			case KeyEvent.VK_S:
-				channelToModel.set(new MoveTankMessage(playerId, Direction.DOWN));
+				enable(DOWN);
 				break;
 
 			case KeyEvent.VK_D:
-				channelToModel.set(new MoveTankMessage(playerId, Direction.RIGHT));
+				enable(RIGHT);
 				break;
 
 			case KeyEvent.VK_SPACE:
-				channelToModel.set(new ShootMessage(playerId));
+				enable(ENTER);
 				break;
 
 			default:
@@ -60,5 +53,32 @@ public class WASDController implements KeyListener, Controller
 	@Override
 	public void keyReleased(KeyEvent e)
 	{
+		int key = e.getKeyCode();
+
+		switch (key)
+		{
+			case KeyEvent.VK_W:
+				disable(UP);
+				break;
+
+			case KeyEvent.VK_A:
+				disable(LEFT);
+				break;
+
+			case KeyEvent.VK_S:
+				disable(DOWN);
+				break;
+
+			case KeyEvent.VK_D:
+				disable(RIGHT);
+				break;
+
+			case KeyEvent.VK_SPACE:
+				disable(ENTER);
+				break;
+
+			default:
+				break;
+		}
 	}
 }
