@@ -5,6 +5,8 @@ import ru.nsu.fit.djachenko.mytanks.communication.MessageToModel;
 import ru.nsu.fit.djachenko.mytanks.communication.MoveTankMessage;
 import ru.nsu.fit.djachenko.mytanks.communication.ShootMessage;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
+import ru.nsu.fit.djachenko.mytanks.model.activities.Task;
+import ru.nsu.fit.djachenko.mytanks.model.activities.TaskPerformer;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -23,6 +25,9 @@ public abstract class UserController
 	private int[] keys = new int[5];
 	private MessageToModel[] messages = new MessageToModel[5];
 
+	private static final int PERIOD = 75;
+	private static TaskPerformer performer = new TaskPerformer(PERIOD);
+
 	UserController(MessageChannel<MessageToModel> channel, int playerId)
 	{
 		this.channelToModel = channel;
@@ -38,14 +43,20 @@ public abstract class UserController
 		messages[3] = new MoveTankMessage(playerId, Direction.DOWN);
 		messages[4] = new ShootMessage(playerId);
 
-		new Timer(75, new ActionListener()
+		performer.enqueue(new Task()
 		{
 			@Override
-			public void actionPerformed(ActionEvent e)
+			public void execute(int iteration)
 			{
 				iteration();
 			}
-		}).start();
+
+			@Override
+			public boolean hasToBeRepeated()
+			{
+				return true;
+			}
+		});
 	}
 
 	synchronized void enable(int keyCode)
