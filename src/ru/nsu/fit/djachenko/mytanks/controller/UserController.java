@@ -8,10 +8,6 @@ import ru.nsu.fit.djachenko.mytanks.model.Direction;
 import ru.nsu.fit.djachenko.mytanks.model.activities.Task;
 import ru.nsu.fit.djachenko.mytanks.model.activities.TaskPerformer;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 public abstract class UserController
 {
 	private final MessageChannel<MessageToModel> channelToModel;

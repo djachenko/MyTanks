@@ -19,11 +19,16 @@ public abstract class Cell
 		}
 	}
 
-	public final Type type;
+	private final Type type;
 
 	Cell(Type type)
 	{
 		this.type = type;
+	}
+
+	public Type getType()
+	{
+		return type;
 	}
 
 	public abstract boolean ableToMove(Direction dir, int depth);

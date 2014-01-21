@@ -35,6 +35,7 @@ public class Client implements Runnable
 		{
 			case SINGLE:
 				int id = game.registerPlayer();
+				//game.registerAI();
 
 				wasdId = id;
 				arrowsId = id;

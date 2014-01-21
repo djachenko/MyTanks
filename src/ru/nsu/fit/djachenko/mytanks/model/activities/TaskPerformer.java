@@ -9,6 +9,11 @@ public class TaskPerformer
 
 	public TaskPerformer()
 	{
+		this(PERIOD);
+	}
+
+	public TaskPerformer(int period)
+	{
 		new Timer(true).scheduleAtFixedRate(new TimerTask()
 		{
 			int iteration = 0;
@@ -35,7 +40,7 @@ public class TaskPerformer
 					iteration++;
 				}
 			}
-		}, 0, PERIOD);
+		}, 0, period);
 	}
 
 	public void enqueue(Task task)

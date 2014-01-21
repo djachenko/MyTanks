@@ -1,15 +1,9 @@
 package ru.nsu.fit.djachenko.mytanks.view;
 
-import ru.nsu.fit.djachenko.mytanks.communication.AddControllerMessage;
-import ru.nsu.fit.djachenko.mytanks.communication.DrawBulletMessage;
+import ru.nsu.fit.djachenko.mytanks.communication.*;
 import ru.nsu.fit.djachenko.mytanks.communication.DrawTankMessage;
-import ru.nsu.fit.djachenko.mytanks.communication.MessageToView;
 import ru.nsu.fit.djachenko.mytanks.model.Level;
 import ru.nsu.fit.djachenko.mytanks.model.cells.Cell;
-import ru.nsu.fit.djachenko.mytanks.communication.BulletMovedMessage;
-import ru.nsu.fit.djachenko.mytanks.communication.BulletRemovedMessage;
-import ru.nsu.fit.djachenko.mytanks.communication.TankMovedMessage;
-import ru.nsu.fit.djachenko.mytanks.communication.TankRemovedMessage;
 
 import javax.swing.*;
 import java.awt.*;
@@ -107,17 +101,16 @@ public class LevelView extends JPanel
 
 	public void accept(MessageToView message)
 	{
-		//throw ;
+		//throw
 	}
 
 	public void accept(DrawTankMessage message)
 	{
-		add(new TankView(message.getX(), message.getY(), message.getDirection()), message.getId());
+		add(new TankView(message.getX(), message.getY(), message.getDirection(), true), message.getId());
 	}
 
 	public void accept(DrawBulletMessage message)
 	{
-//		add(new BulletView(message.getBullet()));
 		add(new BulletView(message.getX(), message.getY(), message.getDirection()), message.getId());
 	}
 

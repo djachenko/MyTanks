@@ -14,6 +14,23 @@ public class Field
 	private Cell[][] table = null;
 	private final CellFactory cellFactory = CellFactory.getInstance();
 
+	static class State
+	{
+		private final Field field;
+
+		State(Field field)
+		{
+			this.field = field;
+		}
+
+		Cell.Type at(int x, int y)
+		{
+			return field.at(x, y).getType();
+		}
+	}
+
+	private final State state = new State(this);
+
 	Field(String configFile) throws IOException
 	{
 		init(configFile);
@@ -160,7 +177,7 @@ public class Field
 		{
 			for (int i = 0; i < width(); i++)
 			{
-					temp.append(at(i, j).type.representation);
+					temp.append(at(i, j).getType().representation);
 			}
 
 			temp.append('\n');
@@ -217,5 +234,10 @@ public class Field
 		}
 
 		return true;
+	}
+
+	State getState()
+	{
+		return state;
 	}
 }

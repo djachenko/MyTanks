@@ -14,7 +14,6 @@ public class Level extends Field
 
 	private TaskPerformer performer;
 	private final Map<Integer, Tank> tankMap = new HashMap<>();
-	private final List<Bullet> bullets = new LinkedList<>();
 
 	private final Map<Integer, Integer> playerToTank = new HashMap<>();
 	private final Map<Integer, Integer> tankToPlayer = new HashMap<>();
@@ -31,11 +30,6 @@ public class Level extends Field
 		performer = new TaskPerformer();
 
 		spawnPoints = scanForSpawnPoints();
-
-		for (SpawnPoint spawnPoint : spawnPoints)
-		{
-			System.out.println("(" + spawnPoint.getX() + ';' + spawnPoint.getY() + ')');
-		}
 	}
 
 	private void moveTank(int id, Direction direction)
@@ -50,6 +44,7 @@ public class Level extends Field
 
 	public void hitTank(Tank tank)
 	{
+		game.notifyTankHit(resolvePlayerByTank(tank.getId()));
 		performer.enqueue(new RemoveTankTask(tank, this));
 	}
 
@@ -65,7 +60,6 @@ public class Level extends Field
 
 	private void add(Bullet bullet)
 	{
-		bullets.add(bullet);
 		draw(bullet);
 		performer.enqueue(new MoveBulletTask(bullet));
 		send(new DrawBulletMessage(bullet));
@@ -87,7 +81,6 @@ public class Level extends Field
 
 	void remove(Bullet bullet)
 	{
-		bullets.remove(bullet);
 		erase(bullet);
 		send(new BulletRemovedMessage(bullet.getId()));
 	}
@@ -151,12 +144,27 @@ public class Level extends Field
 
 		draw(tank);
 
-		send(new DrawTankMessage(tank));
+		send(new DrawTankMessage(tank, playerId));
+		game.notifyTankSpawned(playerId, tank.getX(), tank.getY(), tank.getDirection());
 	}
 
-	private int resolveTankId(int id)
+	private int resolvePlayerByTank(int tankId)
 	{
-		Integer result = playerToTank.get(id);
+		Integer result = tankToPlayer.get(tankId);
+
+		if (result == null)
+		{
+			return -1;
+		}
+		else
+		{
+			return result;
+		}
+	}
+
+	private int resolveTankByPlayer(int playerId)
+	{
+		Integer result = playerToTank.get(playerId);
 
 		if (result == null)
 		{
@@ -180,11 +188,11 @@ public class Level extends Field
 
 	public void accept(MoveTankMessage message)
 	{
-		moveTank(resolveTankId(message.getPlayerId()), message.getDirection());
+		moveTank(resolveTankByPlayer(message.getPlayerId()), message.getDirection());
 	}
 
 	public void accept(ShootMessage message)
 	{
-		shoot(resolveTankId(message.getId()));
+		shoot(resolveTankByPlayer(message.getId()));
 	}
 }

@@ -17,6 +17,8 @@ public class Tank implements FieldElement
 	private final Level level;
 	private Direction currentDirection;
 
+	boolean alive = true;
+
 	private final Map<Direction, TankMovedMessage> messages = new HashMap<>();
 
 	public Tank(Level level, int x, int y, Direction dir)
@@ -126,16 +128,29 @@ public class Tank implements FieldElement
 
 	private boolean ableToMove(Direction direction)
 	{
+		if (!alive)
+		{
+			return false;
+		}
+
 		switch (currentDirection)
 		{
 			case RIGHT:
-				return level.ableToMove(x - 1, y - 1, direction, 2) && level.ableToMove(x - 1, y, direction, 3) && level.ableToMove(x - 1, y + 1, direction, 2);
+				return level.ableToMove(x - 1, y - 1, direction, 2) &&
+						level.ableToMove(x - 1, y, direction, 3) &&
+						level.ableToMove(x - 1, y + 1, direction, 2);
 			case UP:
-				return level.ableToMove(x - 1, y + 1, direction, 2) && level.ableToMove(x, y + 1, direction, 3) && level.ableToMove(x + 1, y + 1, direction, 2);
+				return level.ableToMove(x - 1, y + 1, direction, 2) &&
+						level.ableToMove(x, y + 1, direction, 3) &&
+						level.ableToMove(x + 1, y + 1, direction, 2);
 			case LEFT:
-				return level.ableToMove(x + 1, y - 1, direction, 2) && level.ableToMove(x + 1, y, direction, 3) && level.ableToMove(x + 1, y + 1, direction, 2);
+				return level.ableToMove(x + 1, y - 1, direction, 2) &&
+						level.ableToMove(x + 1, y, direction, 3) &&
+						level.ableToMove(x + 1, y + 1, direction, 2);
 			case DOWN:
-				return level.ableToMove(x - 1, y - 1, direction, 2) && level.ableToMove(x, y - 1, direction, 3) && level.ableToMove(x + 1, y - 1, direction, 2);
+				return level.ableToMove(x - 1, y - 1, direction, 2) &&
+						level.ableToMove(x, y - 1, direction, 3) &&
+						level.ableToMove(x + 1, y - 1, direction, 2);
 			default:
 				//throw
 				return false;
@@ -144,6 +159,11 @@ public class Tank implements FieldElement
 
 	private boolean ableToTurn(Direction direction)
 	{
+		if (!alive)
+		{
+			return false;
+		}
+
 		if (direction == currentDirection)
 		{
 			return true;
@@ -162,7 +182,7 @@ public class Tank implements FieldElement
 
 	private boolean ableToFlip()
 	{
-		return level.ableToReplace(x - 2 * currentDirection.getDx(), y - 2 * currentDirection.getDy());
+		return alive && level.ableToReplace(x - 2 * currentDirection.getDx(), y - 2 * currentDirection.getDy());
 	}
 
 	public void shoot()
@@ -175,11 +195,12 @@ public class Tank implements FieldElement
 
 	private boolean ableToShoot()
 	{
-		return level.ableToSpawnBullet(x + 2 * currentDirection.getDx(), y + 2 * currentDirection.getDy());
+		return alive && level.ableToSpawnBullet(x + 2 * currentDirection.getDx(), y + 2 * currentDirection.getDy());
 	}
 
 	public void hit()
 	{
+		alive = false;
 		level.hitTank(this);
 	}
 
@@ -191,13 +212,13 @@ public class Tank implements FieldElement
 
 		CellFactory cellFactory = CellFactory.getInstance();
 
-		for (int k = -1; k <= 1; k++)//y
+		for (int j = -1; j <= 1; j++)//y
 		{
-			for (int j = -1; j <= 1; j++)//x
+			for (int i = -1; i <= 1; i++)//x
 			{
-				if (!((dx == 0 && k == dy && j != 0) || (dy == 0 && k != 0 && j == dx)))
+				if (!((dx == 0 && j == dy && i != 0) || (dy == 0 && j != 0 && i == dx)))
 				{
-					field.replace(x + j, y + k, cellFactory.getTankCell(field, this, x + j, y + k));
+					field.replace(x + i, y + j, cellFactory.getTankCell(field, this, x + i, y + j));
 				}
 			}
 		}
@@ -211,13 +232,13 @@ public class Tank implements FieldElement
 
 		CellFactory cellFactory = CellFactory.getInstance();
 
-		for (int k = -1; k <= 1; k++)//y
+		for (int j = -1; j <= 1; j++)//y
 		{
-			for (int j = -1; j <= 1; j++)//x
+			for (int i = -1; i <= 1; i++)//x
 			{
-				if (!((dx == 0 && k == dy && j != 0) || (dy == 0 && k != 0 && j == dx)))
+				if (!((dx == 0 && j == dy && i != 0) || (dy == 0 && j != 0 && i == dx)))
 				{
-					field.replace(x + j, y + k, cellFactory.getGroundCell());
+					field.replace(x + i, y + j, cellFactory.getGroundCell());
 				}
 			}
 		}

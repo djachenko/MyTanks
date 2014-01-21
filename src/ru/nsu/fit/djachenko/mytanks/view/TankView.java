@@ -10,7 +10,7 @@ class TankView extends JLabel
 
 	private Direction currentDirection;
 
-	TankView(int x, int y, Direction direction)
+	TankView(int x, int y, Direction direction, boolean isFriend)
 	{
 		this.currentDirection = direction;
 
