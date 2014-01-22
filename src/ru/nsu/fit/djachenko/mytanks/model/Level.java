@@ -44,7 +44,6 @@ public class Level extends Field
 
 	public void hitTank(Tank tank)
 	{
-		game.notifyTankHit(resolvePlayerByTank(tank.getId()));
 		performer.enqueue(new RemoveTankTask(tank, this));
 	}
 
@@ -71,12 +70,12 @@ public class Level extends Field
 		erase(tank);
 		send(new TankRemovedMessage(tank.getId()));
 
-		int playerId = tankToPlayer.get(tank.getId());
+		int playerId = resolvePlayerByTank(tank.getId());
 
 		tankToPlayer.remove(tank.getId());
 		playerToTank.remove(playerId);
 
-		performer.enqueue(new SpawnTankTask(this, random.nextDouble() * 15, playerId));
+		game.notifyTankHit(playerId);
 	}
 
 	void remove(Bullet bullet)
@@ -194,5 +193,10 @@ public class Level extends Field
 	public void accept(ShootMessage message)
 	{
 		shoot(resolveTankByPlayer(message.getId()));
+	}
+
+	public void accept(SpawnTankMessage message)
+	{
+		spawnTank(message.getId());
 	}
 }

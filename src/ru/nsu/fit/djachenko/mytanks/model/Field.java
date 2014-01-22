@@ -14,26 +14,64 @@ public class Field
 	private Cell[][] table = null;
 	private final CellFactory cellFactory = CellFactory.getInstance();
 
-	static class State
+	public static class State
 	{
 		private final Field field;
+
+		private Cell.Type[][] table;
 
 		State(Field field)
 		{
 			this.field = field;
+
+			this.table = new Cell.Type[field.height()][field.width()];
+
+			update();
 		}
 
-		Cell.Type at(int x, int y)
+		public Cell.Type at(int x, int y)
 		{
-			return field.at(x, y).getType();
+			return table[y][x];
+		}
+
+		public int height()
+		{
+			return table.length;
+		}
+
+		public int width()
+		{
+			if (height() > 0)
+			{
+				return table[0].length;
+			}
+			else
+			{
+				return 0;
+			}
+		}
+
+		public void update()
+		{
+			System.out.println("up");
+
+			for (int y = 0; y < table.length; y++)
+			{
+				for (int x = 0; x < table[y].length; x++)
+				{
+					table[y][x] = field.at(x, y).getType();
+				}
+			}
 		}
 	}
 
-	private final State state = new State(this);
+	private final State state;
 
 	Field(String configFile) throws IOException
 	{
 		init(configFile);
+
+		state = new State(this);
 	}
 
 	private void init(String configPath) throws IOException

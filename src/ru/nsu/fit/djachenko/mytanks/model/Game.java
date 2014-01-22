@@ -6,7 +6,7 @@ import ru.nsu.fit.djachenko.mytanks.communication.MessageToView;
 import ru.nsu.fit.djachenko.mytanks.communication.StartLevelMessage;
 import ru.nsu.fit.djachenko.mytanks.model.activities.TaskPerformer;
 import ru.nsu.fit.djachenko.mytanks.model.ai.AI;
-import ru.nsu.fit.djachenko.mytanks.model.ai.RandomMover;
+import ru.nsu.fit.djachenko.mytanks.model.ai.Runner;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -22,22 +22,16 @@ public class Game
 	private final LevelHolder holder = new LevelHolder();
 
 	private final Map<Integer, Player> players = new HashMap<>();
+	private final List<AI> ais = new LinkedList<>();
 
-	private TaskPerformer aiTaskPerformer = null;
-
-	private int pendingAIsCount = 0;
+	private TaskPerformer aiTaskPerformer = new TaskPerformer();
 
 	private void startLevel(int index) throws IOException
 	{
 		currentLevel = new Level(holder.getLevel(index), this);
 
-		aiTaskPerformer = new TaskPerformer();
-
-		for (int i = 0; i < pendingAIsCount; i++)
+		for (AI ai : ais)
 		{
-			AI ai = new RandomMover(currentLevel);
-
-			addPlayer(ai);
 			aiTaskPerformer.enqueue(ai);
 		}
 
@@ -46,10 +40,7 @@ public class Game
 		for (Player player : players.values())
 		{
 			player.notifyLevelStarted(currentLevel.getState());
-			currentLevel.spawnTank(player.getId());
 		}
-
-		pendingAIsCount = 0;
 	}
 
 	void send(MessageToView messageToView)
@@ -77,7 +68,7 @@ public class Game
 
 	public int registerPlayer()
 	{
-		Player player = new Player();
+		Player player = new Player(this);
 
 		addPlayer(player);
 
@@ -86,7 +77,10 @@ public class Game
 
 	public synchronized void registerAI()
 	{
-		pendingAIsCount++;
+		AI ai = new Runner(this);
+
+		addPlayer(ai);
+		ais.add(ai);
 	}
 
 	private synchronized void addPlayer(Player player)

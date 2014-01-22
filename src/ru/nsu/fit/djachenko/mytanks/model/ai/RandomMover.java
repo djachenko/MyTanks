@@ -2,16 +2,16 @@ package ru.nsu.fit.djachenko.mytanks.model.ai;
 
 import ru.nsu.fit.djachenko.mytanks.communication.MoveTankMessage;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
-import ru.nsu.fit.djachenko.mytanks.model.Level;
+import ru.nsu.fit.djachenko.mytanks.model.Game;
 
 import java.util.Random;
 
 public class RandomMover extends AI
 {
 	private Random random = new Random();
-	private Direction previousDirection = Direction.DOWN;
+	private Direction direction = Direction.DOWN;
 
-	public RandomMover(Level channel)
+	public RandomMover(Game channel)
 	{
 		super(channel);
 	}
@@ -29,22 +29,22 @@ public class RandomMover extends AI
 		switch (rand)
 		{
 			case 0:
-				previousDirection = Direction.RIGHT;
+				direction = Direction.RIGHT;
 				break;
 			case 1:
-				previousDirection = Direction.UP;
+				direction = Direction.UP;
 				break;
 			case 2:
-				previousDirection = Direction.LEFT;
+				direction = Direction.LEFT;
 				break;
 			case 3:
-				previousDirection = Direction.DOWN;
+				direction = Direction.DOWN;
 				break;
 			default:
 				break;
 		}
 
-		send(new MoveTankMessage(getId(), previousDirection));
+		send(new MoveTankMessage(getId(), direction));
 	}
 
 	@Override

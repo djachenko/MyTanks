@@ -33,7 +33,7 @@ public class LevelView extends JPanel
 			{
 				Cell originCell = origin.at(x, y);
 
-				switch (originCell.type)
+				switch (originCell.getType())
 				{
 					case WALL:
 						CellView cellView = new CellView(CellView.Type.WALL, x, y);
