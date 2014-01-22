@@ -1,8 +1,7 @@
-package ru.nsu.fit.djachenko.mytanks.model.cells;
+package ru.nsu.fit.djachenko.mytanks.model.entrylevel.celllevel;
 
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
-import ru.nsu.fit.djachenko.mytanks.model.Field;
-import ru.nsu.fit.djachenko.mytanks.model.Tank;
+import ru.nsu.fit.djachenko.mytanks.model.entrylevel.Tank;
 
 public class TankCell extends Cell
 {

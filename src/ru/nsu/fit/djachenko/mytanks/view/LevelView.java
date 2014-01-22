@@ -1,8 +1,8 @@
 package ru.nsu.fit.djachenko.mytanks.view;
 
 import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.*;
-import ru.nsu.fit.djachenko.mytanks.model.Level;
-import ru.nsu.fit.djachenko.mytanks.model.cells.Cell;
+import ru.nsu.fit.djachenko.mytanks.model.entrylevel.Level;
+import ru.nsu.fit.djachenko.mytanks.model.entrylevel.celllevel.Cell;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,7 +1,7 @@
 package ru.nsu.fit.djachenko.mytanks.model.activities;
 
-import ru.nsu.fit.djachenko.mytanks.model.Level;
-import ru.nsu.fit.djachenko.mytanks.model.Tank;
+import ru.nsu.fit.djachenko.mytanks.model.entrylevel.Level;
+import ru.nsu.fit.djachenko.mytanks.model.entrylevel.Tank;
 
 public class RemoveTankTask implements Task
 {

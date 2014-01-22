@@ -1,6 +1,6 @@
-package ru.nsu.fit.djachenko.mytanks.model;
+package ru.nsu.fit.djachenko.mytanks.model.entrylevel.celllevel;
 
-class SpawnPoint
+public class SpawnPoint
 {
 	private final int x;
 	private final int y;

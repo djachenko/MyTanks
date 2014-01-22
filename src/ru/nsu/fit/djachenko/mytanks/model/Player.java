@@ -2,6 +2,7 @@ package ru.nsu.fit.djachenko.mytanks.model;
 
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModel;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.SpawnTankMessage;
+import ru.nsu.fit.djachenko.mytanks.model.entrylevel.celllevel.Field;
 
 public class Player
 {

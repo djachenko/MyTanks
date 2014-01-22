@@ -1,18 +1,18 @@
-package ru.nsu.fit.djachenko.mytanks.model.cells;
+package ru.nsu.fit.djachenko.mytanks.model.entrylevel.celllevel;
 
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
 
-public class WallCell extends Cell
+public class GroundCell extends Cell
 {
-	WallCell()
+	GroundCell()
 	{
-		super(Type.WALL);
+		super(Type.GROUND);
 	}
 
 	@Override
 	public boolean ableToMove(Direction dir, int depth)
 	{
-		return false;
+		return true;
 	}
 
 	@Override
@@ -28,13 +28,13 @@ public class WallCell extends Cell
 	@Override
 	public boolean ableToReplace()
 	{
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean ableToHit()
 	{
-		return true;
+		return false;
 	}
 
 	@Override
@@ -45,6 +45,6 @@ public class WallCell extends Cell
 	@Override
 	public boolean hasToBeWaited()
 	{
-		return true;
+		return false;
 	}
 }

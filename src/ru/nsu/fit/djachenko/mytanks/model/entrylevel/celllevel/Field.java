@@ -1,6 +1,7 @@
-package ru.nsu.fit.djachenko.mytanks.model;
+package ru.nsu.fit.djachenko.mytanks.model.entrylevel.celllevel;
 
-import ru.nsu.fit.djachenko.mytanks.model.cells.*;
+import ru.nsu.fit.djachenko.mytanks.model.Direction;
+import ru.nsu.fit.djachenko.mytanks.model.entrylevel.FieldElement;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -67,7 +68,7 @@ public class Field
 
 	private final State state;
 
-	Field(String configFile) throws IOException
+	protected Field(String configFile) throws IOException
 	{
 		init(configFile);
 
@@ -136,12 +137,12 @@ public class Field
 		}
 	}
 
-	void draw(FieldElement element)
+	protected void draw(FieldElement element)
 	{
 		element.draw(this);
 	}
 
-	void erase(FieldElement element)
+	protected void erase(FieldElement element)
 	{
 		element.erase(this);
 	}
@@ -193,7 +194,7 @@ public class Field
 		table[fromY][fromX] = cellFactory.getGroundCell();
 	}
 
-	boolean ableToReplace(int x, int y)
+	public boolean ableToReplace(int x, int y)
 	{
 		return x >= 0 && x < width() && y >= 0 && y < height() && table[y][x].ableToReplace();
 	}
@@ -224,7 +225,7 @@ public class Field
 		System.out.println(temp);
 	}
 
-	List<SpawnPoint> scanForSpawnPoints()
+	protected List<SpawnPoint> scanForSpawnPoints()
 	{
 		List<SpawnPoint> list = new LinkedList<>();
 
@@ -255,7 +256,7 @@ public class Field
 		return list;
 	}
 
-	boolean check(SpawnPoint point)
+	protected boolean check(SpawnPoint point)
 	{
 		int x = point.getX();
 		int y = point.getY();
@@ -274,7 +275,7 @@ public class Field
 		return true;
 	}
 
-	State getState()
+	public State getState()
 	{
 		return state;
 	}

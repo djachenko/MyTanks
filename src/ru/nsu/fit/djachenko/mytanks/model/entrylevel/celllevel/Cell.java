@@ -1,4 +1,4 @@
-package ru.nsu.fit.djachenko.mytanks.model.cells;
+package ru.nsu.fit.djachenko.mytanks.model.entrylevel.celllevel;
 
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
 

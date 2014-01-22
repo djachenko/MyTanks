@@ -1,6 +1,6 @@
 package ru.nsu.fit.djachenko.mytanks.model.activities;
 
-import ru.nsu.fit.djachenko.mytanks.model.Level;
+import ru.nsu.fit.djachenko.mytanks.model.entrylevel.Level;
 
 public class SpawnTankTask implements Task
 {

@@ -1,8 +1,7 @@
-package ru.nsu.fit.djachenko.mytanks.model.cells;
+package ru.nsu.fit.djachenko.mytanks.model.entrylevel.celllevel;
 
-import ru.nsu.fit.djachenko.mytanks.model.Bullet;
+import ru.nsu.fit.djachenko.mytanks.model.entrylevel.Bullet;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
-import ru.nsu.fit.djachenko.mytanks.model.Field;
 
 public class BulletCell extends Cell
 {

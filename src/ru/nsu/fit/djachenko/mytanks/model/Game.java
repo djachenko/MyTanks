@@ -7,6 +7,7 @@ import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.StartLevelMess
 import ru.nsu.fit.djachenko.mytanks.model.activities.TaskPerformer;
 import ru.nsu.fit.djachenko.mytanks.model.ai.AI;
 import ru.nsu.fit.djachenko.mytanks.model.ai.Runner;
+import ru.nsu.fit.djachenko.mytanks.model.entrylevel.Level;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -43,7 +44,7 @@ public class Game
 		}
 	}
 
-	void send(MessageToView messageToView)
+	public void send(MessageToView messageToView)
 	{
 		for (Client client : clients)
 		{
@@ -51,12 +52,12 @@ public class Game
 		}
 	}
 
-	void notifyTankSpawned(int playerId, int x, int y, Direction direction)
+	public void notifyTankSpawned(int playerId, int x, int y, Direction direction)
 	{
 		players.get(playerId).notifyTankSpawned(x, y, direction);
 	}
 
-	void notifyTankHit(int playerId)
+	public void notifyTankHit(int playerId)
 	{
 		players.get(playerId).notifyTankHit();
 	}

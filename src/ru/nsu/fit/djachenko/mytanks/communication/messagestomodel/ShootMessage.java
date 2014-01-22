@@ -1,6 +1,6 @@
 package ru.nsu.fit.djachenko.mytanks.communication.messagestomodel;
 
-import ru.nsu.fit.djachenko.mytanks.model.Level;
+import ru.nsu.fit.djachenko.mytanks.model.entrylevel.Level;
 
 public class ShootMessage extends MessageToModel
 {

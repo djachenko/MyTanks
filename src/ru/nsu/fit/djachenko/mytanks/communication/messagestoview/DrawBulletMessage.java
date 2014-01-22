@@ -1,6 +1,6 @@
 package ru.nsu.fit.djachenko.mytanks.communication.messagestoview;
 
-import ru.nsu.fit.djachenko.mytanks.model.Bullet;
+import ru.nsu.fit.djachenko.mytanks.model.entrylevel.Bullet;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
 import ru.nsu.fit.djachenko.mytanks.view.LevelView;
 

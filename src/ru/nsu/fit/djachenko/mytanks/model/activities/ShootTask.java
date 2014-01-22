@@ -1,6 +1,6 @@
 package ru.nsu.fit.djachenko.mytanks.model.activities;
 
-import ru.nsu.fit.djachenko.mytanks.model.Tank;
+import ru.nsu.fit.djachenko.mytanks.model.entrylevel.Tank;
 
 public class ShootTask implements Task
 {

@@ -1,7 +1,9 @@
-package ru.nsu.fit.djachenko.mytanks.model;
+package ru.nsu.fit.djachenko.mytanks.model.entrylevel;
 
 import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.TankMovedMessage;
-import ru.nsu.fit.djachenko.mytanks.model.cells.CellFactory;
+import ru.nsu.fit.djachenko.mytanks.model.Direction;
+import ru.nsu.fit.djachenko.mytanks.model.entrylevel.celllevel.CellFactory;
+import ru.nsu.fit.djachenko.mytanks.model.entrylevel.celllevel.Field;
 
 import java.util.HashMap;
 import java.util.Map;
