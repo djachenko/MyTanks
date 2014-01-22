@@ -1,7 +1,7 @@
 package ru.nsu.fit.djachenko.mytanks.model;
 
-import ru.nsu.fit.djachenko.mytanks.communication.MessageToModel;
-import ru.nsu.fit.djachenko.mytanks.communication.SpawnTankMessage;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModel;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.SpawnTankMessage;
 
 public class Player
 {

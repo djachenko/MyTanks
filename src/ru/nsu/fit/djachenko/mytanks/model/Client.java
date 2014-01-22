@@ -1,6 +1,11 @@
 package ru.nsu.fit.djachenko.mytanks.model;
 
 import ru.nsu.fit.djachenko.mytanks.communication.*;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModel;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.StartGameMessage;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.ChooseLevelMessage;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.LevelStartedMessage;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.MessageToView;
 
 public class Client implements Runnable
 {

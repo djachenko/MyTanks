@@ -1,6 +1,6 @@
 package ru.nsu.fit.djachenko.mytanks.model;
 
-import ru.nsu.fit.djachenko.mytanks.communication.BulletMovedMessage;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.BulletMovedMessage;
 import ru.nsu.fit.djachenko.mytanks.model.cells.CellFactory;
 
 public class Bullet implements FieldElement

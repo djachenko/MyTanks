@@ -1,7 +1,7 @@
 package ru.nsu.fit.djachenko.mytanks.view.activities;
 
 import ru.nsu.fit.djachenko.mytanks.communication.MessageChannel;
-import ru.nsu.fit.djachenko.mytanks.communication.MessageToView;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.MessageToView;
 import ru.nsu.fit.djachenko.mytanks.view.AppWindow;
 
 public class HandleMessageTask implements ViewTask

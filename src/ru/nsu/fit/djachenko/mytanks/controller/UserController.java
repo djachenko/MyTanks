@@ -1,9 +1,9 @@
 package ru.nsu.fit.djachenko.mytanks.controller;
 
 import ru.nsu.fit.djachenko.mytanks.communication.MessageChannel;
-import ru.nsu.fit.djachenko.mytanks.communication.MessageToModel;
-import ru.nsu.fit.djachenko.mytanks.communication.MoveTankMessage;
-import ru.nsu.fit.djachenko.mytanks.communication.ShootMessage;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModel;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MoveTankMessage;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.ShootMessage;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
 import ru.nsu.fit.djachenko.mytanks.model.activities.Task;
 import ru.nsu.fit.djachenko.mytanks.model.activities.TaskPerformer;

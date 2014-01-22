@@ -1,12 +1,12 @@
-package ru.nsu.fit.djachenko.mytanks.communication;
+package ru.nsu.fit.djachenko.mytanks.communication.messagestoview;
 
 import ru.nsu.fit.djachenko.mytanks.view.LevelView;
 
-public class BulletRemovedMessage extends MessageToView
+public class BulletMovedMessage extends MessageToView
 {
 	private final int id;
 
-	public BulletRemovedMessage(int id)
+	public BulletMovedMessage(int id)
 	{
 		this.id = id;
 	}

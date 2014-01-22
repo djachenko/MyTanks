@@ -1,9 +1,11 @@
 package ru.nsu.fit.djachenko.mytanks.model;
 
-import ru.nsu.fit.djachenko.mytanks.communication.*;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModel;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MoveTankMessage;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.ShootMessage;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.SpawnTankMessage;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.*;
 import ru.nsu.fit.djachenko.mytanks.model.activities.*;
-import ru.nsu.fit.djachenko.mytanks.communication.BulletRemovedMessage;
-import ru.nsu.fit.djachenko.mytanks.communication.TankRemovedMessage;
 
 import java.io.IOException;
 import java.util.*;

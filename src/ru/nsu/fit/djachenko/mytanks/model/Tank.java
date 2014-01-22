@@ -1,6 +1,6 @@
 package ru.nsu.fit.djachenko.mytanks.model;
 
-import ru.nsu.fit.djachenko.mytanks.communication.TankMovedMessage;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.TankMovedMessage;
 import ru.nsu.fit.djachenko.mytanks.model.cells.CellFactory;
 
 import java.util.HashMap;

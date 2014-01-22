@@ -1,9 +1,9 @@
 package ru.nsu.fit.djachenko.mytanks.model;
 
-import ru.nsu.fit.djachenko.mytanks.communication.LevelStartedMessage;
-import ru.nsu.fit.djachenko.mytanks.communication.MessageToModel;
-import ru.nsu.fit.djachenko.mytanks.communication.MessageToView;
-import ru.nsu.fit.djachenko.mytanks.communication.StartLevelMessage;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.LevelStartedMessage;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModel;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.MessageToView;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.StartLevelMessage;
 import ru.nsu.fit.djachenko.mytanks.model.activities.TaskPerformer;
 import ru.nsu.fit.djachenko.mytanks.model.ai.AI;
 import ru.nsu.fit.djachenko.mytanks.model.ai.Runner;

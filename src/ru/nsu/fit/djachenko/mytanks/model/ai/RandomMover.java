@@ -1,6 +1,6 @@
 package ru.nsu.fit.djachenko.mytanks.model.ai;
 
-import ru.nsu.fit.djachenko.mytanks.communication.MoveTankMessage;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MoveTankMessage;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
 import ru.nsu.fit.djachenko.mytanks.model.Game;
 

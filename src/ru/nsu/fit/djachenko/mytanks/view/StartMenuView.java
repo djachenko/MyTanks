@@ -1,9 +1,9 @@
 package ru.nsu.fit.djachenko.mytanks.view;
 
 import ru.nsu.fit.djachenko.mytanks.communication.MessageChannel;
-import ru.nsu.fit.djachenko.mytanks.communication.MessageToModel;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModel;
 import ru.nsu.fit.djachenko.mytanks.model.GameMode;
-import ru.nsu.fit.djachenko.mytanks.communication.StartGameMessage;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.StartGameMessage;
 
 import javax.swing.*;
 import java.awt.*;

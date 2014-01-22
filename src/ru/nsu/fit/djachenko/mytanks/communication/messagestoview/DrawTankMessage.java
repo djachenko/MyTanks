@@ -1,4 +1,4 @@
-package ru.nsu.fit.djachenko.mytanks.communication;
+package ru.nsu.fit.djachenko.mytanks.communication.messagestoview;
 
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
 import ru.nsu.fit.djachenko.mytanks.model.Tank;

@@ -1,7 +1,7 @@
 package ru.nsu.fit.djachenko.mytanks.controller;
 
 import ru.nsu.fit.djachenko.mytanks.communication.MessageChannel;
-import ru.nsu.fit.djachenko.mytanks.communication.MessageToModel;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModel;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

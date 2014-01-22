@@ -1,6 +1,10 @@
 package ru.nsu.fit.djachenko.mytanks.view;
 
 import ru.nsu.fit.djachenko.mytanks.communication.*;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModel;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.ChooseLevelMessage;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.LevelStartedMessage;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.MessageToView;
 import ru.nsu.fit.djachenko.mytanks.controller.ArrowsController;
 import ru.nsu.fit.djachenko.mytanks.controller.WASDController;
 import ru.nsu.fit.djachenko.mytanks.model.Client;
