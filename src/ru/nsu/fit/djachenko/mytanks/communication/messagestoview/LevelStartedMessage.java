@@ -1,7 +1,7 @@
 package ru.nsu.fit.djachenko.mytanks.communication.messagestoview;
 
-import ru.nsu.fit.djachenko.mytanks.model.Client;
-import ru.nsu.fit.djachenko.mytanks.model.entrylevel.Level;
+import ru.nsu.fit.djachenko.mytanks.model.management.Client;
+import ru.nsu.fit.djachenko.mytanks.model.entries.Level;
 import ru.nsu.fit.djachenko.mytanks.view.AppWindow;
 
 public class LevelStartedMessage extends MessageToView

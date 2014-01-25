@@ -7,8 +7,8 @@ import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.LevelStartedMes
 import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.MessageToView;
 import ru.nsu.fit.djachenko.mytanks.controller.ArrowsController;
 import ru.nsu.fit.djachenko.mytanks.controller.WASDController;
-import ru.nsu.fit.djachenko.mytanks.model.Client;
-import ru.nsu.fit.djachenko.mytanks.model.LevelHolder;
+import ru.nsu.fit.djachenko.mytanks.model.management.Client;
+import ru.nsu.fit.djachenko.mytanks.model.management.LevelHolder;
 import ru.nsu.fit.djachenko.mytanks.view.activities.HandleMessageTask;
 import ru.nsu.fit.djachenko.mytanks.view.activities.ViewTaskPerformer;
 

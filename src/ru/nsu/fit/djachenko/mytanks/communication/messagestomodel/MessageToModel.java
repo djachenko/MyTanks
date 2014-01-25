@@ -1,9 +1,9 @@
 package ru.nsu.fit.djachenko.mytanks.communication.messagestomodel;
 
 import ru.nsu.fit.djachenko.mytanks.communication.Message;
-import ru.nsu.fit.djachenko.mytanks.model.Game;
-import ru.nsu.fit.djachenko.mytanks.model.entrylevel.Level;
-import ru.nsu.fit.djachenko.mytanks.model.Client;
+import ru.nsu.fit.djachenko.mytanks.model.management.Game;
+import ru.nsu.fit.djachenko.mytanks.model.entries.Level;
+import ru.nsu.fit.djachenko.mytanks.model.management.Client;
 
 public abstract class MessageToModel implements Message
 {

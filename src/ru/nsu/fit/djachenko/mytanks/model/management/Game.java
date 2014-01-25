@@ -1,13 +1,14 @@
-package ru.nsu.fit.djachenko.mytanks.model;
+package ru.nsu.fit.djachenko.mytanks.model.management;
 
 import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.LevelStartedMessage;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModel;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.MessageToView;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.StartLevelMessage;
+import ru.nsu.fit.djachenko.mytanks.model.Direction;
 import ru.nsu.fit.djachenko.mytanks.model.activities.TaskPerformer;
-import ru.nsu.fit.djachenko.mytanks.model.ai.AI;
-import ru.nsu.fit.djachenko.mytanks.model.ai.Runner;
-import ru.nsu.fit.djachenko.mytanks.model.entrylevel.Level;
+import ru.nsu.fit.djachenko.mytanks.model.management.ai.AI;
+import ru.nsu.fit.djachenko.mytanks.model.management.ai.Runner;
+import ru.nsu.fit.djachenko.mytanks.model.entries.Level;
 
 import java.io.IOException;
 import java.util.HashMap;

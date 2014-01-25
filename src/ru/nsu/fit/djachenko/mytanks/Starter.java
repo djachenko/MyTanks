@@ -1,6 +1,6 @@
 package ru.nsu.fit.djachenko.mytanks;
 
-import ru.nsu.fit.djachenko.mytanks.model.Client;
+import ru.nsu.fit.djachenko.mytanks.model.management.Client;
 import ru.nsu.fit.djachenko.mytanks.view.AppWindow;
 
 public class Starter

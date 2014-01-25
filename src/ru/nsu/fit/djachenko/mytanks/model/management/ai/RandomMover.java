@@ -1,8 +1,8 @@
-package ru.nsu.fit.djachenko.mytanks.model.ai;
+package ru.nsu.fit.djachenko.mytanks.model.management.ai;
 
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MoveTankMessage;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
-import ru.nsu.fit.djachenko.mytanks.model.Game;
+import ru.nsu.fit.djachenko.mytanks.model.management.Game;
 
 import java.util.Random;
 

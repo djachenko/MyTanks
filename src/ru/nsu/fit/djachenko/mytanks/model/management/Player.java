@@ -1,8 +1,9 @@
-package ru.nsu.fit.djachenko.mytanks.model;
+package ru.nsu.fit.djachenko.mytanks.model.management;
 
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModel;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.SpawnTankMessage;
-import ru.nsu.fit.djachenko.mytanks.model.entrylevel.celllevel.Field;
+import ru.nsu.fit.djachenko.mytanks.model.Direction;
+import ru.nsu.fit.djachenko.mytanks.model.cellls.Field;
 
 public class Player
 {

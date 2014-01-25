@@ -1,4 +1,4 @@
-package ru.nsu.fit.djachenko.mytanks.model;
+package ru.nsu.fit.djachenko.mytanks.model.management;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

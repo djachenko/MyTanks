@@ -1,9 +1,9 @@
 package ru.nsu.fit.djachenko.mytanks.model;
 
 import org.junit.Test;
-import ru.nsu.fit.djachenko.mytanks.model.entrylevel.celllevel.Cell;
-import ru.nsu.fit.djachenko.mytanks.model.entrylevel.Level;
-import ru.nsu.fit.djachenko.mytanks.model.entrylevel.Tank;
+import ru.nsu.fit.djachenko.mytanks.model.cellls.Cell;
+import ru.nsu.fit.djachenko.mytanks.model.entries.Level;
+import ru.nsu.fit.djachenko.mytanks.model.entries.Tank;
 
 import java.io.IOException;
 

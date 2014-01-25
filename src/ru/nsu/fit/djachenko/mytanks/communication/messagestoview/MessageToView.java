@@ -1,7 +1,7 @@
 package ru.nsu.fit.djachenko.mytanks.communication.messagestoview;
 
 import ru.nsu.fit.djachenko.mytanks.communication.Message;
-import ru.nsu.fit.djachenko.mytanks.model.Client;
+import ru.nsu.fit.djachenko.mytanks.model.management.Client;
 import ru.nsu.fit.djachenko.mytanks.view.AppWindow;
 import ru.nsu.fit.djachenko.mytanks.view.LevelView;
 

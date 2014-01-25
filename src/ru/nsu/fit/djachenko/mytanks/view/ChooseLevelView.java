@@ -2,7 +2,7 @@ package ru.nsu.fit.djachenko.mytanks.view;
 
 import ru.nsu.fit.djachenko.mytanks.communication.MessageChannel;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModel;
-import ru.nsu.fit.djachenko.mytanks.model.LevelHolder;
+import ru.nsu.fit.djachenko.mytanks.model.management.LevelHolder;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.StartLevelMessage;
 
 import javax.swing.*;

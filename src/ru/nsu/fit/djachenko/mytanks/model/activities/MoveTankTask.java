@@ -1,7 +1,7 @@
 package ru.nsu.fit.djachenko.mytanks.model.activities;
 
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
-import ru.nsu.fit.djachenko.mytanks.model.entrylevel.Tank;
+import ru.nsu.fit.djachenko.mytanks.model.entries.Tank;
 
 public class MoveTankTask implements Task
 {

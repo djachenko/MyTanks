@@ -1,7 +1,7 @@
-package ru.nsu.fit.djachenko.mytanks.model.entrylevel.celllevel;
+package ru.nsu.fit.djachenko.mytanks.model.cellls;
 
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
-import ru.nsu.fit.djachenko.mytanks.model.entrylevel.FieldElement;
+import ru.nsu.fit.djachenko.mytanks.model.entries.FieldElement;
 
 import java.io.BufferedReader;
 import java.io.File;

@@ -1,4 +1,4 @@
-package ru.nsu.fit.djachenko.mytanks.model;
+package ru.nsu.fit.djachenko.mytanks.model.management;
 
 import ru.nsu.fit.djachenko.mytanks.communication.*;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModel;

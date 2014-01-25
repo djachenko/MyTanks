@@ -1,6 +1,6 @@
 package ru.nsu.fit.djachenko.mytanks.communication.messagestomodel;
 
-import ru.nsu.fit.djachenko.mytanks.model.Game;
+import ru.nsu.fit.djachenko.mytanks.model.management.Game;
 
 public class StartLevelMessage extends MessageToModel
 {

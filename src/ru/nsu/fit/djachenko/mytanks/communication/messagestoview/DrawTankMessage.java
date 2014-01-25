@@ -1,7 +1,7 @@
 package ru.nsu.fit.djachenko.mytanks.communication.messagestoview;
 
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
-import ru.nsu.fit.djachenko.mytanks.model.entrylevel.Tank;
+import ru.nsu.fit.djachenko.mytanks.model.entries.Tank;
 import ru.nsu.fit.djachenko.mytanks.view.LevelView;
 
 public class DrawTankMessage extends MessageToView

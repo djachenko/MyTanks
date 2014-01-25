@@ -1,7 +1,7 @@
-package ru.nsu.fit.djachenko.mytanks.model.entrylevel.celllevel;
+package ru.nsu.fit.djachenko.mytanks.model.cellls;
 
-import ru.nsu.fit.djachenko.mytanks.model.entrylevel.Bullet;
-import ru.nsu.fit.djachenko.mytanks.model.entrylevel.Tank;
+import ru.nsu.fit.djachenko.mytanks.model.entries.Bullet;
+import ru.nsu.fit.djachenko.mytanks.model.entries.Tank;
 
 public class CellFactory
 {

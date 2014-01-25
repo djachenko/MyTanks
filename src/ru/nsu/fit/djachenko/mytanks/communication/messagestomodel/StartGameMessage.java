@@ -1,7 +1,7 @@
 package ru.nsu.fit.djachenko.mytanks.communication.messagestomodel;
 
-import ru.nsu.fit.djachenko.mytanks.model.Client;
-import ru.nsu.fit.djachenko.mytanks.model.GameMode;
+import ru.nsu.fit.djachenko.mytanks.model.management.Client;
+import ru.nsu.fit.djachenko.mytanks.model.management.GameMode;
 
 public class StartGameMessage extends MessageToModel
 {
