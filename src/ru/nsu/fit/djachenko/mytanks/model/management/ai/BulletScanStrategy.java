@@ -14,54 +14,45 @@ class BulletScanStrategy
 		int stateWidth = state.width();
 		int stateHeight = state.height();
 
-		for (int i = tankX; i >= 0 && !result; i--)
-		{
-			for (int j = -1; j <= 1 && !result; j++)
-			{
-				if (state.at(i, tankY + j) == Cell.Type.BULLET)
-				{
-					result = true;
+		int distance = Math.max(tankX, Math.max(tankY, Math.max(stateWidth - 1 - tankX, stateHeight - 1 - tankY)));
 
-					runDirection = Direction.RIGHT;
-				}
-			}
-		}
-
-		for (int i = tankX; i < stateWidth && !result; i++)
-		{
-			for (int j = -1; j <= 1 && !result; j++)
-			{
-				if (state.at(i, tankY + j) == Cell.Type.BULLET)
-				{
-					result = true;
-
-					runDirection = Direction.LEFT;
-				}
-			}
-		}
-
-		for (int j = tankY; j >= 0 && !result; j--)
+		for (int round = 1; round < distance; round++)
 		{
 			for (int i = -1; i <= 1 && !result; i++)
 			{
-				if (state.at(tankX + i, j) == Cell.Type.BULLET)
+				if (tankY - round >= 0 && state.at(tankX + i, tankY - round) == Cell.Type.BULLET)
 				{
 					result = true;
 
 					runDirection = Direction.DOWN;
-				}
-			}
-		}
 
-		for (int j = tankY; j < stateHeight && !result; j++)
-		{
-			for (int i = -1; i <= 1 && !result; i++)
-			{
-				if (state.at(tankX + i, j) == Cell.Type.BULLET)
+					break;
+				}
+
+				if (tankY + round < stateHeight && state.at(tankX + i, tankY + round) == Cell.Type.BULLET)
 				{
 					result = true;
 
 					runDirection = Direction.UP;
+				}
+			}
+
+			for (int j = -1; j <= 1 && !result; j++)
+			{
+				if (tankX - round >= 0 && state.at(tankX - round, tankY + j) == Cell.Type.BULLET)
+				{
+					result = true;
+
+					runDirection = Direction.RIGHT;
+
+					break;
+				}
+
+				if (tankX + round < stateWidth && state.at(tankX + round, tankY + j) == Cell.Type.BULLET)
+				{
+					result = true;
+
+					runDirection = Direction.LEFT;
 				}
 			}
 		}
