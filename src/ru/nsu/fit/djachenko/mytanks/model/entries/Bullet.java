@@ -46,6 +46,7 @@ public class Bullet implements FieldElement
 	{
 		if (ableToHit(x + direction.getDx(), y + direction.getDy()))
 		{
+			level.send(movedMessage);
 			hit(direction.getDx(), direction.getDy());
 		}
 		else

@@ -7,6 +7,7 @@ import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.LevelStartedMes
 import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.MessageToView;
 import ru.nsu.fit.djachenko.mytanks.controller.ArrowsController;
 import ru.nsu.fit.djachenko.mytanks.controller.WASDController;
+import ru.nsu.fit.djachenko.mytanks.model.cells.Field;
 import ru.nsu.fit.djachenko.mytanks.model.management.Client;
 import ru.nsu.fit.djachenko.mytanks.model.management.LevelHolder;
 import ru.nsu.fit.djachenko.mytanks.view.activities.HandleMessageTask;
@@ -84,11 +85,11 @@ public class AppWindow extends JFrame
 		setLocationRelativeTo(null);
 	}
 
-	private void startLevel(LevelStartedMessage message)//REFACTOR
+	private void startLevel(Field.State state, int wasdId, int arrowsId)//REFACTOR
 	{
-		currentLevelView = new LevelView(message.getState());
-		currentLevelView.addKeyListener(new WASDController(channelToClient, message.getWasdId()));
-		currentLevelView.addKeyListener(new ArrowsController(channelToClient, message.getArrowsId()));
+		currentLevelView = new LevelView(state, wasdId, arrowsId);
+		currentLevelView.addKeyListener(new WASDController(channelToClient, wasdId));
+		currentLevelView.addKeyListener(new ArrowsController(channelToClient, arrowsId));
 
 		if (currentPanel != null)
 		{
@@ -123,6 +124,6 @@ public class AppWindow extends JFrame
 
 	public void accept(LevelStartedMessage message)
 	{
-		startLevel(message);
+		startLevel(message.getState(), message.getWasdId(), message.getArrowsId());
 	}
 }

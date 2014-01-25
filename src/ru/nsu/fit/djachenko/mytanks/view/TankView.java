@@ -1,6 +1,7 @@
 package ru.nsu.fit.djachenko.mytanks.view;
 
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
+import ru.nsu.fit.djachenko.mytanks.model.cells.Cell;
 
 import javax.swing.*;
 
@@ -10,21 +11,42 @@ class TankView extends JLabel
 
 	private Direction currentDirection;
 
-	TankView(int x, int y, Direction direction, boolean isFriend)
+	static enum Team
+	{
+		FIRST,
+		SECOND,
+		OTHER
+	}
+
+	TankView(int x, int y, Direction direction, Team team)
 	{
 		this.currentDirection = direction;
 
 		tank = new CellView[3][3];
 
-		initUI(x, y);
+		initUI(x, y, team);
 	}
 
-	private void initUI(int x, int y)
+	private void initUI(int x, int y, Team team)
 	{
 		setLayout(null);
 
 		int dx = currentDirection.getDx();
 		int dy = currentDirection.getDy();
+
+		CellView.Type type;
+
+		switch (team)
+		{
+			case FIRST:
+				type = CellView.Type.MYTANK;
+				break;
+			case SECOND:
+				type = CellView.Type.FRIENDTANK;
+				break;
+			default:
+				type = CellView.Type.TANK;
+		}
 
 		for (int i = -1; i <= 1; i++)//y
 		{
@@ -32,7 +54,7 @@ class TankView extends JLabel
 		 	{
 				if (!((currentDirection.isVertical() && i == dy && j != 0) || (currentDirection.isHorisontal() && i != 0 && j == dx)))
 				{
-					tank[i + 1][j + 1] = new CellView(CellView.Type.TANK, 1 + j, 1 + i);
+					tank[i + 1][j + 1] = new CellView(type, 1 + j, 1 + i);
 					add(tank[i + 1][j + 1]);
 				}
 				else

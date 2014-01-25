@@ -15,6 +15,8 @@ public class CellView extends JLabel
 		GROUND(new Color(255, 244, 244)),
 		WALL(new Color(1, 1, 1)),
 		TANK(new Color(107, 107, 107)),
+		MYTANK(new Color(107, 150, 107)),
+		FRIENDTANK(new Color(79, 106, 149)),
 		BULLET(new Color(184, 184, 184));
 
 		private final Color color;

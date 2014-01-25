@@ -14,9 +14,15 @@ public class LevelView extends JPanel
 	private final Map<Integer, TankView> tankViews = new HashMap<>();
 	private final Map<Integer, BulletView> bulletViews = new HashMap<>();
 
-	LevelView(Field.State origin)
+	private final int firstTeam;
+	private final int secondTeam;
+
+	LevelView(Field.State origin, int wasdId, int arrowsId)
 	{
 		initUI(origin);
+
+		this.firstTeam = wasdId;
+		this.secondTeam = arrowsId;
 	}
 
 	private void initUI(Field.State origin)
@@ -105,7 +111,20 @@ public class LevelView extends JPanel
 
 	public void accept(DrawTankMessage message)
 	{
-		add(new TankView(message.getX(), message.getY(), message.getDirection(), true), message.getTankId());
+		int playerId = message.getPlayerId();
+
+		if (playerId == firstTeam)
+		{
+			add(new TankView(message.getX(), message.getY(), message.getDirection(), TankView.Team.FIRST), message.getTankId());
+		}
+		else if (playerId == secondTeam)
+		{
+			add(new TankView(message.getX(), message.getY(), message.getDirection(), TankView.Team.SECOND), message.getTankId());
+		}
+		else
+		{
+			add(new TankView(message.getX(), message.getY(), message.getDirection(), TankView.Team.OTHER), message.getTankId());
+		}
 	}
 
 	public void accept(DrawBulletMessage message)
