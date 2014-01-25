@@ -1,9 +1,9 @@
 package ru.nsu.fit.djachenko.mytanks.model.management;
 
-import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.LevelStartedMessage;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModel;
-import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.MessageToView;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.StartLevelMessage;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.MessageToView;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.MessageToViewFactory;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
 import ru.nsu.fit.djachenko.mytanks.model.activities.TaskPerformer;
 import ru.nsu.fit.djachenko.mytanks.model.management.ai.AI;
@@ -37,7 +37,7 @@ public class Game
 			aiTaskPerformer.enqueue(ai);
 		}
 
-		send(new LevelStartedMessage(currentLevel));
+		send(MessageToViewFactory.getInstance().getLevelStartedMessage(currentLevel));
 
 		for (Player player : players.values())
 		{

@@ -2,8 +2,8 @@ package ru.nsu.fit.djachenko.mytanks.view;
 
 import ru.nsu.fit.djachenko.mytanks.communication.MessageChannel;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModel;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModelFactory;
 import ru.nsu.fit.djachenko.mytanks.model.management.LevelHolder;
-import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.StartLevelMessage;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,7 +34,7 @@ class ChooseLevelView extends JPanel
 				@Override
 				public void actionPerformed(ActionEvent e)
 				{
-					channel.set(new StartLevelMessage(id));
+					channel.set(MessageToModelFactory.getInstance().getStartLevelMessage(id));
 				}
 			});
 

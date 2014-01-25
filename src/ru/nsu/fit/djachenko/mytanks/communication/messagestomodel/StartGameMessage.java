@@ -7,7 +7,7 @@ public class StartGameMessage extends MessageToModel
 {
 	private final GameMode mode;
 
-	public StartGameMessage(GameMode mode)
+	StartGameMessage(GameMode mode)
 	{
 		this.mode = mode;
 	}

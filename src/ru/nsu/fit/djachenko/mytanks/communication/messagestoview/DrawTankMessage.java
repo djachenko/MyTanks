@@ -12,7 +12,7 @@ public class DrawTankMessage extends MessageToView
 	private final int id;
 	private final int playerId;
 
-	public DrawTankMessage(Tank tank, int playerId)
+	DrawTankMessage(Tank tank, int playerId)
 	{
 		this.x = tank.getX();
 		this.y = tank.getY();

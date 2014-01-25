@@ -1,11 +1,12 @@
 package ru.nsu.fit.djachenko.mytanks.model.management;
 
-import ru.nsu.fit.djachenko.mytanks.communication.*;
+import ru.nsu.fit.djachenko.mytanks.communication.MessageChannel;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModel;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.StartGameMessage;
-import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.ChooseLevelMessage;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.LevelStartedMessage;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.MessageToView;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.MessageToViewFactory;
+
 
 public class Client implements Runnable
 {
@@ -77,7 +78,7 @@ public class Client implements Runnable
 		startLocalGame();
 		createPlayers(message.getMode());
 
-		channelToView.set(new ChooseLevelMessage());
+		channelToView.set(MessageToViewFactory.getInstance().getChooseLevelMessage());
 	}
 
 	public void accept(LevelStartedMessage message)

@@ -6,7 +6,7 @@ public class StartLevelMessage extends MessageToModel
 {
 	private final int levelId;
 
-	public StartLevelMessage(int levelId)
+	StartLevelMessage(int levelId)
 	{
 		this.levelId = levelId;
 	}

@@ -8,7 +8,7 @@ public class TankMovedMessage extends MessageToView
 	private final int id;
 	private final Direction direction;
 
-	public TankMovedMessage(int id, Direction direction)
+	TankMovedMessage(int id, Direction direction)
 	{
 		this.id = id;
 		this.direction = direction;

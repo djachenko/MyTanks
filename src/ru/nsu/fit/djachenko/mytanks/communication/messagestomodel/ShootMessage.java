@@ -6,7 +6,7 @@ public class ShootMessage extends MessageToModel
 {
 	private final int id;
 
-	public ShootMessage(int id)
+	ShootMessage(int id)
 	{
 		this.id = id;
 	}

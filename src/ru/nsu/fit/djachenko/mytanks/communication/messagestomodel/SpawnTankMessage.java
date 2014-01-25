@@ -6,7 +6,7 @@ public class SpawnTankMessage extends MessageToModel
 {
 	private final int id;
 
-	public SpawnTankMessage(int id)
+	SpawnTankMessage(int id)
 	{
 		this.id = id;
 	}

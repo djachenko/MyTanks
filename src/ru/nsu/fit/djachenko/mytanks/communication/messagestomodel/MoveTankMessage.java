@@ -8,7 +8,7 @@ public class MoveTankMessage extends MessageToModel
 	private final Direction direction;
 	private final int playerId;
 
-	public MoveTankMessage(int playerId, Direction direction)
+	MoveTankMessage(int playerId, Direction direction)
 	{
 		this.direction = direction;
 		this.playerId = playerId;

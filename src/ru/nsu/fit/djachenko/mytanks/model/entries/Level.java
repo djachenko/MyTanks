@@ -4,7 +4,8 @@ import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModel
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MoveTankMessage;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.ShootMessage;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.SpawnTankMessage;
-import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.*;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.MessageToView;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.MessageToViewFactory;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
 import ru.nsu.fit.djachenko.mytanks.model.management.Game;
 import ru.nsu.fit.djachenko.mytanks.model.activities.*;
@@ -24,8 +25,12 @@ public class Level extends Field
 	private final Map<Integer, Integer> playerToTank = new HashMap<>();
 	private final Map<Integer, Integer> tankToPlayer = new HashMap<>();
 
+	private Set<Integer> players = new HashSet<>();
+
 	private List<SpawnPoint> spawnPoints;
 	private final Random random = new Random();
+
+	private MessageToViewFactory factory = MessageToViewFactory.getInstance();
 
 	public Level(String config, Game game) throws IOException
 	{
@@ -67,14 +72,14 @@ public class Level extends Field
 	{
 		draw(bullet);
 		performer.enqueue(new MoveBulletTask(bullet));
-		send(new DrawBulletMessage(bullet));
+		send(factory.getDrawBulletMessage(bullet));
 	}
 
 	public void remove(Tank tank)
 	{
 		tankMap.remove(tank.getId());
 		erase(tank);
-		send(new TankRemovedMessage(tank.getId()));
+		send(factory.getTankRemovedMessage(tank.getId()));
 
 		int playerId = resolvePlayerByTank(tank.getId());
 
@@ -87,7 +92,7 @@ public class Level extends Field
 	void remove(Bullet bullet)
 	{
 		erase(bullet);
-		send(new BulletRemovedMessage(bullet.getId()));
+		send(factory.getBulletRemovedMessage(bullet.getId()));
 	}
 
 	private Tank getTank(int id)
@@ -149,7 +154,7 @@ public class Level extends Field
 
 		draw(tank);
 
-		send(new DrawTankMessage(tank, playerId));
+		send(factory.getDrawTankMessage(tank, playerId));
 		game.notifyTankSpawned(playerId, tank.getX(), tank.getY(), tank.getDirection());
 	}
 
@@ -203,6 +208,14 @@ public class Level extends Field
 
 	public void accept(SpawnTankMessage message)
 	{
-		spawnTank(message.getId());
+		if (!players.contains(message.getId()))
+		{
+			spawnTank(message.getId());
+			players.add(message.getId());
+		}
+		else
+		{
+			performer.enqueue(new SpawnTankTask(this, message.getId()));
+		}
 	}
 }

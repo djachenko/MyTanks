@@ -1,7 +1,7 @@
 package ru.nsu.fit.djachenko.mytanks.model.management;
 
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModel;
-import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.SpawnTankMessage;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModelFactory;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
 import ru.nsu.fit.djachenko.mytanks.model.cellls.Field;
 
@@ -12,19 +12,21 @@ public class Player
 
 	private final Game game;
 
+	private final MessageToModelFactory factory = MessageToModelFactory.getInstance();
+
 	public Player(Game game)
 	{
 		this.game = game;
 	}
 
-	protected int getId()
+	protected final int getId()
 	{
 		return id;
 	}
 
 	protected void notifyLevelStarted(Field.State state)
 	{
-		send(new SpawnTankMessage(id));
+		send(factory.getSpawnTankMessage(id));
 	}
 
 	protected void notifyTankSpawned(int x, int y, Direction direction)
@@ -32,10 +34,10 @@ public class Player
 
 	protected void notifyTankHit()
 	{
-		send(new SpawnTankMessage(id));
+		send(factory.getSpawnTankMessage(id));
 	}
 
-	protected void send(MessageToModel message)
+	protected final void send(MessageToModel message)
 	{
 		message.handle(game);
 	}

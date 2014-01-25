@@ -1,6 +1,7 @@
 package ru.nsu.fit.djachenko.mytanks.model.entries;
 
-import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.TankMovedMessage;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.MessageToView;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.MessageToViewFactory;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
 import ru.nsu.fit.djachenko.mytanks.model.cellls.CellFactory;
 import ru.nsu.fit.djachenko.mytanks.model.cellls.Field;
@@ -21,7 +22,7 @@ public class Tank implements FieldElement
 
 	boolean alive = true;
 
-	private final Map<Direction, TankMovedMessage> messages = new HashMap<>();
+	private final Map<Direction, MessageToView> messages = new HashMap<>();
 
 	public Tank(Level level, int x, int y, Direction dir)
 	{
@@ -34,7 +35,7 @@ public class Tank implements FieldElement
 
 		for (Direction direction : Direction.values())
 		{
-			messages.put(direction, new TankMovedMessage(id, direction));
+			messages.put(direction, MessageToViewFactory.getInstance().getTankMovedMessage(id, direction));
 		}
 	}
 

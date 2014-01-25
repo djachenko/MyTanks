@@ -10,7 +10,7 @@ public class LevelStartedMessage extends MessageToView
 	private int wasdId;
 	private int arrowsId;
 
-	public LevelStartedMessage(Level level)
+	LevelStartedMessage(Level level)
 	{
 		this.level = level;
 	}

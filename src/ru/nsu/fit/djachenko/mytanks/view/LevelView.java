@@ -1,8 +1,8 @@
 package ru.nsu.fit.djachenko.mytanks.view;
 
 import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.*;
-import ru.nsu.fit.djachenko.mytanks.model.entries.Level;
 import ru.nsu.fit.djachenko.mytanks.model.cellls.Cell;
+import ru.nsu.fit.djachenko.mytanks.model.entries.Level;
 
 import javax.swing.*;
 import java.awt.*;
@@ -111,11 +111,6 @@ public class LevelView extends JPanel
 	public void accept(DrawBulletMessage message)
 	{
 		add(new BulletView(message.getX(), message.getY(), message.getDirection()), message.getId());
-	}
-
-	public void accept(AddControllerMessage message)
-	{
-		addKeyListener(message.getController());
 	}
 
 	public void accept(TankMovedMessage message)

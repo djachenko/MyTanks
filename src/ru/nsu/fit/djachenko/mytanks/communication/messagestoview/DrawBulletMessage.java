@@ -11,7 +11,7 @@ public class DrawBulletMessage extends MessageToView
 	private final Direction direction;
 	private final int id;
 
-	public DrawBulletMessage(Bullet bullet)
+	DrawBulletMessage(Bullet bullet)
 	{
 		this.x = bullet.getX();
 		this.y = bullet.getY();

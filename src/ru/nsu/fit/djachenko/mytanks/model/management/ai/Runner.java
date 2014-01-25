@@ -1,6 +1,6 @@
 package ru.nsu.fit.djachenko.mytanks.model.management.ai;
 
-import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MoveTankMessage;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModelFactory;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
 import ru.nsu.fit.djachenko.mytanks.model.cellls.Field;
 import ru.nsu.fit.djachenko.mytanks.model.management.Game;
@@ -20,6 +20,8 @@ public class Runner extends AI
 
 	boolean flag = false;
 	Direction runDirection = null;
+
+	MessageToModelFactory factory = MessageToModelFactory.getInstance();
 
 	public Runner(Game game)
 	{
@@ -59,7 +61,7 @@ public class Runner extends AI
 	}
 
 	@Override
-	public void execute(int iteration)
+	public synchronized void execute(int iteration)
 	{
 		if (!alive)
 		{
@@ -96,7 +98,7 @@ public class Runner extends AI
 
 		if (flag)
 		{
-			send(new MoveTankMessage(getId(), runDirection));
+			send(factory.getMoveTankMessage(getId(), runDirection));
 		}
 	}
 

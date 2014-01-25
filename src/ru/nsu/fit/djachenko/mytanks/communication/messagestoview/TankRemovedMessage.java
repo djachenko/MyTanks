@@ -6,7 +6,7 @@ public class TankRemovedMessage extends MessageToView
 {
 	private final int id;
 
-	public TankRemovedMessage(int id)
+	TankRemovedMessage(int id)
 	{
 		this.id = id;
 	}

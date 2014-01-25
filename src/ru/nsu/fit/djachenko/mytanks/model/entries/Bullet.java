@@ -1,6 +1,8 @@
 package ru.nsu.fit.djachenko.mytanks.model.entries;
 
-import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.BulletMovedMessage;
+
+import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.MessageToView;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.MessageToViewFactory;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
 import ru.nsu.fit.djachenko.mytanks.model.cellls.CellFactory;
 import ru.nsu.fit.djachenko.mytanks.model.cellls.Field;
@@ -17,7 +19,7 @@ public class Bullet implements FieldElement
 
 	private final Direction direction;
 	private boolean active = true;
-	private final BulletMovedMessage movedMessage = new BulletMovedMessage(id);
+	private final MessageToView movedMessage = MessageToViewFactory.getInstance().getBulletMovedMessage(id);
 
 	Bullet(Level level, int x, int y, Direction direction)
 	{

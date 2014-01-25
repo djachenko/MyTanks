@@ -2,8 +2,7 @@ package ru.nsu.fit.djachenko.mytanks.controller;
 
 import ru.nsu.fit.djachenko.mytanks.communication.MessageChannel;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModel;
-import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MoveTankMessage;
-import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.ShootMessage;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModelFactory;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
 import ru.nsu.fit.djachenko.mytanks.model.activities.Task;
 import ru.nsu.fit.djachenko.mytanks.model.activities.TaskPerformer;
@@ -33,11 +32,13 @@ public abstract class UserController
 			keys[i] = -1;
 		}
 
-		messages[0] = new MoveTankMessage(playerId, Direction.RIGHT);
-		messages[1] = new MoveTankMessage(playerId, Direction.UP);
-		messages[2] = new MoveTankMessage(playerId, Direction.LEFT);
-		messages[3] = new MoveTankMessage(playerId, Direction.DOWN);
-		messages[4] = new ShootMessage(playerId);
+		MessageToModelFactory factory = MessageToModelFactory.getInstance();
+
+		messages[0] = factory.getMoveTankMessage(playerId, Direction.RIGHT);
+		messages[1] = factory.getMoveTankMessage(playerId, Direction.UP);
+		messages[2] = factory.getMoveTankMessage(playerId, Direction.LEFT);
+		messages[3] = factory.getMoveTankMessage(playerId, Direction.DOWN);
+		messages[4] = factory.getShootMessage(playerId);
 
 		performer.enqueue(new Task()
 		{

@@ -1,6 +1,6 @@
 package ru.nsu.fit.djachenko.mytanks.model.management.ai;
 
-import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MoveTankMessage;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModelFactory;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
 import ru.nsu.fit.djachenko.mytanks.model.management.Game;
 
@@ -10,6 +10,8 @@ public class RandomMover extends AI
 {
 	private Random random = new Random();
 	private Direction direction = Direction.DOWN;
+
+	MessageToModelFactory factory = MessageToModelFactory.getInstance();
 
 	public RandomMover(Game channel)
 	{
@@ -44,7 +46,7 @@ public class RandomMover extends AI
 				break;
 		}
 
-		send(new MoveTankMessage(getId(), direction));
+		send(factory.getMoveTankMessage(getId(), direction));
 	}
 
 	@Override

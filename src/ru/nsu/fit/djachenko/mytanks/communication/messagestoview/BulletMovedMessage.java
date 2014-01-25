@@ -6,9 +6,9 @@ public class BulletMovedMessage extends MessageToView
 {
 	private final int id;
 
-	public BulletMovedMessage(int id)
+	BulletMovedMessage(int bulletId)
 	{
-		this.id = id;
+		this.id = bulletId;
 	}
 
 	@Override
