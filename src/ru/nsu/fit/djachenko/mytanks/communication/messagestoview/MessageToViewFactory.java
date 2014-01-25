@@ -5,9 +5,15 @@ import ru.nsu.fit.djachenko.mytanks.model.entries.Bullet;
 import ru.nsu.fit.djachenko.mytanks.model.entries.Level;
 import ru.nsu.fit.djachenko.mytanks.model.entries.Tank;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MessageToViewFactory
 {
 	private static MessageToViewFactory instance = new MessageToViewFactory();
+
+	private static MessageToView chooseLevelMessage = new ChooseLevelMessage();
+	private Map<Integer, MessageToView> bulletMovedMessages = new HashMap<>();
 
 	private MessageToViewFactory()
 	{}
@@ -19,7 +25,12 @@ public class MessageToViewFactory
 
 	public MessageToView getBulletMovedMessage(int bulletId)
 	{
-		return new BulletMovedMessage(bulletId);
+		if (!bulletMovedMessages.containsKey(bulletId))
+		{
+			bulletMovedMessages.put(bulletId, new BulletMovedMessage(bulletId));
+		}
+
+		return bulletMovedMessages.get(bulletId);
 	}
 
 	public MessageToView getBulletRemovedMessage(int bulletId)
@@ -29,7 +40,7 @@ public class MessageToViewFactory
 
 	public MessageToView getChooseLevelMessage()
 	{
-		return new ChooseLevelMessage();
+		return chooseLevelMessage;
 	}
 
 	public MessageToView getDrawBulletMessage(Bullet bullet)
