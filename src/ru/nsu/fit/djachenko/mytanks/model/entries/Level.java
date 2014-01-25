@@ -9,7 +9,7 @@ import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.MessageToView;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.MessageToViewFactory;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
 import ru.nsu.fit.djachenko.mytanks.model.management.Game;
-import ru.nsu.fit.djachenko.mytanks.model.activities.*;
+import ru.nsu.fit.djachenko.mytanks.model.entries.activities.*;
 import ru.nsu.fit.djachenko.mytanks.model.cells.Field;
 import ru.nsu.fit.djachenko.mytanks.model.cells.SpawnPoint;
 

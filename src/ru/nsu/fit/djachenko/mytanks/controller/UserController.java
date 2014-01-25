@@ -4,8 +4,8 @@ import ru.nsu.fit.djachenko.mytanks.communication.MessageAcceptor;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModel;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModelFactory;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
-import ru.nsu.fit.djachenko.mytanks.model.activities.Task;
-import ru.nsu.fit.djachenko.mytanks.model.activities.TaskPerformer;
+import ru.nsu.fit.djachenko.mytanks.model.entries.activities.Task;
+import ru.nsu.fit.djachenko.mytanks.model.entries.activities.TaskPerformer;
 
 abstract class UserController
 {

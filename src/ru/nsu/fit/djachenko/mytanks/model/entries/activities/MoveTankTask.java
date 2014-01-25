@@ -1,4 +1,4 @@
-package ru.nsu.fit.djachenko.mytanks.model.activities;
+package ru.nsu.fit.djachenko.mytanks.model.entries.activities;
 
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
 import ru.nsu.fit.djachenko.mytanks.model.entries.Tank;

@@ -6,7 +6,7 @@ import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.StartLevelMess
 import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.MessageToView;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.MessageToViewFactory;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
-import ru.nsu.fit.djachenko.mytanks.model.activities.TaskPerformer;
+import ru.nsu.fit.djachenko.mytanks.model.entries.activities.TaskPerformer;
 import ru.nsu.fit.djachenko.mytanks.model.management.ai.AI;
 import ru.nsu.fit.djachenko.mytanks.model.management.ai.Runner;
 import ru.nsu.fit.djachenko.mytanks.model.entries.Level;
