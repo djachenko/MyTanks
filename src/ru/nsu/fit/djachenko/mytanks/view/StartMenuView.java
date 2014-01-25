@@ -1,7 +1,6 @@
 package ru.nsu.fit.djachenko.mytanks.view;
 
-import ru.nsu.fit.djachenko.mytanks.communication.MessageChannel;
-import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModel;
+import ru.nsu.fit.djachenko.mytanks.communication.MessageAcceptor;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModelFactory;
 import ru.nsu.fit.djachenko.mytanks.model.management.GameMode;
 
@@ -12,12 +11,12 @@ import java.awt.event.ActionListener;
 
 class StartMenuView extends JPanel
 {
-	StartMenuView(MessageChannel<MessageToModel> channel)
+	StartMenuView(MessageAcceptor channel)
 	{
 		initUI(channel);
 	}
 
-	private void initUI(final MessageChannel<MessageToModel> channel)
+	private void initUI(final MessageAcceptor channel)
 	{
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -33,7 +32,7 @@ class StartMenuView extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				channel.set(MessageToModelFactory.getInstance().getStartGameMessage(GameMode.SINGLE));
+				MessageToModelFactory.getInstance().getStartGameMessage(GameMode.SINGLE).handle(channel);
 			}
 		});
 		startSharedGameButton.addActionListener(new ActionListener()
@@ -41,7 +40,7 @@ class StartMenuView extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				channel.set(MessageToModelFactory.getInstance().getStartGameMessage(GameMode.SHARED));
+				MessageToModelFactory.getInstance().getStartGameMessage(GameMode.SHARED).handle(channel);
 			}
 		});
 		connectButton.addActionListener(new ActionListener()

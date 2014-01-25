@@ -1,15 +1,15 @@
 package ru.nsu.fit.djachenko.mytanks.view.activities;
 
-import ru.nsu.fit.djachenko.mytanks.communication.MessageChannel;
+import ru.nsu.fit.djachenko.mytanks.communication.MessageDonor;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.MessageToView;
 import ru.nsu.fit.djachenko.mytanks.view.AppWindow;
 
 public class HandleMessageTask implements ViewTask
 {
-	private final MessageChannel<MessageToView> channel;
+	private final MessageDonor<MessageToView> channel;
 	private final AppWindow appWindow;
 
-	public HandleMessageTask(MessageChannel<MessageToView> channel, AppWindow appWindow)
+	public HandleMessageTask(MessageDonor<MessageToView> channel, AppWindow appWindow)
 	{
 		this.channel = channel;
 		this.appWindow = appWindow;

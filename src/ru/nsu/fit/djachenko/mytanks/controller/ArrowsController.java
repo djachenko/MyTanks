@@ -1,14 +1,13 @@
 package ru.nsu.fit.djachenko.mytanks.controller;
 
-import ru.nsu.fit.djachenko.mytanks.communication.MessageChannel;
-import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModel;
+import ru.nsu.fit.djachenko.mytanks.communication.MessageAcceptor;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class ArrowsController extends UserController implements KeyListener
 {
-	public ArrowsController(MessageChannel<MessageToModel> channel, int playerId)
+	public ArrowsController(MessageAcceptor channel, int playerId)
 	{
 		super(channel, playerId);
 	}

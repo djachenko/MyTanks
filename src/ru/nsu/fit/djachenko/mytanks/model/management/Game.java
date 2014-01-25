@@ -1,5 +1,6 @@
 package ru.nsu.fit.djachenko.mytanks.model.management;
 
+import ru.nsu.fit.djachenko.mytanks.communication.MessageAcceptor;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModel;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.StartLevelMessage;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.MessageToView;
@@ -16,7 +17,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class Game
+public class Game implements MessageAcceptor
 {
 	private final List<Client> clients = new LinkedList<>();
 
@@ -45,7 +46,7 @@ public class Game
 		}
 	}
 
-	public void send(MessageToView messageToView)
+	void send(MessageToView messageToView)
 	{
 		for (Client client : clients)
 		{
@@ -88,6 +89,11 @@ public class Game
 	private synchronized void addPlayer(Player player)
 	{
 		players.put(player.getId(), player);
+	}
+
+	public void accept(MessageToView message)
+	{
+		send(message);
 	}
 
 	public void accept(MessageToModel message)

@@ -1,6 +1,6 @@
 package ru.nsu.fit.djachenko.mytanks.view;
 
-import ru.nsu.fit.djachenko.mytanks.communication.*;
+import ru.nsu.fit.djachenko.mytanks.communication.MessageAcceptor;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModel;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.ChooseLevelMessage;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.LevelStartedMessage;
@@ -8,35 +8,28 @@ import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.MessageToView;
 import ru.nsu.fit.djachenko.mytanks.controller.ArrowsController;
 import ru.nsu.fit.djachenko.mytanks.controller.WASDController;
 import ru.nsu.fit.djachenko.mytanks.model.cells.Field;
-import ru.nsu.fit.djachenko.mytanks.model.management.Client;
 import ru.nsu.fit.djachenko.mytanks.model.management.LevelHolder;
+import ru.nsu.fit.djachenko.mytanks.model.management.ModelViewCommunicator;
 import ru.nsu.fit.djachenko.mytanks.view.activities.HandleMessageTask;
 import ru.nsu.fit.djachenko.mytanks.view.activities.ViewTaskPerformer;
 
 import javax.swing.*;
 
-public class AppWindow extends JFrame
+public class AppWindow extends JFrame implements MessageAcceptor
 {
-	private final MessageChannel<MessageToView> channelToView;
-	private final MessageChannel<MessageToModel> channelToClient;
+	private final MessageAcceptor channelToClient;
+
 	private StartMenuView startMenu;
 	private ChooseLevelView chooseLevelMenu;
 	private LevelView currentLevelView;
-	private final ViewTaskPerformer performer;
+	private final ViewTaskPerformer performer = new ViewTaskPerformer();
 
 	private JPanel currentPanel;
 
-	{
-		channelToView = new MessageChannel<>();
-		performer = new ViewTaskPerformer();
-
-		performer.enqueue(new HandleMessageTask(channelToView, this));
-	}
-
-   	public AppWindow(Client client)
+   	public AppWindow(ModelViewCommunicator communicator)
     {
-	    this.channelToClient = client.getChannelToClient();
-	    client.setChannelToView(this.getChannelToView());
+	    this.channelToClient = communicator;
+	    performer.enqueue(new HandleMessageTask(communicator, this));
 
 	    initUI();
 	    setStartMenu();
@@ -104,17 +97,19 @@ public class AppWindow extends JFrame
 		currentLevelView.requestFocus();
 	}
 
-	MessageChannel<MessageToView> getChannelToView()
-	{
-		return channelToView;
-	}
-
+	@Override
 	public void accept(MessageToView message)
 	{
 		if (currentLevelView != null)
 		{
 			message.handle(currentLevelView);
 		}
+	}
+
+	@Override
+	public void accept(MessageToModel message)
+	{
+		message.handle(channelToClient);
 	}
 
 	public void accept(ChooseLevelMessage message)

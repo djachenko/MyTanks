@@ -4,7 +4,7 @@ import ru.nsu.fit.djachenko.mytanks.model.Direction;
 import ru.nsu.fit.djachenko.mytanks.model.cells.Field;
 import ru.nsu.fit.djachenko.mytanks.model.cells.Cell;
 
-public class BulletScanStrategy
+class BulletScanStrategy
 {
 	private boolean result = false;
 	private Direction runDirection = null;

@@ -1,5 +1,6 @@
 package ru.nsu.fit.djachenko.mytanks.model.entries;
 
+import ru.nsu.fit.djachenko.mytanks.communication.MessageAcceptor;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModel;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MoveTankMessage;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.ShootMessage;
@@ -15,7 +16,7 @@ import ru.nsu.fit.djachenko.mytanks.model.cells.SpawnPoint;
 import java.io.IOException;
 import java.util.*;
 
-public class Level extends Field
+public class Level extends Field implements MessageAcceptor
 {
 	private final Game game;
 
@@ -73,14 +74,14 @@ public class Level extends Field
 		draw(bullet);
 		performer.enqueue(new MoveBulletTask(bullet));
 
-		send(factory.getDrawBulletMessage(bullet.getX(), bullet.getY(), bullet.getDirection(), bullet.getId()));
+		accept(factory.getDrawBulletMessage(bullet.getX(), bullet.getY(), bullet.getDirection(), bullet.getId()));
 	}
 
 	public void remove(Tank tank)
 	{
 		tankMap.remove(tank.getId());
 		erase(tank);
-		send(factory.getTankRemovedMessage(tank.getId()));
+		accept(factory.getTankRemovedMessage(tank.getId()));
 
 		int playerId = resolvePlayerByTank(tank.getId());
 
@@ -93,7 +94,7 @@ public class Level extends Field
 	void remove(Bullet bullet)
 	{
 		erase(bullet);
-		send(factory.getBulletRemovedMessage(bullet.getId()));
+		accept(factory.getBulletRemovedMessage(bullet.getId()));
 	}
 
 	private Tank getTank(int id)
@@ -155,7 +156,7 @@ public class Level extends Field
 
 		draw(tank);
 
-		send(factory.getDrawTankMessage(tank.getX(), tank.getY(), tank.getDirection(), tank.getId(), playerId));
+		accept(factory.getDrawTankMessage(tank.getX(), tank.getY(), tank.getDirection(), tank.getId(), playerId));
 		game.notifyTankSpawned(playerId, tank.getX(), tank.getY(), tank.getDirection());
 	}
 
@@ -187,11 +188,13 @@ public class Level extends Field
 		}
 	}
 
-	void send(MessageToView message)
+	@Override
+	public void accept(MessageToView message)
 	{
-		game.send(message);
+		message.handle(game);
 	}
 
+	@Override
 	public void accept(MessageToModel message)
 	{
 		//throw

@@ -20,7 +20,7 @@ public class Tank implements FieldElement
 	private final Level level;
 	private Direction currentDirection;
 
-	boolean alive = true;
+	private boolean alive = true;
 
 	private final Map<Direction, MessageToView> messages = new HashMap<>();
 
@@ -80,7 +80,7 @@ public class Tank implements FieldElement
 			x += direction.getDx();
 			y += direction.getDy();
 
-			level.send(messages.get(direction));
+			level.accept(messages.get(direction));
 		}
 	}
 
@@ -105,7 +105,7 @@ public class Tank implements FieldElement
 			}
 
 			currentDirection = direction;
-			level.send(messages.get(direction));
+			level.accept(messages.get(direction));
 		}
 		else if (direction == currentDirection.opposite())
 		{
@@ -124,8 +124,8 @@ public class Tank implements FieldElement
 			x += currentDirection.getDx();
 			y += currentDirection.getDy();
 
-			level.send(messages.get(currentDirection));
-			level.send(messages.get(currentDirection));
+			level.accept(messages.get(currentDirection));
+			level.accept(messages.get(currentDirection));
 		}
 	}
 

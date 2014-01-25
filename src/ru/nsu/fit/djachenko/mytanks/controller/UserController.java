@@ -1,15 +1,15 @@
 package ru.nsu.fit.djachenko.mytanks.controller;
 
-import ru.nsu.fit.djachenko.mytanks.communication.MessageChannel;
+import ru.nsu.fit.djachenko.mytanks.communication.MessageAcceptor;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModel;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModelFactory;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
 import ru.nsu.fit.djachenko.mytanks.model.activities.Task;
 import ru.nsu.fit.djachenko.mytanks.model.activities.TaskPerformer;
 
-public abstract class UserController
+abstract class UserController
 {
-	private final MessageChannel<MessageToModel> channelToModel;
+	private final MessageAcceptor channelToModel;
 
 	public static final int RIGHT = 0;
 	public static final int UP = 1;
@@ -23,7 +23,7 @@ public abstract class UserController
 	private static final int PERIOD = 75;
 	private static TaskPerformer performer = new TaskPerformer(PERIOD);
 
-	UserController(MessageChannel<MessageToModel> channel, int playerId)
+	UserController(MessageAcceptor channel, int playerId)
 	{
 		this.channelToModel = channel;
 
@@ -80,7 +80,7 @@ public abstract class UserController
 			{
 				if (keys[i] == 0 || keys[i] > 2)
 				{
-					channelToModel.set(messages[i]);
+					messages[i].handle(channelToModel);
 				}
 
 				keys[i]++;

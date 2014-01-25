@@ -1,5 +1,7 @@
 package ru.nsu.fit.djachenko.mytanks.view;
 
+import ru.nsu.fit.djachenko.mytanks.communication.MessageAcceptor;
+import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModel;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.*;
 import ru.nsu.fit.djachenko.mytanks.model.cells.Cell;
 import ru.nsu.fit.djachenko.mytanks.model.cells.Field;
@@ -9,7 +11,7 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LevelView extends JPanel
+public class LevelView extends JPanel implements MessageAcceptor
 {
 	private final Map<Integer, TankView> tankViews = new HashMap<>();
 	private final Map<Integer, BulletView> bulletViews = new HashMap<>();
@@ -104,10 +106,15 @@ public class LevelView extends JPanel
 		}
 	}
 
+	@Override
 	public void accept(MessageToView message)
 	{
 		//throw
 	}
+
+	@Override
+	public void accept(MessageToModel message)
+	{}
 
 	public void accept(DrawTankMessage message)
 	{

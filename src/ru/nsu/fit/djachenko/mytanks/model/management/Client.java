@@ -1,31 +1,24 @@
 package ru.nsu.fit.djachenko.mytanks.model.management;
 
-import ru.nsu.fit.djachenko.mytanks.communication.MessageChannel;
+import ru.nsu.fit.djachenko.mytanks.communication.MessageAcceptor;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModel;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.StartGameMessage;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.LevelStartedMessage;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.MessageToView;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.MessageToViewFactory;
 
-
-public class Client implements Runnable
+public class Client implements MessageAcceptor
 {
 	private Game game;
-
-	private final MessageChannel<MessageToModel> channelToClient = new MessageChannel<>();
-	private MessageChannel<MessageToView> channelToView;
 
 	private int wasdId;
 	private int arrowsId;
 
-	public MessageChannel<MessageToModel> getChannelToClient()
-	{
-		return channelToClient;
-	}
+	private final ModelViewCommunicator communicator = new ModelViewCommunicator(this);
 
-	public void setChannelToView(MessageChannel<MessageToView> channel)
+	public ModelViewCommunicator getCommunicator()
 	{
-		channelToView = channel;
+		return communicator;
 	}
 
 	private void startLocalGame()
@@ -53,24 +46,15 @@ public class Client implements Runnable
 	}
 
 	@Override
-	public void run()
-	{
-		for ( ; ; )
-		{
-			MessageToModel message = channelToClient.get();
-
-			message.handle(this);
-		}
-	}
-
 	public void accept(MessageToModel message)
 	{
 		message.handle(game);
 	}
 
+	@Override
 	public void accept(MessageToView message)
 	{
-		channelToView.set(message);
+		message.handle(communicator);
 	}
 
 	public void accept(StartGameMessage message)
@@ -78,7 +62,7 @@ public class Client implements Runnable
 		startLocalGame();
 		createPlayers(message.getMode());
 
-		channelToView.set(MessageToViewFactory.getInstance().getChooseLevelMessage());
+		MessageToViewFactory.getInstance().getChooseLevelMessage().handle(communicator);
 	}
 
 	public void accept(LevelStartedMessage message)
@@ -86,6 +70,6 @@ public class Client implements Runnable
 		message.setArrowsId(arrowsId);
 		message.setWasdId(wasdId);
 
-		channelToView.set(message);
+		message.handle(communicator);
 	}
 }

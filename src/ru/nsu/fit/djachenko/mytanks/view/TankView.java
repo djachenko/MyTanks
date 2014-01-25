@@ -1,7 +1,6 @@
 package ru.nsu.fit.djachenko.mytanks.view;
 
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
-import ru.nsu.fit.djachenko.mytanks.model.cells.Cell;
 
 import javax.swing.*;
 

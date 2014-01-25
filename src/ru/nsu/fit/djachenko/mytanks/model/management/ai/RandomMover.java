@@ -11,7 +11,7 @@ public class RandomMover extends AI
 	private Random random = new Random();
 	private Direction direction = Direction.DOWN;
 
-	MessageToModelFactory factory = MessageToModelFactory.getInstance();
+	private MessageToModelFactory factory = MessageToModelFactory.getInstance();
 
 	public RandomMover(Game channel)
 	{

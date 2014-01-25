@@ -1,7 +1,6 @@
 package ru.nsu.fit.djachenko.mytanks.view;
 
-import ru.nsu.fit.djachenko.mytanks.communication.MessageChannel;
-import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModel;
+import ru.nsu.fit.djachenko.mytanks.communication.MessageAcceptor;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModelFactory;
 import ru.nsu.fit.djachenko.mytanks.model.management.LevelHolder;
 
@@ -12,12 +11,12 @@ import java.awt.event.ActionListener;
 
 class ChooseLevelView extends JPanel
 {
-	ChooseLevelView(MessageChannel<MessageToModel> channel, LevelHolder levelHolder)
+	ChooseLevelView(MessageAcceptor channel, LevelHolder levelHolder)
 	{
 		initUI(channel, levelHolder);
 	}
 
-	private void initUI(final MessageChannel<MessageToModel> channel, final LevelHolder levelHolder)
+	private void initUI(final MessageAcceptor channel, final LevelHolder levelHolder)
 	{
 		int count = levelHolder.countLevels();
 
@@ -34,7 +33,7 @@ class ChooseLevelView extends JPanel
 				@Override
 				public void actionPerformed(ActionEvent e)
 				{
-					channel.set(MessageToModelFactory.getInstance().getStartLevelMessage(id));
+					MessageToModelFactory.getInstance().getStartLevelMessage(id).handle(channel);
 				}
 			});
 

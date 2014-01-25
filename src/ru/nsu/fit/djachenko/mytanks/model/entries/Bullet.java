@@ -31,7 +31,7 @@ public class Bullet implements FieldElement
 		this.direction = direction;
 	}
 
-	public boolean ableToHit(int x, int y)
+	boolean ableToHit(int x, int y)
 	{
 		return level.ableToHit(x, y);
 	}
@@ -46,7 +46,7 @@ public class Bullet implements FieldElement
 	{
 		if (ableToHit(x + direction.getDx(), y + direction.getDy()))
 		{
-			level.send(movedMessage);
+			level.accept(movedMessage);
 			hit(direction.getDx(), direction.getDy());
 		}
 		else
@@ -59,7 +59,7 @@ public class Bullet implements FieldElement
 			x += direction.getDx();
 			y += direction.getDy();
 
-			level.send(movedMessage);
+			level.accept(movedMessage);
 		}
 	}
 

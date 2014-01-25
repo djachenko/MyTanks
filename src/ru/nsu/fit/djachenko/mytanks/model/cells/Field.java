@@ -54,8 +54,6 @@ public class Field
 
 		public void update()
 		{
-			System.out.println("up");
-
 			for (int y = 0; y < table.length; y++)
 			{
 				for (int x = 0; x < table[y].length; x++)
@@ -147,12 +145,12 @@ public class Field
 		element.erase(this);
 	}
 
-	public int height()
+	protected int height()
 	{
 		return table.length;
 	}
 
-	public int width()
+	protected int width()
 	{
 		if (height() > 0)
 		{
@@ -164,7 +162,7 @@ public class Field
 		}
 	}
 
-	public Cell at(int x, int y)
+	protected Cell at(int x, int y)
 	{
 		if (x >= 0 && x < width() && y >= 0 && y < height())
 		{
