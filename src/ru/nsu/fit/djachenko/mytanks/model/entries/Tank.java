@@ -3,8 +3,8 @@ package ru.nsu.fit.djachenko.mytanks.model.entries;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.MessageToView;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.MessageToViewFactory;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
-import ru.nsu.fit.djachenko.mytanks.model.cellls.CellFactory;
-import ru.nsu.fit.djachenko.mytanks.model.cellls.Field;
+import ru.nsu.fit.djachenko.mytanks.model.cells.CellFactory;
+import ru.nsu.fit.djachenko.mytanks.model.cells.Field;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -96,12 +96,12 @@ public class Tank implements FieldElement
 
 			if (direction != currentDirection.opposite())
 			{
-				level.move(x - curDx + dx, y - curDy + dy, x + curDx - dx, y + curDy - dy);
+				level.move(x - curDx + dx, y - curDy + dy, x + curDx - dx, y + curDy - dy);//TODO: change
 			}
 			else
 			{
-				level.move(x - curDx + dy, y - curDy + dx, x + curDx + dy, y + curDy + dx);
-				level.move(x - curDx - dy, y - curDy - dx, x + curDx - dy, y + curDy - dx);
+				level.move(x - curDx + dy, y - curDy + dx, x + curDx + dy, y + curDy + dx);//TODO: change
+				level.move(x - curDx - dy, y - curDy - dx, x + curDx - dy, y + curDy - dx);//TODO: change
 			}
 
 			currentDirection = direction;
@@ -117,7 +117,7 @@ public class Tank implements FieldElement
 	{
 		if (ableToFlip())
 		{
-			level.move(x + currentDirection.getDx(), y + currentDirection.getDy(), x - 2 * currentDirection.getDx(), y - 2 * currentDirection.getDy());
+			level.move(x + currentDirection.getDx(), y + currentDirection.getDy(), x - 2 * currentDirection.getDx(), y - 2 * currentDirection.getDy());//TODO: change
 
 			currentDirection = currentDirection.opposite();
 

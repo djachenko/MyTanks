@@ -86,7 +86,7 @@ public class AppWindow extends JFrame
 
 	private void startLevel(LevelStartedMessage message)//REFACTOR
 	{
-		currentLevelView = new LevelView(message.getLevel());
+		currentLevelView = new LevelView(message.getState());
 		currentLevelView.addKeyListener(new WASDController(channelToClient, message.getWasdId()));
 		currentLevelView.addKeyListener(new ArrowsController(channelToClient, message.getArrowsId()));
 

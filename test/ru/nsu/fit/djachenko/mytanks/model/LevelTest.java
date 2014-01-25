@@ -1,7 +1,7 @@
 package ru.nsu.fit.djachenko.mytanks.model;
 
 import org.junit.Test;
-import ru.nsu.fit.djachenko.mytanks.model.cellls.Cell;
+import ru.nsu.fit.djachenko.mytanks.model.cells.Cell;
 import ru.nsu.fit.djachenko.mytanks.model.entries.Level;
 import ru.nsu.fit.djachenko.mytanks.model.entries.Tank;
 

@@ -1,8 +1,8 @@
 package ru.nsu.fit.djachenko.mytanks.model.management.ai;
 
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
-import ru.nsu.fit.djachenko.mytanks.model.cellls.Field;
-import ru.nsu.fit.djachenko.mytanks.model.cellls.Cell;
+import ru.nsu.fit.djachenko.mytanks.model.cells.Field;
+import ru.nsu.fit.djachenko.mytanks.model.cells.Cell;
 
 public class BulletScanStrategy
 {

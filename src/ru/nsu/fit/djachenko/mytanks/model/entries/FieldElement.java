@@ -1,6 +1,6 @@
 package ru.nsu.fit.djachenko.mytanks.model.entries;
 
-import ru.nsu.fit.djachenko.mytanks.model.cellls.Field;
+import ru.nsu.fit.djachenko.mytanks.model.cells.Field;
 
 public interface FieldElement
 {

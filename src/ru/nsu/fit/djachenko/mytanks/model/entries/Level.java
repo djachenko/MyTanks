@@ -9,8 +9,8 @@ import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.MessageToViewFa
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
 import ru.nsu.fit.djachenko.mytanks.model.management.Game;
 import ru.nsu.fit.djachenko.mytanks.model.activities.*;
-import ru.nsu.fit.djachenko.mytanks.model.cellls.Field;
-import ru.nsu.fit.djachenko.mytanks.model.cellls.SpawnPoint;
+import ru.nsu.fit.djachenko.mytanks.model.cells.Field;
+import ru.nsu.fit.djachenko.mytanks.model.cells.SpawnPoint;
 
 import java.io.IOException;
 import java.util.*;
@@ -72,7 +72,8 @@ public class Level extends Field
 	{
 		draw(bullet);
 		performer.enqueue(new MoveBulletTask(bullet));
-		send(factory.getDrawBulletMessage(bullet));
+
+		send(factory.getDrawBulletMessage(bullet.getX(), bullet.getY(), bullet.getDirection(), bullet.getId()));
 	}
 
 	public void remove(Tank tank)
@@ -154,7 +155,7 @@ public class Level extends Field
 
 		draw(tank);
 
-		send(factory.getDrawTankMessage(tank, playerId));
+		send(factory.getDrawTankMessage(tank.getX(), tank.getY(), tank.getDirection(), tank.getId(), playerId));
 		game.notifyTankSpawned(playerId, tank.getX(), tank.getY(), tank.getDirection());
 	}
 

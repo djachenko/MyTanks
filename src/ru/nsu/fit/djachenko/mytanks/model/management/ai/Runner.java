@@ -2,7 +2,7 @@ package ru.nsu.fit.djachenko.mytanks.model.management.ai;
 
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModelFactory;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
-import ru.nsu.fit.djachenko.mytanks.model.cellls.Field;
+import ru.nsu.fit.djachenko.mytanks.model.cells.Field;
 import ru.nsu.fit.djachenko.mytanks.model.management.Game;
 
 public class Runner extends AI

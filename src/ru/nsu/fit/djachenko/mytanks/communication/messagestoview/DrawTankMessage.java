@@ -1,7 +1,6 @@
 package ru.nsu.fit.djachenko.mytanks.communication.messagestoview;
 
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
-import ru.nsu.fit.djachenko.mytanks.model.entries.Tank;
 import ru.nsu.fit.djachenko.mytanks.view.LevelView;
 
 public class DrawTankMessage extends MessageToView
@@ -9,15 +8,15 @@ public class DrawTankMessage extends MessageToView
 	private final int x;
 	private final int y;
 	private final Direction direction;
-	private final int id;
+	private final int tankId;
 	private final int playerId;
 
-	DrawTankMessage(Tank tank, int playerId)
+	DrawTankMessage(int x, int y, Direction direction, int tankId, int playerId)
 	{
-		this.x = tank.getX();
-		this.y = tank.getY();
-		this.id = tank.getId();
-		this.direction = tank.getDirection();
+		this.x = x;
+		this.y = y;
+		this.direction = direction;
+		this.tankId = tankId;
 		this.playerId = playerId;
 	}
 
@@ -37,9 +36,9 @@ public class DrawTankMessage extends MessageToView
 		return y;
 	}
 
-	public int getId()
+	public int getTankId()
 	{
-		return id;
+		return tankId;
 	}
 
 	public Direction getDirection()

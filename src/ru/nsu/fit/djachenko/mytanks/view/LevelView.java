@@ -1,8 +1,8 @@
 package ru.nsu.fit.djachenko.mytanks.view;
 
 import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.*;
-import ru.nsu.fit.djachenko.mytanks.model.cellls.Cell;
-import ru.nsu.fit.djachenko.mytanks.model.entries.Level;
+import ru.nsu.fit.djachenko.mytanks.model.cells.Cell;
+import ru.nsu.fit.djachenko.mytanks.model.cells.Field;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,12 +14,12 @@ public class LevelView extends JPanel
 	private final Map<Integer, TankView> tankViews = new HashMap<>();
 	private final Map<Integer, BulletView> bulletViews = new HashMap<>();
 
-	LevelView(Level origin)
+	LevelView(Field.State origin)
 	{
 		initUI(origin);
 	}
 
-	private void initUI(Level origin)
+	private void initUI(Field.State origin)
 	{
 		setLayout(null);
 
@@ -30,9 +30,9 @@ public class LevelView extends JPanel
 		{
 			for (int x = 0; x < width; x++)
 			{
-				Cell originCell = origin.at(x, y);
+				Cell.Type originCellType = origin.at(x, y);
 
-				switch (originCell.getType())
+				switch (originCellType)
 				{
 					case WALL:
 						CellView cellView = new CellView(CellView.Type.WALL, x, y);
@@ -105,7 +105,7 @@ public class LevelView extends JPanel
 
 	public void accept(DrawTankMessage message)
 	{
-		add(new TankView(message.getX(), message.getY(), message.getDirection(), true), message.getId());
+		add(new TankView(message.getX(), message.getY(), message.getDirection(), true), message.getTankId());
 	}
 
 	public void accept(DrawBulletMessage message)

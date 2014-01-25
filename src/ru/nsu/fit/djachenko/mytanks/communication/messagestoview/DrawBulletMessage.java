@@ -1,6 +1,5 @@
 package ru.nsu.fit.djachenko.mytanks.communication.messagestoview;
 
-import ru.nsu.fit.djachenko.mytanks.model.entries.Bullet;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
 import ru.nsu.fit.djachenko.mytanks.view.LevelView;
 
@@ -11,12 +10,12 @@ public class DrawBulletMessage extends MessageToView
 	private final Direction direction;
 	private final int id;
 
-	DrawBulletMessage(Bullet bullet)
+	DrawBulletMessage(int x, int y, Direction direction, int bulletID)
 	{
-		this.x = bullet.getX();
-		this.y = bullet.getY();
-		this.direction = bullet.getDirection();
-		this.id = bullet.getId();
+		this.x = x;
+		this.y = y;
+		this.direction = direction;
+		this.id = bulletID;
 	}
 
 	@Override

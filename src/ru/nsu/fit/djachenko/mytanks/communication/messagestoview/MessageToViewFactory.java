@@ -1,9 +1,7 @@
 package ru.nsu.fit.djachenko.mytanks.communication.messagestoview;
 
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
-import ru.nsu.fit.djachenko.mytanks.model.entries.Bullet;
-import ru.nsu.fit.djachenko.mytanks.model.entries.Level;
-import ru.nsu.fit.djachenko.mytanks.model.entries.Tank;
+import ru.nsu.fit.djachenko.mytanks.model.cells.Field;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,19 +41,19 @@ public class MessageToViewFactory
 		return chooseLevelMessage;
 	}
 
-	public MessageToView getDrawBulletMessage(Bullet bullet)
+	public MessageToView getDrawBulletMessage(int x, int y, Direction direction, int bulletID)
 	{
-		return new DrawBulletMessage(bullet);
+		return new DrawBulletMessage(x, y, direction, bulletID);
 	}
 
-	public MessageToView getDrawTankMessage(Tank tank, int playerId)
+	public MessageToView getDrawTankMessage(int x, int y, Direction direction, int tankId, int playerId)
 	{
-		return new DrawTankMessage(tank, playerId);
+		return new DrawTankMessage(x, y, direction, tankId, playerId);
 	}
 
-	public MessageToView getLevelStartedMessage(Level level)
+	public MessageToView getLevelStartedMessage(Field.State state)
 	{
-		return new LevelStartedMessage(level);
+		return new LevelStartedMessage(state);
 	}
 
 	public MessageToView getTankMovedMessage(int tankId, Direction direction)

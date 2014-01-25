@@ -1,4 +1,4 @@
-package ru.nsu.fit.djachenko.mytanks.model.cellls;
+package ru.nsu.fit.djachenko.mytanks.model.cells;
 
 public class SpawnPoint
 {

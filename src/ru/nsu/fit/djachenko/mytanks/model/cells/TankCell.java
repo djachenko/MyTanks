@@ -1,21 +1,22 @@
-package ru.nsu.fit.djachenko.mytanks.model.cellls;
+package ru.nsu.fit.djachenko.mytanks.model.cells;
 
-import ru.nsu.fit.djachenko.mytanks.model.entries.Bullet;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
+import ru.nsu.fit.djachenko.mytanks.model.entries.Tank;
 
-public class BulletCell extends Cell
+public class TankCell extends Cell
 {
 	private final Field field;
-	private final Bullet origin;
+	private final Tank tank;
+
 	private int x;
 	private int y;
 
-	BulletCell(Field field, Bullet origin, int x, int y)
+	TankCell(Field field, Tank tank, int x, int y)
 	{
-		super(Type.BULLET);
+		super(Type.TANK);
 
 		this.field = field;
-		this.origin = origin;
+		this.tank = tank;
 
 		this.x = x;
 		this.y = y;
@@ -24,18 +25,15 @@ public class BulletCell extends Cell
 	@Override
 	public boolean ableToMove(Direction dir, int depth)
 	{
-		return true;
+		return depth > 0 && field.ableToMove(x + dir.getDx(), y + dir.getDy(), dir, depth - 1);
 	}
 
 	@Override
 	public void move(Direction dir, int depth)
 	{
-		if (depth != 1)
+		if (ableToMove(dir, depth))
 		{
-			origin.hit(- dir.getDx(), - dir.getDy());//REFACTOR
-		}
-		else
-		{
+			field.move(x + dir.getDx(), y + dir.getDy(), dir, depth - 1);
 			field.replace(x + dir.getDx(), y + dir.getDy(), this);
 
 			x += dir.getDx();
@@ -46,12 +44,14 @@ public class BulletCell extends Cell
 	@Override
 	public void move(int toX, int toY)
 	{
+		x = toX;
+		y = toY;
 	}
 
 	@Override
 	public boolean ableToReplace()
 	{
-		return true;
+		return false;
 	}
 
 	@Override
@@ -63,12 +63,12 @@ public class BulletCell extends Cell
 	@Override
 	public void hit()
 	{
-		origin.hit();
+		tank.hit();
 	}
 
 	@Override
 	public boolean hasToBeWaited()
 	{
-		return true;
+		return false;
 	}
 }

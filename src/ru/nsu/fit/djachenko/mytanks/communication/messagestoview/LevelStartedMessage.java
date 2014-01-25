@@ -1,18 +1,18 @@
 package ru.nsu.fit.djachenko.mytanks.communication.messagestoview;
 
+import ru.nsu.fit.djachenko.mytanks.model.cells.Field;
 import ru.nsu.fit.djachenko.mytanks.model.management.Client;
-import ru.nsu.fit.djachenko.mytanks.model.entries.Level;
 import ru.nsu.fit.djachenko.mytanks.view.AppWindow;
 
 public class LevelStartedMessage extends MessageToView
 {
-	private final Level level;
+	private final Field.State state;
 	private int wasdId;
 	private int arrowsId;
 
-	LevelStartedMessage(Level level)
+	LevelStartedMessage(Field.State state)
 	{
-		this.level = level;
+		this.state = state;
 	}
 
 	@Override
@@ -27,9 +27,9 @@ public class LevelStartedMessage extends MessageToView
 		client.accept(this);
 	}
 
-	public Level getLevel()
+	public Field.State getState()
 	{
-		return level;
+		return state;
 	}
 
 	public void setWasdId(int id)

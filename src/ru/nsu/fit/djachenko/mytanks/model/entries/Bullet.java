@@ -4,8 +4,8 @@ package ru.nsu.fit.djachenko.mytanks.model.entries;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.MessageToView;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.MessageToViewFactory;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
-import ru.nsu.fit.djachenko.mytanks.model.cellls.CellFactory;
-import ru.nsu.fit.djachenko.mytanks.model.cellls.Field;
+import ru.nsu.fit.djachenko.mytanks.model.cells.CellFactory;
+import ru.nsu.fit.djachenko.mytanks.model.cells.Field;
 
 public class Bullet implements FieldElement
 {

@@ -37,7 +37,7 @@ public class Game
 			aiTaskPerformer.enqueue(ai);
 		}
 
-		send(MessageToViewFactory.getInstance().getLevelStartedMessage(currentLevel));
+		send(MessageToViewFactory.getInstance().getLevelStartedMessage(currentLevel.getState()));
 
 		for (Player player : players.values())
 		{

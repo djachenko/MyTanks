@@ -1,4 +1,4 @@
-package ru.nsu.fit.djachenko.mytanks.model.cellls;
+package ru.nsu.fit.djachenko.mytanks.model.cells;
 
 import ru.nsu.fit.djachenko.mytanks.model.entries.Bullet;
 import ru.nsu.fit.djachenko.mytanks.model.entries.Tank;

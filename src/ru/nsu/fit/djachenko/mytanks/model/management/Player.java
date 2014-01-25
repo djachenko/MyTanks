@@ -3,7 +3,7 @@ package ru.nsu.fit.djachenko.mytanks.model.management;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModel;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModelFactory;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
-import ru.nsu.fit.djachenko.mytanks.model.cellls.Field;
+import ru.nsu.fit.djachenko.mytanks.model.cells.Field;
 
 public class Player
 {

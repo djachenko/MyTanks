@@ -1,4 +1,4 @@
-package ru.nsu.fit.djachenko.mytanks.model.cellls;
+package ru.nsu.fit.djachenko.mytanks.model.cells;
 
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
 import ru.nsu.fit.djachenko.mytanks.model.entries.FieldElement;
@@ -187,7 +187,7 @@ public class Field
 		replace(x, y, cellFactory.getGroundCell());
 	}
 
-	public void move(int fromX, int fromY, int toX, int toY)
+	public void move(int fromX, int fromY, int toX, int toY)//TODO: make private or remove
 	{
 		table[fromY][fromX].move(toX, toY);
 		table[toY][toX] = table[fromY][fromX];
@@ -199,7 +199,7 @@ public class Field
 		return x >= 0 && x < width() && y >= 0 && y < height() && table[y][x].ableToReplace();
 	}
 
-	public void replace(int x, int y, Cell cell)
+	public void replace(int x, int y, Cell cell)//TODO: make private or remove
 	{
 		table[y][x] = cell;
 		/*else

@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class CellView extends JLabel
 {
-	public static final int SIZE = 25;//edge size in pixels (cellls are square)
+	public static final int SIZE = 25;//edge size in pixels (cells are square)
 	public static final int GRIDSIZE = 25;
 
 	public enum Type
