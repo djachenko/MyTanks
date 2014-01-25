@@ -60,7 +60,6 @@ public class ModelViewCommunicator implements Runnable, MessageAcceptor, Message
 		}
 	}
 
-
 	@Override
 	public synchronized MessageToView get()
 	{
