@@ -8,15 +8,11 @@ import ru.nsu.fit.djachenko.mytanks.model.management.Game;
 public class Runner extends AI
 {
 	private Field.State state;
-	private int stateWidth;
-	private int stateHeight;
 
 	private int x;
 	private int y;
 
 	private boolean alive = false;
-
-	int[][] table;
 
 	boolean flag = false;
 	Direction runDirection = null;
@@ -34,10 +30,6 @@ public class Runner extends AI
 		super.notifyLevelStarted(state);
 
 		this.state = state;
-		this.stateHeight = state.height();
-		this.stateWidth = state.width();
-
-		table = new int[state.height()][state.width()];
 	}
 
 	@Override
@@ -58,7 +50,21 @@ public class Runner extends AI
 		super.notifyTankHit();
 
 		this.alive = false;
+		this.currentState = State.IDLE;
 	}
+
+
+	static enum State
+	{
+		IDLE,
+		BULLETFOUND,
+		RUNNING
+	}
+
+	private State currentState = State.IDLE;
+
+	private BulletScanStrategy strategy = new BulletScanStrategy();
+	private BulletScanStrategy.Result callback = strategy.getCallback();
 
 	@Override
 	public synchronized void execute(int iteration)
@@ -70,35 +76,42 @@ public class Runner extends AI
 
 		state.update();
 
-		/*if (direction.isHorisontal())
+		switch (currentState)
 		{
-			int dx = direction.getDx();
-
-			int count = 0;
-			boolean flag = false;
-
-			for (int i = x; i >= 0 && i < stateWidth; i += dx)
-			{
-				for (int j = y - count >= 0 ? y - count : 0; j < stateHeight && j < y + count; j++)
+			case IDLE:
+				if (strategy.run(x, y, state, callback))
 				{
-					if (state.at(x + i, y + j) == Cell.Type.TANK)
+					currentState = State.BULLETFOUND;
 				}
-			}
-		}*/
 
-		if (!flag)
-		{
-			BulletScanStrategy strategy = new BulletScanStrategy();
+				break;
+			case BULLETFOUND:
+				BulletScanStrategy.Result compare = strategy.getCallback();
 
-			strategy.action(-1, x, y, null, state);
+				boolean newResult = strategy.run(x, y, state, compare);
 
-			flag = strategy.getResult();
-			runDirection = strategy.getRunDirection();
-		}
+				if (!newResult || compare.getDistance() > callback.getDistance())
+				{
+					currentState = State.IDLE;
+				}
+				else if (compare.getDistance() < callback.getDistance())
+				{
+					runDirection = compare.getDirectionToBullet().opposite();
+					currentState = State.RUNNING;
+				}
 
-		if (flag)
-		{
-			send(factory.getMoveTankMessage(getId(), runDirection));
+				break;
+			case RUNNING:
+				if (strategy.run(x, y, state, callback))
+				{
+					send(factory.getMoveTankMessage(getId(), runDirection));
+				}
+				else
+				{
+					currentState = State.IDLE;
+				}
+
+				break;
 		}
 	}
 
