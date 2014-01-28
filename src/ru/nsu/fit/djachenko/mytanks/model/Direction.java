@@ -66,4 +66,29 @@ public enum Direction
 	{
 		return dx == 0;
 	}
+
+	public static Direction recognize(int dx, int dy)
+	{
+		if (dx < 0 && dy == 0)
+		{
+			return LEFT;
+		}
+
+		if (dx > 0 && dy == 0)
+		{
+			return RIGHT;
+		}
+
+		if (dx == 0 && dy < 0)
+		{
+			return UP;
+		}
+
+		if (dx == 0 && dy > 0)
+		{
+			return DOWN;
+		}
+
+		return null;
+	}
 }

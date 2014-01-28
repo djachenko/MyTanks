@@ -76,6 +76,11 @@ class BulletScanStrategy
 
 		int distance = Math.max(tankX, Math.max(tankY, Math.max(stateWidth - 1 - tankX, stateHeight - 1 - tankY)));
 
+		if (callback == null)
+		{
+			callback = getCallback();
+		}
+
 		callback.invalidate();
 
 		for (int round = 1; round < distance && !callback.isFound(); round++)

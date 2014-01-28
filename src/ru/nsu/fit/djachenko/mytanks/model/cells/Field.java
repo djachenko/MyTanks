@@ -206,7 +206,8 @@ public class Field
 		} */
 	}
 
-	public void print()
+	@Override
+	public String toString()
 	{
 		StringBuilder temp = new StringBuilder();
 
@@ -220,7 +221,7 @@ public class Field
 			temp.append('\n');
 		}
 
-		System.out.println(temp);
+		return String.valueOf(temp);
 	}
 
 	protected List<SpawnPoint> scanForSpawnPoints()
@@ -237,7 +238,7 @@ public class Field
 				{
 					for (int j = -1; j <= 1; j++)
 					{
-						if (table[y + j][x + i].getClass() != GroundCell.class)
+						if (table[y + j][x + i].getType() != Cell.Type.GROUND)
 						{
 							ok = false;
 						}
@@ -263,7 +264,7 @@ public class Field
 		{
 			for (int j = -1; j <= 1; j++)
 			{
-				if (table[y + j][x + i].getClass() != GroundCell.class)
+				if (table[y + j][x + i].getType() != Cell.Type.GROUND)
 				{
 					return false;
 				}

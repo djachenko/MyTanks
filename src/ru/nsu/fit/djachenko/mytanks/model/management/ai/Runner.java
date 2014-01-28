@@ -11,6 +11,7 @@ public class Runner extends AI
 
 	private int x;
 	private int y;
+	private Direction direction;
 
 	private boolean alive = false;
 
@@ -39,6 +40,7 @@ public class Runner extends AI
 
 		this.x = x;
 		this.y = y;
+		this.direction = direction;
 		this.alive = true;
 		this.runDirection = null;
 		this.flag = false;
@@ -63,8 +65,11 @@ public class Runner extends AI
 
 	private State currentState = State.IDLE;
 
-	private BulletScanStrategy strategy = new BulletScanStrategy();
-	private BulletScanStrategy.Result callback = strategy.getCallback();
+	private BulletScanStrategy bulletScanStrategy = new BulletScanStrategy();
+	private BulletScanStrategy.Result bulletScanStrategyCallback = bulletScanStrategy.getCallback();
+
+	private BuildEscapeRouteStrategy escapeStrategy = new BuildEscapeRouteStrategy();
+	private BuildEscapeRouteStrategy.Result escapeStrategyCallback = escapeStrategy.getCallback();
 
 	@Override
 	public synchronized void execute(int iteration)
@@ -79,32 +84,38 @@ public class Runner extends AI
 		switch (currentState)
 		{
 			case IDLE:
-				if (strategy.run(x, y, state, callback))
+				if (bulletScanStrategy.run(x, y, state, bulletScanStrategyCallback))
 				{
 					currentState = State.BULLETFOUND;
 				}
 
 				break;
 			case BULLETFOUND:
-				BulletScanStrategy.Result compare = strategy.getCallback();
+				BulletScanStrategy.Result compare = bulletScanStrategy.getCallback();
 
-				boolean newResult = strategy.run(x, y, state, compare);
+				boolean newResult = bulletScanStrategy.run(x, y, state, compare);
 
-				if (!newResult || compare.getDistance() > callback.getDistance())
+				if (!newResult || compare.getDistance() > bulletScanStrategyCallback.getDistance())
 				{
 					currentState = State.IDLE;
 				}
-				else if (compare.getDistance() < callback.getDistance())
+				else if (compare.getDistance() < bulletScanStrategyCallback.getDistance())
 				{
-					runDirection = compare.getDirectionToBullet().opposite();
 					currentState = State.RUNNING;
+
+					escapeStrategy.run(x, y, direction, state, bulletScanStrategyCallback, escapeStrategyCallback);
+					move(escapeStrategyCallback.getNextMove());
 				}
 
 				break;
 			case RUNNING:
-				if (strategy.run(x, y, state, callback))
+				boolean result = bulletScanStrategy.run(x, y, state, bulletScanStrategyCallback);
+
+				if (result)
 				{
-					send(factory.getMoveTankMessage(getId(), runDirection));
+					escapeStrategy.run(x, y, direction, state, bulletScanStrategyCallback, escapeStrategyCallback);
+
+					move(escapeStrategyCallback.getNextMove());
 				}
 				else
 				{
@@ -119,5 +130,26 @@ public class Runner extends AI
 	public boolean hasToBeRepeated()
 	{
 		return true;
+	}
+
+	private void move(Direction moveDirection)
+	{
+		send(factory.getMoveTankMessage(getId(), moveDirection));
+
+		if (moveDirection == direction)
+		{
+			int newX = x + moveDirection.getDx();
+			int newY = y + moveDirection.getDy();
+
+			if (newX > 0 && newX < state.width() - 1 && newY > 0 && newY < state.height() - 1)
+			{
+				x = newX;
+				y = newY;
+			}
+		}
+		else
+		{
+			direction = moveDirection;
+		}
 	}
 }
