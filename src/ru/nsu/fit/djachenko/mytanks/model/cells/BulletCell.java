@@ -3,7 +3,7 @@ package ru.nsu.fit.djachenko.mytanks.model.cells;
 import ru.nsu.fit.djachenko.mytanks.model.entries.Bullet;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
 
-public class BulletCell extends Cell
+class BulletCell extends Cell
 {
 	private final Field field;
 	private final Bullet origin;

@@ -3,7 +3,7 @@ package ru.nsu.fit.djachenko.mytanks.model.cells;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
 import ru.nsu.fit.djachenko.mytanks.model.entries.Tank;
 
-public class TankCell extends Cell
+class TankCell extends Cell
 {
 	private final Field field;
 	private final Tank tank;

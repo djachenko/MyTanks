@@ -2,7 +2,7 @@ package ru.nsu.fit.djachenko.mytanks.model.cells;
 
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
 
-public class GroundCell extends Cell
+class GroundCell extends Cell
 {
 	GroundCell()
 	{

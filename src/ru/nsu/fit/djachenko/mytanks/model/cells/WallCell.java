@@ -2,7 +2,7 @@ package ru.nsu.fit.djachenko.mytanks.model.cells;
 
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
 
-public class WallCell extends Cell
+class WallCell extends Cell
 {
 	WallCell()
 	{
