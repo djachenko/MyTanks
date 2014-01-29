@@ -40,7 +40,7 @@ public class SearchTankStrategy
 		return new Result();
 	}
 
-	public void run(int tankX, int tankY, Field.State state, Result callback)
+	public void run(int tankX, int tankY, Direction tankDirection, Field.State state, Result callback)
 	{
 		int[][] map = new int[state.height()][state.width()];
 
@@ -103,14 +103,36 @@ public class SearchTankStrategy
 		int y = -1;
 		int currentMetric = -1;
 
+		int dx = tankDirection.getDx();
+		int dy = tankDirection.getDy();
+
 		for (int i = 0; i < state.width(); i++)
 		{
 			for (int j = 0; j < state.height(); j++)
 			{
 				if (state.at(i, j) == Cell.Type.TANK &&//it is tank
 						map[j][i] != -1 && //I see you
-						(map[j][i] < currentMetric || currentMetric == -1) &&//the first or the nearest
-						(Math.abs(i - tankX) > 1 || Math.abs(j - tankY) > 1))//not myself
+						(
+							map[j][i] < currentMetric ||
+							currentMetric == -1
+						) &&//the first or the nearest
+						!(
+							Math.abs(i - tankX) <= 1 &&
+							Math.abs(j - tankY) <= 1 &&
+							!(
+								(
+									tankDirection.isHorisontal() &&
+									dx == i - tankX &&
+									j - tankY != 0
+								) ||
+								(
+									tankDirection.isVertical() &&
+									dy == j - tankY &&
+									i - tankX != 0
+								)
+							)
+						)
+					)//not myself
 				{
 					currentMetric = map[j][i];
 					x = i;
@@ -153,7 +175,7 @@ public class SearchTankStrategy
 				y = currentPoint[1];
 
 				int left = x == 0 ? 0 : -1;
-				int right = y == state.width() - 1 ? 0 : 1;
+				int right = x == state.width() - 1 ? 0 : 1;
 				int up = y == 0 ? 0 : -1;
 				int down = y == state.height() - 1 ? 0 : 1;
 
@@ -161,7 +183,11 @@ public class SearchTankStrategy
 				{
 					for (int j = up; j <= down; j++)
 					{
-						if (state.at(x + i, y + j) == Cell.Type.TANK && map[y + j][x + i] != -1)
+						if (state.at(x + i, y + j) == Cell.Type.TANK &&
+							map[y + j][x + i] != -1 &&
+							!(Math.abs(x + i - tankX) <= 1 && Math.abs(y + j - tankY) <= 1 &&
+							!((tankDirection.isHorisontal() && dx == x + i - tankX && y + j - tankY != 0) ||
+							(tankDirection.isVertical() && dy == y + j - tankY && x + i - tankX != 0))))
 						{
 							int[] visit = new int[]{x + i, y + j};
 
@@ -187,7 +213,7 @@ public class SearchTankStrategy
 			y = currentPoint[1];
 
 			int left = x == 0 ? 0 : -1;
-			int right = y == state.width() - 1 ? 0 : 1;
+			int right = x == state.width() - 1 ? 0 : 1;
 			int up = y == 0 ? 0 : -1;
 			int down = y == state.height() - 1 ? 0 : 1;
 

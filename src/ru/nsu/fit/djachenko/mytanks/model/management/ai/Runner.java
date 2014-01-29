@@ -95,7 +95,8 @@ public class Runner extends AI
 				}
 				else
 				{
-					searchTankStrategy.run(x, y, state, searchTankCallback);
+					searchTankStrategy.run(x, y, direction, state, searchTankCallback);
+					new RecognizeTankStrategy().run(searchTankCallback, new RecognizeTankStrategy().getCallback());
 				}
 
 				break;
