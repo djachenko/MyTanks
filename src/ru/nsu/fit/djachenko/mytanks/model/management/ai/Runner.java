@@ -5,6 +5,8 @@ import ru.nsu.fit.djachenko.mytanks.model.Direction;
 import ru.nsu.fit.djachenko.mytanks.model.cells.Field;
 import ru.nsu.fit.djachenko.mytanks.model.management.Game;
 
+import static ru.nsu.fit.djachenko.mytanks.model.management.ai.SearchTankStrategy.*;
+
 public class Runner extends AI
 {
 	private Field.State state;
@@ -66,10 +68,13 @@ public class Runner extends AI
 	private State currentState = State.IDLE;
 
 	private BulletScanStrategy bulletScanStrategy = new BulletScanStrategy();
-	private BulletScanStrategy.Result bulletScanStrategyCallback = bulletScanStrategy.getCallback();
+	private BulletScanStrategy.Result bulletScanCallback = bulletScanStrategy.getCallback();
 
 	private BuildEscapeRouteStrategy escapeStrategy = new BuildEscapeRouteStrategy();
-	private BuildEscapeRouteStrategy.Result escapeStrategyCallback = escapeStrategy.getCallback();
+	private BuildEscapeRouteStrategy.Result escapeCallback = escapeStrategy.getCallback();
+
+	private SearchTankStrategy searchTankStrategy = new SearchTankStrategy();
+	private Result searchTankCallback = searchTankStrategy.getCallback();
 
 	@Override
 	public synchronized void execute(int iteration)
@@ -84,9 +89,13 @@ public class Runner extends AI
 		switch (currentState)
 		{
 			case IDLE:
-				if (bulletScanStrategy.run(x, y, state, bulletScanStrategyCallback))
+				if (bulletScanStrategy.run(x, y, state, bulletScanCallback))
 				{
 					currentState = State.BULLETFOUND;
+				}
+				else
+				{
+					searchTankStrategy.run(x, y, state, searchTankCallback);
 				}
 
 				break;
@@ -95,27 +104,27 @@ public class Runner extends AI
 
 				boolean newResult = bulletScanStrategy.run(x, y, state, compare);
 
-				if (!newResult || compare.getDistance() > bulletScanStrategyCallback.getDistance())
+				if (!newResult || compare.getDistance() > bulletScanCallback.getDistance())
 				{
 					currentState = State.IDLE;
 				}
-				else if (compare.getDistance() < bulletScanStrategyCallback.getDistance())
+				else if (compare.getDistance() < bulletScanCallback.getDistance())
 				{
 					currentState = State.RUNNING;
 
-					escapeStrategy.run(x, y, direction, state, bulletScanStrategyCallback, escapeStrategyCallback);
-					move(escapeStrategyCallback.getNextMove());
+					escapeStrategy.run(x, y, direction, state, bulletScanCallback, escapeCallback);
+					move(escapeCallback.getNextMove());
 				}
 
 				break;
 			case RUNNING:
-				boolean result = bulletScanStrategy.run(x, y, state, bulletScanStrategyCallback);
+				boolean result = bulletScanStrategy.run(x, y, state, bulletScanCallback);
 
 				if (result)
 				{
-					escapeStrategy.run(x, y, direction, state, bulletScanStrategyCallback, escapeStrategyCallback);
+					escapeStrategy.run(x, y, direction, state, bulletScanCallback, escapeCallback);
 
-					move(escapeStrategyCallback.getNextMove());
+					move(escapeCallback.getNextMove());
 				}
 				else
 				{
