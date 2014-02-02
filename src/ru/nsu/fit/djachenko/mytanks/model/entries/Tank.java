@@ -13,72 +13,96 @@ public class Tank implements FieldElement
 {
 	private static int count = 0;
 	private final int id = count++;
+	
+	public static class State
+	{
+		private int x;
+		private int y;
+		private Direction direction;
+		
+		private State(int x, int y, Direction direction)
+		{
+			this.x = x;
+			this.y = y;
+			this.direction = direction;
+		}
 
-	private int x;
-	private int y;
+		public int getX()
+		{
+			return x;
+		}
+
+		public int getY()
+		{
+			return y;
+		}
+
+		public Direction getDirection()
+		{
+			return direction;
+		}
+	}
+	
+	private final State state;
 
 	private final Level level;
-	private Direction currentDirection;
 
 	private boolean alive = true;
 
 	private final Map<Direction, MessageToView> messages = new HashMap<>();
 
-	public Tank(Level level, int x, int y, Direction dir)
+	public Tank(Level level, int x, int y, Direction direction)
 	{
 		this.level = level;
 
-		this.x = x;
-		this.y = y;
+		this.state = new State(x, y, direction);
 
-		currentDirection = dir;
-
-		for (Direction direction : Direction.values())
+		for (Direction dir : Direction.values())
 		{
-			messages.put(direction, MessageToViewFactory.getInstance().getTankMovedMessage(id, direction));
+			messages.put(dir, MessageToViewFactory.getInstance().getTankMovedMessage(id, dir));
 		}
 	}
 
 	public void move(Direction direction)
 	{
-		if (direction != currentDirection)
+		if (direction != state.direction)
 		{
 			turn(direction);
 		}
 		else if (ableToMove(direction))
 		{
-			switch (currentDirection)
+			switch (state.direction)
 			{
 				case RIGHT:
-					level.move(x - 1, y - 1, direction, 2);
-					level.move(x - 1, y, direction, 3);
-					level.move(x - 1, y + 1, direction, 2);
+					level.move(state.x - 1, state.y - 1, direction, 2);
+					level.move(state.x - 1, state.y, direction, 3);
+					level.move(state.x - 1, state.y + 1, direction, 2);
 
 					break;
 				case UP:
-					level.move(x - 1, y + 1, direction, 2);
-					level.move(x, y + 1, direction, 3);
-					level.move(x + 1, y + 1, direction, 2);
+					level.move(state.x - 1, state.y + 1, direction, 2);
+					level.move(state.x, state.y + 1, direction, 3);
+					level.move(state.x + 1, state.y + 1, direction, 2);
 
 					break;
 				case LEFT:
-					level.move(x + 1, y - 1, direction, 2);
-					level.move(x + 1, y, direction, 3);
-					level.move(x + 1, y + 1, direction, 2);
+					level.move(state.x + 1, state.y - 1, direction, 2);
+					level.move(state.x + 1, state.y, direction, 3);
+					level.move(state.x + 1, state.y + 1, direction, 2);
 
 					break;
 				case DOWN:
-					level.move(x - 1, y - 1, direction, 2);
-					level.move(x, y - 1, direction, 3);
-					level.move(x + 1, y - 1, direction, 2);
+					level.move(state.x - 1, state.y - 1, direction, 2);
+					level.move(state.x, state.y - 1, direction, 3);
+					level.move(state.x + 1, state.y - 1, direction, 2);
 
 					break;
 				default:
 					//throw
 			}
 
-			x += direction.getDx();
-			y += direction.getDy();
+			state.x += direction.getDx();
+			state.y += direction.getDy();
 
 			level.accept(messages.get(direction));
 		}
@@ -88,26 +112,26 @@ public class Tank implements FieldElement
 	{
 		if (ableToTurn(direction))
 		{
-			int curDx = currentDirection.getDx();
-			int curDy = currentDirection.getDy();
+			int curDx = state.direction.getDx();
+			int curDy = state.direction.getDy();
 
 			int dx = direction.getDx();
 			int dy = direction.getDy();
 
-			if (direction != currentDirection.opposite())
+			if (direction != state.direction.opposite())
 			{
-				level.move(x - curDx + dx, y - curDy + dy, x + curDx - dx, y + curDy - dy);//TODO: change
+				level.move(state.x - curDx + dx, state.y - curDy + dy, state.x + curDx - dx, state.y + curDy - dy);//TODO: change
 			}
 			else
 			{
-				level.move(x - curDx + dy, y - curDy + dx, x + curDx + dy, y + curDy + dx);//TODO: change
-				level.move(x - curDx - dy, y - curDy - dx, x + curDx - dy, y + curDy - dx);//TODO: change
+				level.move(state.x - curDx + dy, state.y - curDy + dx, state.x + curDx + dy, state.y + curDy + dx);//TODO: change
+				level.move(state.x - curDx - dy, state.y - curDy - dx, state.x + curDx - dy, state.y + curDy - dx);//TODO: change
 			}
 
-			currentDirection = direction;
+			state.direction = direction;
 			level.accept(messages.get(direction));
 		}
-		else if (direction == currentDirection.opposite())
+		else if (direction == state.direction.opposite())
 		{
 			flip();
 		}
@@ -117,15 +141,15 @@ public class Tank implements FieldElement
 	{
 		if (ableToFlip())
 		{
-			level.move(x + currentDirection.getDx(), y + currentDirection.getDy(), x - 2 * currentDirection.getDx(), y - 2 * currentDirection.getDy());//TODO: change
+			level.move(state.x + state.direction.getDx(), state.y + state.direction.getDy(), state.x - 2 * state.direction.getDx(), state.y - 2 * state.direction.getDy());//TODO: change
 
-			currentDirection = currentDirection.opposite();
+			state.direction = state.direction.opposite();
 
-			x += currentDirection.getDx();
-			y += currentDirection.getDy();
+			state.x += state.direction.getDx();
+			state.y += state.direction.getDy();
 
-			level.accept(messages.get(currentDirection));
-			level.accept(messages.get(currentDirection));
+			level.accept(messages.get(state.direction));
+			level.accept(messages.get(state.direction));
 		}
 	}
 
@@ -136,24 +160,24 @@ public class Tank implements FieldElement
 			return false;
 		}
 
-		switch (currentDirection)
+		switch (state.direction)
 		{
 			case RIGHT:
-				return level.ableToMove(x - 1, y - 1, direction, 2) &&
-						level.ableToMove(x - 1, y, direction, 3) &&
-						level.ableToMove(x - 1, y + 1, direction, 2);
+				return level.ableToMove(state.x - 1, state.y - 1, direction, 2) &&
+						level.ableToMove(state.x - 1, state.y, direction, 3) &&
+						level.ableToMove(state.x - 1, state.y + 1, direction, 2);
 			case UP:
-				return level.ableToMove(x - 1, y + 1, direction, 2) &&
-						level.ableToMove(x, y + 1, direction, 3) &&
-						level.ableToMove(x + 1, y + 1, direction, 2);
+				return level.ableToMove(state.x - 1, state.y + 1, direction, 2) &&
+						level.ableToMove(state.x, state.y + 1, direction, 3) &&
+						level.ableToMove(state.x + 1, state.y + 1, direction, 2);
 			case LEFT:
-				return level.ableToMove(x + 1, y - 1, direction, 2) &&
-						level.ableToMove(x + 1, y, direction, 3) &&
-						level.ableToMove(x + 1, y + 1, direction, 2);
+				return level.ableToMove(state.x + 1, state.y - 1, direction, 2) &&
+						level.ableToMove(state.x + 1, state.y, direction, 3) &&
+						level.ableToMove(state.x + 1, state.y + 1, direction, 2);
 			case DOWN:
-				return level.ableToMove(x - 1, y - 1, direction, 2) &&
-						level.ableToMove(x, y - 1, direction, 3) &&
-						level.ableToMove(x + 1, y - 1, direction, 2);
+				return level.ableToMove(state.x - 1, state.y - 1, direction, 2) &&
+						level.ableToMove(state.x, state.y - 1, direction, 3) &&
+						level.ableToMove(state.x + 1, state.y - 1, direction, 2);
 			default:
 				//throw
 				return false;
@@ -167,38 +191,38 @@ public class Tank implements FieldElement
 			return false;
 		}
 
-		if (direction == currentDirection)
+		if (direction == state.direction)
 		{
 			return true;
 		}
 
-		if (direction != currentDirection.opposite())
+		if (direction != state.direction.opposite())
 		{
-			return level.ableToReplace(x + currentDirection.getDx() - direction.getDx(), y + currentDirection.getDy() - direction.getDy());
+			return level.ableToReplace(state.x + state.direction.getDx() - direction.getDx(), state.y + state.direction.getDy() - direction.getDy());
 		}
 		else
 		{
-			return level.ableToReplace(x + currentDirection.getDx() + direction.getDy(), y + currentDirection.getDy() + direction.getDx()) &&
-					level.ableToReplace(x + currentDirection.getDx() - direction.getDy(), y + currentDirection.getDy() - direction.getDx());
+			return level.ableToReplace(state.x + state.direction.getDx() + direction.getDy(), state.y + state.direction.getDy() + direction.getDx()) &&
+					level.ableToReplace(state.x + state.direction.getDx() - direction.getDy(), state.y + state.direction.getDy() - direction.getDx());
 		}
 	}
 
 	private boolean ableToFlip()
 	{
-		return alive && level.ableToReplace(x - 2 * currentDirection.getDx(), y - 2 * currentDirection.getDy());
+		return alive && level.ableToReplace(state.x - 2 * state.direction.getDx(), state.y - 2 * state.direction.getDy());
 	}
 
 	public void shoot()
 	{
 		if (ableToShoot())
 		{
-			level.spawnBullet(x + 2 * currentDirection.getDx(), y + 2 * currentDirection.getDy(), currentDirection);
+			level.spawnBullet(state.x + 2 * state.direction.getDx(), state.y + 2 * state.direction.getDy(), state.direction);
 		}
 	}
 
 	private boolean ableToShoot()
 	{
-		return alive && level.ableToSpawnBullet(x + 2 * currentDirection.getDx(), y + 2 * currentDirection.getDy());
+		return alive && level.ableToSpawnBullet(state.x + 2 * state.direction.getDx(), state.y + 2 * state.direction.getDy());
 	}
 
 	public void hit()
@@ -210,8 +234,8 @@ public class Tank implements FieldElement
 	@Override
 	public void draw(Field field)
 	{
-		int dx = currentDirection.getDx();
-		int dy = currentDirection.getDy();
+		int dx = state.direction.getDx();
+		int dy = state.direction.getDy();
 
 		CellFactory cellFactory = CellFactory.getInstance();
 
@@ -221,7 +245,7 @@ public class Tank implements FieldElement
 			{
 				if (!((dx == 0 && j == dy && i != 0) || (dy == 0 && j != 0 && i == dx)))
 				{
-					field.replace(x + i, y + j, cellFactory.getTankCell(field, this, x + i, y + j));
+					field.replace(state.x + i, state.y + j, cellFactory.getTankCell(field, this, state.x + i, state.y + j));
 				}
 			}
 		}
@@ -230,8 +254,8 @@ public class Tank implements FieldElement
 	@Override
 	public void erase(Field field)
 	{
-		int dx = currentDirection.getDx();
-		int dy = currentDirection.getDy();
+		int dx = state.direction.getDx();
+		int dy = state.direction.getDy();
 
 		CellFactory cellFactory = CellFactory.getInstance();
 
@@ -241,7 +265,7 @@ public class Tank implements FieldElement
 			{
 				if (!((dx == 0 && j == dy && i != 0) || (dy == 0 && j != 0 && i == dx)))
 				{
-					field.replace(x + i, y + j, cellFactory.getGroundCell());
+					field.replace(state.x + i, state.y + j, cellFactory.getGroundCell());
 				}
 			}
 		}
@@ -249,21 +273,26 @@ public class Tank implements FieldElement
 
 	public int getX()
 	{
-		return x;
+		return state.x;
 	}
 
 	public int getY()
 	{
-		return y;
+		return state.y;
 	}
 
 	public Direction getDirection()
 	{
-		return currentDirection;
+		return state.direction;
 	}
 
 	public int getId()
 	{
 		return id;
+	}
+
+	public State getState()
+	{
+		return state;
 	}
 }
