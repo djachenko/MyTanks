@@ -5,11 +5,11 @@ import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModel
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.StartLevelMessage;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.MessageToView;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.MessageToViewFactory;
-import ru.nsu.fit.djachenko.mytanks.model.Direction;
+import ru.nsu.fit.djachenko.mytanks.model.entries.Level;
+import ru.nsu.fit.djachenko.mytanks.model.entries.Tank;
 import ru.nsu.fit.djachenko.mytanks.model.entries.activities.TaskPerformer;
 import ru.nsu.fit.djachenko.mytanks.model.management.ai.AI;
 import ru.nsu.fit.djachenko.mytanks.model.management.ai.Runner;
-import ru.nsu.fit.djachenko.mytanks.model.entries.Level;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -54,9 +54,9 @@ public class Game implements MessageAcceptor
 		}
 	}
 
-	public void notifyTankSpawned(int playerId, int x, int y, Direction direction)
+	public void notifyTankSpawned(int playerId, Tank.State state)
 	{
-		players.get(playerId).notifyTankSpawned(x, y, direction);
+		players.get(playerId).notifyTankSpawned(state);
 	}
 
 	public void notifyTankHit(int playerId)

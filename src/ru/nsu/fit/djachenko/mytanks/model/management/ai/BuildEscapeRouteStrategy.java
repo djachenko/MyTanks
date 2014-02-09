@@ -134,27 +134,6 @@ public class BuildEscapeRouteStrategy
 					callback.x = currentPoint.x;
 					callback.y = currentPoint.y;
 
-					/*System.out.println(callback.x + " " + callback.y + " " + map[callback.y][callback.x]);
-
-					StringBuilder temp = new StringBuilder();
-
-					for (int[] line : map)
-					{
-						for (int cell : line)
-						{
-							if (cell >= 0 && cell <= 9)
-							{
-								temp.append(' ');
-							}
-
-							temp.append(cell).append(' ');
-						}
-
-						temp.append('\n');
-					}
-
-					System.out.println(temp);*/
-
 					break;
 				}
 				else

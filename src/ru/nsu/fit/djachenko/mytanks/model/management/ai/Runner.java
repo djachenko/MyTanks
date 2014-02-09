@@ -3,17 +3,16 @@ package ru.nsu.fit.djachenko.mytanks.model.management.ai;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModelFactory;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
 import ru.nsu.fit.djachenko.mytanks.model.cells.Field;
+import ru.nsu.fit.djachenko.mytanks.model.entries.Tank;
 import ru.nsu.fit.djachenko.mytanks.model.management.Game;
 
 import static ru.nsu.fit.djachenko.mytanks.model.management.ai.SearchTankStrategy.*;
 
 public class Runner extends AI
 {
-	private Field.State state;
-
-	private int x;
-	private int y;
-	private Direction direction;
+	private Field.State fieldState;
+	
+	private Tank.State tankState;
 
 	private boolean alive = false;
 
@@ -28,21 +27,20 @@ public class Runner extends AI
 	}
 
 	@Override
-	protected void notifyLevelStarted(Field.State state)
+	protected void notifyLevelStarted(Field.State fieldState)
 	{
-		super.notifyLevelStarted(state);
+		super.notifyLevelStarted(fieldState);
 
-		this.state = state;
+		this.fieldState = fieldState;
 	}
 
 	@Override
-	protected synchronized void notifyTankSpawned(int x, int y, Direction direction)
+	protected synchronized void notifyTankSpawned(Tank.State tankState)
 	{
-		super.notifyTankSpawned(x, y, direction);
+		super.notifyTankSpawned(tankState);
 
-		this.x = x;
-		this.y = y;
-		this.direction = direction;
+		this.tankState = tankState;
+
 		this.alive = true;
 		this.runDirection = null;
 		this.flag = false;
@@ -76,6 +74,9 @@ public class Runner extends AI
 	private SearchTankStrategy searchTankStrategy = new SearchTankStrategy();
 	private Result searchTankCallback = searchTankStrategy.getCallback();
 
+	private AimCellStrategy aimStrategy = new AimCellStrategy();
+	private AimCellStrategy.Result aimCallback = AimCellStrategy.getCallback();
+
 	@Override
 	public synchronized void execute(int iteration)
 	{
@@ -84,18 +85,27 @@ public class Runner extends AI
 			return;
 		}
 
-		state.update();
+		fieldState.update();
+
+		aimStrategy.run(19, 5, tankState, fieldState, aimCallback);//19 5
+
+		move(aimCallback.getNextMove());
+
+		if (1 == 1)
+		{
+			return;
+		}
 
 		switch (currentState)
 		{
 			case IDLE:
-				if (bulletScanStrategy.run(x, y, state, bulletScanCallback))
+				if (bulletScanStrategy.run(tankState.getX(), tankState.getY(), fieldState, bulletScanCallback))
 				{
 					currentState = State.BULLETFOUND;
 				}
 				else
 				{
-					searchTankStrategy.run(x, y, direction, state, searchTankCallback);
+					searchTankStrategy.run(tankState.getX(), tankState.getY(), tankState.getDirection(), fieldState, searchTankCallback);
 					new RecognizeTankStrategy().run(searchTankCallback, new RecognizeTankStrategy().getCallback());
 				}
 
@@ -103,7 +113,7 @@ public class Runner extends AI
 			case BULLETFOUND:
 				BulletScanStrategy.Result compare = bulletScanStrategy.getCallback();
 
-				boolean newResult = bulletScanStrategy.run(x, y, state, compare);
+				boolean newResult = bulletScanStrategy.run(tankState.getX(), tankState.getY(), fieldState, compare);
 
 				if (!newResult || compare.getDistance() > bulletScanCallback.getDistance())
 				{
@@ -113,17 +123,17 @@ public class Runner extends AI
 				{
 					currentState = State.RUNNING;
 
-					escapeStrategy.run(x, y, direction, state, bulletScanCallback, escapeCallback);
+					escapeStrategy.run(tankState.getX(), tankState.getY(), tankState.getDirection(), fieldState, bulletScanCallback, escapeCallback);
 					move(escapeCallback.getNextMove());
 				}
 
 				break;
 			case RUNNING:
-				boolean result = bulletScanStrategy.run(x, y, state, bulletScanCallback);
+				boolean result = bulletScanStrategy.run(tankState.getX(), tankState.getY(), fieldState, bulletScanCallback);
 
 				if (result)
 				{
-					escapeStrategy.run(x, y, direction, state, bulletScanCallback, escapeCallback);
+					escapeStrategy.run(tankState.getX(), tankState.getY(), tankState.getDirection(), fieldState, bulletScanCallback, escapeCallback);
 
 					move(escapeCallback.getNextMove());
 				}
@@ -145,21 +155,5 @@ public class Runner extends AI
 	private void move(Direction moveDirection)
 	{
 		send(factory.getMoveTankMessage(getId(), moveDirection));
-
-		if (moveDirection == direction)
-		{
-			int newX = x + moveDirection.getDx();
-			int newY = y + moveDirection.getDy();
-
-			if (newX > 0 && newX < state.width() - 1 && newY > 0 && newY < state.height() - 1)
-			{
-				x = newX;
-				y = newY;
-			}
-		}
-		else
-		{
-			direction = moveDirection;
-		}
 	}
 }

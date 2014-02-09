@@ -157,7 +157,7 @@ public class Level extends Field implements MessageAcceptor
 		draw(tank);
 
 		accept(factory.getDrawTankMessage(tank.getX(), tank.getY(), tank.getDirection(), tank.getId(), playerId));
-		game.notifyTankSpawned(playerId, tank.getX(), tank.getY(), tank.getDirection());
+		game.notifyTankSpawned(playerId, tank.getState());
 	}
 
 	private int resolvePlayerByTank(int tankId)
