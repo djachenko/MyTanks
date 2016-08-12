@@ -1,5 +1,6 @@
 package ru.nsu.fit.djachenko.mytanks.controller;
 
+import ru.nsu.fit.djachenko.mytanks.Constants;
 import ru.nsu.fit.djachenko.mytanks.communication.MessageAcceptor;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModel;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModelFactory;
@@ -20,8 +21,7 @@ abstract class UserController
 	private int[] keys = new int[5];
 	private MessageToModel[] messages = new MessageToModel[5];
 
-	private static final int PERIOD = 75;
-	private static TaskPerformer performer = new TaskPerformer(PERIOD);
+	private static TaskPerformer performer = new TaskPerformer(Constants.USERCONTROLLERPERIOD);
 
 	UserController(MessageAcceptor channel, int playerId)
 	{

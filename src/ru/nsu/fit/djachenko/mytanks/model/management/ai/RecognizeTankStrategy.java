@@ -1,49 +1,47 @@
 package ru.nsu.fit.djachenko.mytanks.model.management.ai;
 
+import ru.nsu.fit.djachenko.mytanks.model.DirectedPoint;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
 
 import java.util.*;
 
 public class RecognizeTankStrategy
 {
-	static class Result
-	{
-		static class TankVariant
-		{
-			int x;
-			int y;
-			Direction direction;
+	private static final boolean[][] pattern = new boolean[][]{
+		{true, true, true},
+		{true, true, true},
+		{true, true, true}
+	};
 
-			TankVariant(int x, int y, Direction direction)
-			{
-				this.direction = direction;
-				this.x = x;
-				this.y = y;
-			}
+	static class Result extends DirectedPoint
+	{
+		private boolean valid;
+
+		private static final Result invalid = new Result();
+
+		private Result()
+		{
+			super(-1, -1, null);
+			valid = false;
 		}
 
-		int rating;
-
-		private List<TankVariant> variants;
-
-		public List<TankVariant> getVariants()
+		private Result(int x, int y, Direction direction)
 		{
-			return variants;
+			super(x, y, direction);
+			this.valid = true;
+		}
+
+		public boolean isValid()
+		{
+			return valid;
 		}
 	}
 
-	Result getCallback()
+	Result run(Set<int[]> tankParts)
 	{
-		return new Result();
-	}
-
-	void run(SearchTankStrategy.Result result, Result callback)
-	{
-		List<int[]> tankPoints = result.getTankParts();
-
-		if (tankPoints.size() == 0)
+		if (tankParts.size() == 0)
 		{
-			return;
+			return null;//todo: throw
 		}
 
 		int[] min = new int[2];
@@ -51,15 +49,15 @@ public class RecognizeTankStrategy
 
 		for (int i = 0; i < min.length; i++)
 		{
-			min[i] = tankPoints.get(0)[i];
-			dimension[i] = tankPoints.get(0)[i];
+			min[i] = -1;
+			dimension[i] = -1;
 		}
 
-		for (int[] point : tankPoints)
+		for (int[] point : tankParts)
 		{
 			for (int i = 0; i < 2; i++)
 			{
-				if (point[i] < min[i])
+				if (point[i] < min[i] || min[i] == -1)
 				{
 					min[i] = point[i];
 				}
@@ -78,22 +76,15 @@ public class RecognizeTankStrategy
 
 		if (dimension[0] > 3 || dimension[1] > 3)
 		{
-			return;
+			return null;//todo: throw
 		}
 
 		boolean[][] model = new boolean[dimension[1]][dimension[0]];
 
-		for (int[] point : tankPoints)
+		for (int[] point : tankParts)
 		{
 			model[point[1] - min[1]][point[0] - min[0]] = true;
 		}
-
-		boolean[][] pattern = new boolean[][]{
-				{true, true, true},
-				{true, true, true},
-				{true, true, true}};
-
-		List<Result.TankVariant> variants = new LinkedList<>();
 
 		for (Direction direction : Direction.values())
 		{
@@ -119,7 +110,11 @@ public class RecognizeTankStrategy
 
 					if (match)
 					{
-						variants.add(new Result.TankVariant(min[0] - dx + 1, min[1] - dy + 1, direction));
+
+						pattern[1 + direction.getDy() + direction.getDx()][1 + direction.getDy() + direction.getDx()] = true;
+						pattern[1 + direction.getDy() - direction.getDx()][1 - direction.getDy() + direction.getDx()] = true;
+
+						return new Result(-1, -1, null);
 					}
 				}
 			}
@@ -128,7 +123,6 @@ public class RecognizeTankStrategy
 			pattern[1 + direction.getDy() - direction.getDx()][1 - direction.getDy() + direction.getDx()] = true;
 		}
 
-		callback.rating = 7 - tankPoints.size();
-		callback.variants = variants;
+		return Result.invalid;
 	}
 }

@@ -1,9 +1,10 @@
 package ru.nsu.fit.djachenko.mytanks.model.management.ai;
 
+import ru.nsu.fit.djachenko.mytanks.model.DirectedPoint;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
+import ru.nsu.fit.djachenko.mytanks.model.Point;
 import ru.nsu.fit.djachenko.mytanks.model.cells.Cell;
 import ru.nsu.fit.djachenko.mytanks.model.cells.Field;
-import ru.nsu.fit.djachenko.mytanks.model.entries.Tank;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -13,26 +14,28 @@ public class FindNearestPointStrategy
 {
 	public static class Result
 	{
-		private int x;
-		private int y;
+		private Point point;
 
-		private int[][] distances;
+		private final int[][] distances;
 
-		private boolean found;
+		private final boolean valid;
 
-		private Result()
+		private Result(int x, int y, int[][] distances, boolean valid)
 		{
-			invalidate();
+			this(new Point(x, y), distances, valid);
 		}
 
-		public int getX()
+		private Result(Point point, int[][] distances, boolean valid)
 		{
-			return x;
+			this.point = point;
+
+			this.distances = distances;
+			this.valid = valid;
 		}
 
-		public int getY()
+		Point getPoint()
 		{
-			return y;
+			return point;
 		}
 
 		int[][] getDistances()
@@ -40,28 +43,13 @@ public class FindNearestPointStrategy
 			return distances;
 		}
 
-		boolean isFound()
+		boolean isValid()
 		{
-			return found;
-		}
-
-		private void invalidate()
-		{
-			x = -1;
-			y = -1;
-
-			distances = null;
-
-			found = false;
+			return valid;
 		}
 	}
 
-	public Result getCallback()
-	{
-		return new Result();
-	}
-
-	public void run(Tank.State tankState, Field.State fieldState, boolean[][] mask, Result callback)
+	public Result run(DirectedPoint directedPoint, Field.State fieldState, boolean[][] mask)
 	{
 		int[][] map = new int[fieldState.height()][fieldState.width()];
 
@@ -73,46 +61,32 @@ public class FindNearestPointStrategy
 			}
 		}
 
-		class Point
-		{
-			public int x;
-			public int y;
-			public Direction direction;
+		Vector<Queue<DirectedPoint>> generations = new Vector<>();
 
-			Point(int x, int y, Direction direction)
-			{
-				this.x = x;
-				this.y = y;
-				this.direction = direction;
-			}
-		}
+		generations.add(0, new LinkedList<DirectedPoint>());
+		generations.add(1, new LinkedList<DirectedPoint>());
 
-		Vector<Queue<Point>> generations = new Vector<>();
+		generations.get(0).add(new DirectedPoint(directedPoint.getX(), directedPoint.getY(), directedPoint.getDirection()));
+		map[directedPoint.getY()][directedPoint.getX()] = 0;
 
-		generations.add(0, new LinkedList<Point>());
-		generations.add(1, new LinkedList<Point>());
-
-		generations.get(0).add(new Point(tankState.getX(), tankState.getY(), tankState.getDirection()));
-		map[tankState.getY()][tankState.getX()] = 0;
-
-		Point destination = new Point(-1, -1, null);
+		DirectedPoint destination = new DirectedPoint(-1, -1, null);
 
 		boolean found = false;
 
 		for (int generation = 0; !found; generation++)
 		{
-			Queue<Point> candidates = generations.get(generation);
+			Queue<DirectedPoint> candidates = generations.get(generation);
 
 			if (candidates.size() == 0 && generations.get(generation + 1).size() == 0)
 			{
 				break;
 			}
 
-			generations.add(generation + 2, new LinkedList<Point>());
+			generations.add(generation + 2, new LinkedList<DirectedPoint>());
 
-			for (Point currentPoint : candidates)
+			for (DirectedPoint currentPoint : candidates)
 			{
-				if (!found && mask[currentPoint.y][currentPoint.x])//check if there is other one
+				if (!found && mask[currentPoint.getY()][currentPoint.getX()])//check if there is other one
 				{
 					found = true;
 
@@ -125,8 +99,8 @@ public class FindNearestPointStrategy
 						int dx = direction.getDx();
 						int dy = direction.getDy();
 						
-						int candidateX = currentPoint.x + dx;
-						int candidateY = currentPoint.y + dy;
+						int candidateX = currentPoint.getX() + dx;
+						int candidateY = currentPoint.getY() + dy;
 	
 						if (candidateX < 1 || candidateX >= fieldState.width() - 1 || candidateY < 1 || candidateY >= fieldState.height() - 1)
 						{
@@ -139,8 +113,8 @@ public class FindNearestPointStrategy
 						{
 							for (int j = -1; j <= 1; j++)
 							{
-								if (fieldState.at(candidateX + i, candidateY + j) == Cell.Type.WALL) //||
-									//	fieldState.at(candidateX + i, candidateY + j) == Cell.Type.TANK)
+								if (fieldState.at(candidateX + i, candidateY + j) == Cell.Type.WALL)/* ||
+								    fieldState.at(candidateX + i, candidateY + j) == Cell.Type.TANK)*///todo: complex analysis for being same
 								{
 									flag = true;
 								}
@@ -149,24 +123,24 @@ public class FindNearestPointStrategy
 
 						if (!flag)
 						{
-							if (map[candidateY][candidateX] > map[currentPoint.y][currentPoint.x] + 1 ||//if this way is shorter than existing
+							if (map[candidateY][candidateX] > map[currentPoint.getY()][currentPoint.getX()] + 1 ||//if this way is shorter than existing
 								map[candidateY][candidateX] == -1)//or there isn't any
 							{
-								if (currentPoint.direction != direction)//a turn is considered as action and requires its own iteration
+								if (currentPoint.getDirection() != direction)//a turn is considered as action and requires its own iteration
 								{
 									map[candidateY][candidateX] = generation + 2;
-									generations.get(generation + 2).add(new Point(candidateX, candidateY, direction));//enqueue
+									generations.get(generation + 2).add(new DirectedPoint(candidateX, candidateY, direction));//enqueue
 								}
 								else
 								{
 									map[candidateY][candidateX] = generation + 1;
-									generations.get(generation + 1).add(new Point(candidateX, candidateY, direction));//enqueue
+									generations.get(generation + 1).add(new DirectedPoint(candidateX, candidateY, direction));//enqueue
 								}
 							}
 
-							if (currentPoint.direction == direction && map[candidateY][candidateX] == map[currentPoint.y][currentPoint.x] + 1)
+							if (currentPoint.getDirection() == direction && map[candidateY][candidateX] == map[currentPoint.getY()][currentPoint.getX()] + 1)
 							{
-								generations.get(generation + 1).add(new Point(candidateX, candidateY, direction));//enqueue
+								generations.get(generation + 1).add(new DirectedPoint(candidateX, candidateY, direction));//enqueue
 							}
 						}
 					}
@@ -174,9 +148,6 @@ public class FindNearestPointStrategy
 			}
 		}
 
-		callback.x = destination.x;
-		callback.y = destination.y;
-		callback.distances = map;
-		callback.found = true;
+		return new Result(destination.getX(), destination.getY(), map, found);
 	}
 }

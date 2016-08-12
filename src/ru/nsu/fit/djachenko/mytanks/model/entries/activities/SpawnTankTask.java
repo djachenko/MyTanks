@@ -1,5 +1,6 @@
 package ru.nsu.fit.djachenko.mytanks.model.entries.activities;
 
+import ru.nsu.fit.djachenko.mytanks.Constants;
 import ru.nsu.fit.djachenko.mytanks.model.entries.Level;
 
 import java.util.Random;
@@ -10,14 +11,14 @@ public class SpawnTankTask implements Task
 	private final Level level;
 	private final int playerId;
 
-	private static final double MAXDELAY = 15;
+	private static final double MAXDELAY = Constants.SPAWNTASKMAXDELAY;
 
 	private final static Random random = new Random(System.currentTimeMillis());
 
 	public SpawnTankTask(Level level, int playerId)
 	{
 		double delayFactor = random.nextDouble();
-		this.countdown = Math.round(MAXDELAY * delayFactor * (1000 / TaskPerformer.PERIOD));
+		this.countdown = Math.round(MAXDELAY * delayFactor * (1000 / Constants.TASKPERFORMERPERIOD));
 
 		this.level = level;
 		this.playerId = playerId;

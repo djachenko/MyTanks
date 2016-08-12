@@ -1,5 +1,6 @@
 package ru.nsu.fit.djachenko.mytanks.view;
 
+import ru.nsu.fit.djachenko.mytanks.Constants;
 import ru.nsu.fit.djachenko.mytanks.communication.MessageAcceptor;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModelFactory;
 import ru.nsu.fit.djachenko.mytanks.model.management.GameMode;
@@ -90,8 +91,8 @@ class StartMenuView extends JPanel
 		add(exitButton);
 		add(Box.createRigidArea(new Dimension(0, 5)));
 
-		int width = StartMenuViewButton.WIDTH + 10;
-		int height = 5 * (StartMenuViewButton.HEIGHT + 5);
+		int width = Constants.STARTMENUVIEWBUTTONWIDTH + 10;
+		int height = 5 * (Constants.STARTMENUVIEWBUTTONHEIGHT + 5);
 
 		setPreferredSize(new Dimension(width, height));
 	}

@@ -1,12 +1,14 @@
 package ru.nsu.fit.djachenko.mytanks.view;
 
+import ru.nsu.fit.djachenko.mytanks.Constants;
+
 import javax.swing.*;
 import java.awt.*;
 
 class StartMenuViewButton extends JButton
 {
-	public static final int WIDTH = 150;
-	public static final int HEIGHT = 40;
+	private static final int WIDTH = Constants.STARTMENUVIEWBUTTONWIDTH;
+	private static final int HEIGHT = Constants.STARTMENUVIEWBUTTONHEIGHT;
 
 	StartMenuViewButton(String text)
 	{

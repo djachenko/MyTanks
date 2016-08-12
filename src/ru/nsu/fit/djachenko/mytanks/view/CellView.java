@@ -1,5 +1,6 @@
 package ru.nsu.fit.djachenko.mytanks.view;
 
+import ru.nsu.fit.djachenko.mytanks.Constants;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
 
 import javax.swing.*;
@@ -7,8 +8,8 @@ import java.awt.*;
 
 public class CellView extends JLabel
 {
-	public static final int SIZE = 25;//edge size in pixels (cells are square)
-	public static final int GRIDSIZE = 25;
+	private static final int SIZE = Constants.CELLVIEWSIZE;//edge size in pixels (cells are square)
+	private static final int GRIDSIZE = Constants.CELLVIEWGRIDSIZE;
 
 	public enum Type
 	{
@@ -50,7 +51,7 @@ public class CellView extends JLabel
 		int dx = direction.getDx();
 		int dy = direction.getDy();
 
-		for (int i = 0; i < SIZE; i++)
+		for (int i = 0; i < GRIDSIZE; i++)
 		{
 			setLocation(getX() + dx, getY() + dy);
 		}

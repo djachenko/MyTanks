@@ -9,49 +9,10 @@ import java.util.Queue;
 
 public class AimCellStrategy
 {
-	private static FindNearestPointStrategy findStrategy = new FindNearestPointStrategy();
-	private static FindNearestPointStrategy.Result findCallback = findStrategy.getCallback();
+	private static ShortestWaySubStrategy shortestWayStrategy = new ShortestWaySubStrategy();
 
-	private static BuildShortestWayStrategy shortestWayStrategy = new BuildShortestWayStrategy();
-	private static BuildShortestWayStrategy.Result shortestWayCallback = shortestWayStrategy.getCallback();
-
-	static class Result
+	public void run(int cellX, int cellY, Tank.State tankState, Field.State fieldState)
 	{
-		private Queue<Direction> route;
-
-		private Result()
-		{
-			invalidate();
-		}
-
-		private void invalidate()
-		{
-			route = null;
-		}
-
-		Queue<Direction> getRoute()
-		{
-			return route;
-		}
-
-		Direction getNextMove()
-		{
-			return route.remove();
-		}
-	}
-
-	static Result getCallback()
-	{
-		return new Result();
-	}
-
-	public void run(int cellX, int cellY, Tank.State tankState, Field.State fieldState, Result callback)
-	{
-		if (callback.route != null && callback.route.size() != 0)
-		{
-			return;
-		}
-
 		boolean[][] availability = new boolean[fieldState.height()][fieldState.width()];
 
 		for (Direction direction : Direction.values())
@@ -70,30 +31,26 @@ public class AimCellStrategy
 			availability[y - direction.getDy()][x - direction.getDx()] = false;
 		}
 
-		findStrategy.run(tankState, fieldState, availability, findCallback);
+		Queue<Direction> route = shortestWayStrategy.getRoute(tankState, fieldState, availability);
 
-		if (findCallback.isFound())
+		Direction last = null;
+
+		int lastX = tankState.getX();
+		int lastY = tankState.getY();
+
+		for (Direction direction : route)
 		{
-			shortestWayStrategy.run(findCallback.getX(), findCallback.getY(), findCallback.getDistances(), shortestWayCallback);
+			last = direction;
 
-			Direction destDirection = Direction.recognize(cellX - findCallback.getX(), cellY - findCallback.getY());
+			lastX += direction.getDx();
+			lastY += direction.getDy();
+		}
 
-			callback.route = shortestWayCallback.getRoute();
+		Direction destDirection = Direction.recognize(cellX - lastX, cellY - lastY);
 
-			if (callback.route != null)
-			{
-				Direction last = null;
-				
-				for (Direction direction : callback.route)
-				{
-					last = direction;
-				}
-				
-				if (last != null && last != destDirection)
-				{
-					//callback.route.add(destDirection);
-				}
-			}
+		if (last != null && last != destDirection)
+		{
+			route.add(destDirection);
 		}
 	}
 }

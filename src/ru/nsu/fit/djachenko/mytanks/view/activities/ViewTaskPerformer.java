@@ -1,5 +1,7 @@
 package ru.nsu.fit.djachenko.mytanks.view.activities;
 
+import ru.nsu.fit.djachenko.mytanks.Constants;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,7 +10,7 @@ import java.util.LinkedList;
 public class ViewTaskPerformer
 {
 	private final LinkedList<ViewTask> tasks = new LinkedList<>();
-	private static final int DELAY = 10;
+	private static final int DELAY = Constants.VIEWTASKPERFORMERDELAY;
 
 	public ViewTaskPerformer()
 	{

@@ -1,5 +1,6 @@
 package ru.nsu.fit.djachenko.mytanks.view;
 
+import ru.nsu.fit.djachenko.mytanks.Constants;
 import ru.nsu.fit.djachenko.mytanks.communication.MessageAcceptor;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModel;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestoview.*;
@@ -57,7 +58,7 @@ public class LevelView extends JPanel implements MessageAcceptor
 			}
 		}
 
-		setPreferredSize(new Dimension(width * CellView.GRIDSIZE, height * CellView.GRIDSIZE));
+		setPreferredSize(new Dimension(width * Constants.CELLVIEWGRIDSIZE, height * Constants.CELLVIEWGRIDSIZE));
 	}
 
 	private void add(TankView tank)

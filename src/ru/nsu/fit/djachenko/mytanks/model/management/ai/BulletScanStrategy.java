@@ -1,122 +1,149 @@
 package ru.nsu.fit.djachenko.mytanks.model.management.ai;
 
+import ru.nsu.fit.djachenko.mytanks.model.DirectedPoint;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
 import ru.nsu.fit.djachenko.mytanks.model.cells.Cell;
 import ru.nsu.fit.djachenko.mytanks.model.cells.Field;
+import ru.nsu.fit.djachenko.mytanks.model.entries.Tank;
+import ru.nsu.fit.djachenko.mytanks.model.management.ai.imperatives.Imperative;
+import ru.nsu.fit.djachenko.mytanks.model.management.ai.imperatives.ImperativeFactory;
 
-class BulletScanStrategy
+class BulletScanStrategy implements Strategy
 {
-	static class Result
+	private static ImperativeFactory factory = ImperativeFactory.getInstance();
+
+	private enum State
 	{
-		private Direction directionToBullet = null;
-		private int x = -1;
-		private int y = -1;
-		private int distance = -1;
-		private boolean found = false;
-
-		private Result()
-		{
-			invalidate();
-		}
-
-		public Direction getDirectionToBullet()
-		{
-			return directionToBullet;
-		}
-
-		public int getX()
-		{
-			return x;
-		}
-
-		public int getY()
-		{
-			return y;
-		}
-
-		public int getDistance()
-		{
-			return distance;
-		}
-
-		boolean isFound()
-		{
-			return found;
-		}
-
-		private void set(int x, int y, int distance, Direction directionToBullet)
-		{
-			this.x = x;
-			this.y = y;
-			this.distance = distance;
-			this.directionToBullet = directionToBullet;
-
-			found = true;
-		}
-
-		private void invalidate()
-		{
-			directionToBullet = null;
-			x = -1;
-			y = -1;
-			distance = -1;
-			found = false;
-		}
+		SEARCH,
+		CHECK,
+		DANGER
 	}
 
-	Result getCallback()
+	private State state = State.SEARCH;
+
+	private ShortestWaySubStrategy shortestWayStrategy = new ShortestWaySubStrategy();
+	private FindBulletSubStrategy findBulletStrategy = new FindBulletSubStrategy();
+
+	private int checkDistance;
+
+	@Override
+	public Imperative run(Tank.State tankState, Field.State fieldState, AI parent)
 	{
-		return new Result();
+		return run(new DirectedPoint(tankState.getX(), tankState.getY(), tankState.getDirection()), fieldState);
 	}
 
-	boolean run(int tankX, int tankY, Field.State state, Result callback)
+	public Imperative run(DirectedPoint directedPoint, Field.State fieldState)
 	{
-		int stateWidth = state.width();
-		int stateHeight = state.height();
+		FindBulletSubStrategy.Result point = findBulletStrategy.run(directedPoint, fieldState);
 
-		int distance = Math.max(tankX, Math.max(tankY, Math.max(stateWidth - 1 - tankX, stateHeight - 1 - tankY)));
-
-		if (callback == null)
+		if (point.isValid())
 		{
-			callback = getCallback();
-		}
-
-		callback.invalidate();
-
-		for (int round = 1; round < distance && !callback.isFound(); round++)
-		{
-			for (int delta = -1; delta <= 1 && !callback.isFound(); delta++)
+			switch (state)
 			{
-				if (tankY - round >= 0 && state.at(tankX + delta, tankY - round) == Cell.Type.BULLET)
-				{
-					callback.set(tankX + delta, tankY - round, round, Direction.UP);
+				case SEARCH:
+					state = State.CHECK;
+					checkDistance = point.getDistance();
 
-					break;
-				}
+					return factory.getWaitImperative();
 
-				if (tankY + round < stateHeight && state.at(tankX + delta, tankY + round) == Cell.Type.BULLET)
-				{
-					callback.set(tankX + delta, tankY + round, round, Direction.DOWN);
+				case CHECK:
+					if (point.getDistance() >= checkDistance)
+					{
+						return factory.getWaitImperative();
+					}
+					else
+					{
+						state = State.DANGER;
+					}
 
-					break;
-				}
+				case DANGER:
+					boolean[][] mask = new boolean[fieldState.height()][fieldState.width()];
 
-				if (tankX - round >= 0 && state.at(tankX - round, tankY + delta) == Cell.Type.BULLET)
-				{
-					callback.set(tankX - round, tankY + delta, round, Direction.LEFT);
+					for (boolean[] line : mask)
+					{
+						for (int i = 0; i < line.length; i++)
+						{
+							line[i] = true;
+						}
+					}
 
-					break;
-				}
+					Direction direction = point.getDirection();
 
-				if (tankX + round < stateWidth && state.at(tankX + round, tankY + delta) == Cell.Type.BULLET)
-				{
-					callback.set(tankX + round, tankY + delta, round, Direction.RIGHT);
+					int dx = direction.opposite().getDx();
+					int dy = direction.opposite().getDy();
 
-					break;
-				}
+					int width = fieldState.width();
+					int height = fieldState.height();
+
+					int x = point.getX();
+					int y = point.getY();
+
+					if (direction.isHorisontal())
+					{
+						while (x >= 0 && x < width && y >= 0 && y < height && fieldState.at(x, y) != Cell.Type.WALL)
+						{
+							for (int i = -1; i <= 1; i++)
+							{
+								mask[y + i][x] = false;
+							}
+
+							x += dx;
+							y += dy;
+						}
+					}
+					else
+					{
+						while (x >= 0 && x < width && y >= 0 && y < height && fieldState.at(x, y) != Cell.Type.WALL)
+						{
+							for (int i = -1; i <= 1; i++)
+							{
+								mask[y][x + i] = false;
+							}
+
+							x += dx;
+							y += dy;
+						}
+					}
+
+					StringBuilder builder = new StringBuilder();
+
+					for (boolean[] line : mask)
+					{
+						for (boolean cell : line)
+						{
+							if (cell)
+							{
+								builder.append('#');
+							}
+							else
+							{
+								builder.append(' ');
+							}
+						}
+
+						builder.append('\n');
+					}
+
+					System.out.println(builder);
+
+
+					return shortestWayStrategy.getNextMove(directedPoint, fieldState, mask);
+
+				default:
+					throw new NullPointerException();
 			}
 		}
+		else
+		{
+			state = State.SEARCH;
 
-		return callback.isFound();
+			return factory.getSkipImperative();
+		}
+	}
+
+	@Override
+	public int getPriority()
+	{
+		return 0;
 	}
 }

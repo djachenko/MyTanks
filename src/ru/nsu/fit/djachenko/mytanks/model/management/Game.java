@@ -1,5 +1,6 @@
 package ru.nsu.fit.djachenko.mytanks.model.management;
 
+import ru.nsu.fit.djachenko.mytanks.Constants;
 import ru.nsu.fit.djachenko.mytanks.communication.MessageAcceptor;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.MessageToModel;
 import ru.nsu.fit.djachenko.mytanks.communication.messagestomodel.StartLevelMessage;
@@ -27,7 +28,7 @@ public class Game implements MessageAcceptor
 	private final Map<Integer, Player> players = new HashMap<>();
 	private final List<AI> ais = new LinkedList<>();
 
-	private TaskPerformer aiTaskPerformer = new TaskPerformer();
+	private TaskPerformer aiTaskPerformer = new TaskPerformer(Constants.AITASKPERFORMERPERIOD);
 
 	private void startLevel(int index) throws IOException
 	{

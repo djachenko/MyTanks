@@ -5,6 +5,7 @@ import ru.nsu.fit.djachenko.mytanks.model.Direction;
 import ru.nsu.fit.djachenko.mytanks.model.cells.Field;
 import ru.nsu.fit.djachenko.mytanks.model.entries.Tank;
 import ru.nsu.fit.djachenko.mytanks.model.management.Game;
+import ru.nsu.fit.djachenko.mytanks.model.management.ai.imperatives.Imperative;
 
 import static ru.nsu.fit.djachenko.mytanks.model.management.ai.SearchTankStrategy.*;
 
@@ -52,30 +53,9 @@ public class Runner extends AI
 		super.notifyTankHit();
 
 		this.alive = false;
-		this.currentState = State.IDLE;
 	}
-
-
-	static enum State
-	{
-		IDLE,
-		BULLETFOUND,
-		RUNNING
-	}
-
-	private State currentState = State.IDLE;
 
 	private BulletScanStrategy bulletScanStrategy = new BulletScanStrategy();
-	private BulletScanStrategy.Result bulletScanCallback = bulletScanStrategy.getCallback();
-
-	private BuildEscapeRouteStrategy escapeStrategy = new BuildEscapeRouteStrategy();
-	private BuildEscapeRouteStrategy.Result escapeCallback = escapeStrategy.getCallback();
-
-	private SearchTankStrategy searchTankStrategy = new SearchTankStrategy();
-	private Result searchTankCallback = searchTankStrategy.getCallback();
-
-	private AimCellStrategy aimStrategy = new AimCellStrategy();
-	private AimCellStrategy.Result aimCallback = AimCellStrategy.getCallback();
 
 	@Override
 	public synchronized void execute(int iteration)
@@ -87,63 +67,12 @@ public class Runner extends AI
 
 		fieldState.update();
 
-		aimStrategy.run(19, 5, tankState, fieldState, aimCallback);//19 5
+		Imperative imperative = bulletScanStrategy.run(tankState, fieldState, this);
+		System.out.println(imperative);
 
-		move(aimCallback.getNextMove());
+		System.out.println(imperative.getClass().getName());
 
-		if (1 == 1)
-		{
-			return;
-		}
-
-		switch (currentState)
-		{
-			case IDLE:
-				if (bulletScanStrategy.run(tankState.getX(), tankState.getY(), fieldState, bulletScanCallback))
-				{
-					currentState = State.BULLETFOUND;
-				}
-				else
-				{
-					searchTankStrategy.run(tankState.getX(), tankState.getY(), tankState.getDirection(), fieldState, searchTankCallback);
-					new RecognizeTankStrategy().run(searchTankCallback, new RecognizeTankStrategy().getCallback());
-				}
-
-				break;
-			case BULLETFOUND:
-				BulletScanStrategy.Result compare = bulletScanStrategy.getCallback();
-
-				boolean newResult = bulletScanStrategy.run(tankState.getX(), tankState.getY(), fieldState, compare);
-
-				if (!newResult || compare.getDistance() > bulletScanCallback.getDistance())
-				{
-					currentState = State.IDLE;
-				}
-				else if (compare.getDistance() < bulletScanCallback.getDistance())
-				{
-					currentState = State.RUNNING;
-
-					escapeStrategy.run(tankState.getX(), tankState.getY(), tankState.getDirection(), fieldState, bulletScanCallback, escapeCallback);
-					move(escapeCallback.getNextMove());
-				}
-
-				break;
-			case RUNNING:
-				boolean result = bulletScanStrategy.run(tankState.getX(), tankState.getY(), fieldState, bulletScanCallback);
-
-				if (result)
-				{
-					escapeStrategy.run(tankState.getX(), tankState.getY(), tankState.getDirection(), fieldState, bulletScanCallback, escapeCallback);
-
-					move(escapeCallback.getNextMove());
-				}
-				else
-				{
-					currentState = State.IDLE;
-				}
-
-				break;
-		}
+		imperative.handle(this);
 	}
 
 	@Override

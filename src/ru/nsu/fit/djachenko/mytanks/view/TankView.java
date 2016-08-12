@@ -1,5 +1,6 @@
 package ru.nsu.fit.djachenko.mytanks.view;
 
+import ru.nsu.fit.djachenko.mytanks.Constants;
 import ru.nsu.fit.djachenko.mytanks.model.Direction;
 
 import javax.swing.*;
@@ -63,8 +64,8 @@ class TankView extends JLabel
 			}
 		}
 
-		setBounds(CellView.GRIDSIZE * (x - 1), CellView.GRIDSIZE * (y - 1), CellView.GRIDSIZE * 3, CellView.GRIDSIZE * 3);
-		setLocation((x - 1) * CellView.GRIDSIZE, (y - 1) * CellView.GRIDSIZE);
+		setBounds(Constants.CELLVIEWGRIDSIZE * (x - 1), Constants.CELLVIEWGRIDSIZE * (y - 1), Constants.CELLVIEWGRIDSIZE * 3, Constants.CELLVIEWGRIDSIZE * 3);
+		setLocation((x - 1) * Constants.CELLVIEWGRIDSIZE, (y - 1) * Constants.CELLVIEWGRIDSIZE);
 	}
 
 	public void move(Direction newDirection)
@@ -112,7 +113,7 @@ class TankView extends JLabel
 			int dx = newDirection.getDx();
 			int dy = newDirection.getDy();
 
-			for (int i = 0; i < CellView.SIZE; i++)
+			for (int i = 0; i < Constants.CELLVIEWGRIDSIZE; i++)
 			{
 				setLocation(getX() + dx, getY() + dy);
 			}

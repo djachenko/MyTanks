@@ -1,15 +1,16 @@
 package ru.nsu.fit.djachenko.mytanks.model.entries.activities;
 
+import ru.nsu.fit.djachenko.mytanks.Constants;
+
 import java.util.*;
 
 public class TaskPerformer
 {
-	public static final int PERIOD = 100;
 	private final LinkedList<Task> tasks = new LinkedList<>();
 
 	public TaskPerformer()
 	{
-		this(PERIOD);
+		this(Constants.TASKPERFORMERPERIOD);
 	}
 
 	public TaskPerformer(int period)

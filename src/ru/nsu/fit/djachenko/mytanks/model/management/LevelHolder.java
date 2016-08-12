@@ -1,20 +1,20 @@
 package ru.nsu.fit.djachenko.mytanks.model.management;
 
+import ru.nsu.fit.djachenko.mytanks.Constants;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
 public class LevelHolder
 {
-	private static final String CONFIG = "resources/config";
-
 	private static String[] levels;
 
 	public LevelHolder()
 	{
 		if (levels == null)
 		{
-			try(BufferedReader reader = new BufferedReader(new FileReader(CONFIG)))
+			try(BufferedReader reader = new BufferedReader(new FileReader(Constants.LEVELHOLDERCONFIG)))
 			{
 				String string = reader.readLine();
 
